@@ -7,7 +7,7 @@ import * as THREE from 'three';
 const MAXH = 4; // hit spheres per zone
 
 // ---------- head data ----------
-async function loadHead(url) {
+export async function loadHead(url) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`head data ${res.status}`);
   const buf = await res.arrayBuffer();

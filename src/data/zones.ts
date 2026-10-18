@@ -54,6 +54,7 @@ export const zones: Zone[] = [
       { key: 'miringoplastia', kind: 'cirugia', es: 'Miringoplastia', en: 'Myringoplasty' },
       { key: 'timpanoplastia', kind: 'cirugia', es: 'Timpanoplastia', en: 'Tympanoplasty' },
       { key: 'implante-coclear', kind: 'cirugia', es: 'Implante coclear', en: 'Cochlear implant' },
+      { key: 'brandt-daroff', kind: 'cuidados', es: 'Ejercicios de Brandt-Daroff', en: 'Brandt-Daroff exercises' },
       { key: 'higiene-oido', kind: 'cuidados', es: 'Higiene del oído y bastoncillos', en: 'Ear hygiene and cotton buds' },
       { key: 'proteccion-ruido', kind: 'cuidados', es: 'Protección frente al ruido', en: 'Protecting your hearing from noise' },
     ],

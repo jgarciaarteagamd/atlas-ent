@@ -4,8 +4,6 @@ import '@fontsource/oxanium/700.css';
 import '@fontsource/instrument-sans/400.css';
 import '@fontsource/instrument-sans/500.css';
 import '@fontsource/instrument-sans/600.css';
-import '@fontsource/ibm-plex-mono/400.css';
-import '@fontsource/ibm-plex-mono/500.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -18,9 +16,11 @@ interface Props {
   description: string;
   /** Path of the same page in the other language. */
   alt: string;
+  /** Absolute URL of the social sharing image; defaults to the site image. */
+  image?: string;
 }
 
-const { lang, title, description, alt } = Astro.props;
+const { lang, title, description, alt, image } = Astro.props;
 const t = ui[lang];
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const altUrl = new URL(alt, Astro.site);
@@ -48,7 +48,7 @@ const ogLocale = lang === 'es' ? 'es_ES' : 'en_GB';
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={ogLocale} />
-    <meta property="og:image" content={new URL('/og.jpg', Astro.site)} />
+    <meta property="og:image" content={image ?? new URL('/og.jpg', Astro.site)} />
     <meta name="twitter:card" content="summary_large_image" />
     <slot name="head" />
   </head>
