@@ -1,5 +1,5 @@
 ---
-import { ui, paths, BIO_URL } from '../i18n/ui';
+import { ui, paths, bioUrl } from '../i18n/ui';
 import type { Lang } from '../data/zones';
 
 interface Props { lang: Lang; alt: string }
@@ -9,14 +9,14 @@ const t = ui[lang];
 
 <header class="site">
   <div class="wrap bar">
-    <a class="brand" href={paths.home(lang)} aria-label={`${t.brand} · ${t.doctor}`}>
+    <a class="brand" href={paths.home(lang)} aria-label={`${t.brand} · ${t.forPatients}`}>
       <span class="mark" aria-hidden="true"></span>
       <span class="name">{t.brand}</span>
-      <span class="who">{t.doctor} · {t.specialty}</span>
+      <span class="who">{t.forPatients}</span>
     </a>
     <nav aria-label={lang === 'es' ? 'Principal' : 'Main'}>
       <a href={`${paths.home(lang)}#zonas`}>{t.navZones}</a>
-      <a href={BIO_URL} rel="author">{t.navAbout}</a>
+      <a href={bioUrl(lang)} rel="author">{t.navAbout}</a>
       <a class="lang" href={alt} hreflang={lang === 'es' ? 'en' : 'es'} lang={lang === 'es' ? 'en' : 'es'}>
         <span aria-hidden="true">{t.langShort}</span><span class="sr">{t.langName}</span>
       </a>
@@ -61,9 +61,8 @@ const t = ui[lang];
   .name {
     font-family: var(--display);
     font-weight: 700;
-    font-size: 1.35rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    font-size: 1.2rem;
+    letter-spacing: 0.02em;
     color: var(--holo);
     text-shadow: 0 0 16px rgba(116, 241, 255, 0.4);
   }

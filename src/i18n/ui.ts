@@ -1,11 +1,14 @@
 import type { Kind, Lang, Zone } from '../data/zones';
 
 export const BIO_URL = 'https://bio.jgarciaarteaga.pro/';
-export const CONTACT_EMAIL = 'jgarciaarteaga.md@gmail.com';
+/** The Bio opens in Spanish unless the visitor comes from the English site. */
+export const bioUrl = (lang: 'es' | 'en') => (lang === 'en' ? `${BIO_URL}?lang=en` : BIO_URL);
+export const CONTACT_EMAIL = 'jgarciaarteaga.pro@gmail.com';
 
 export const ui = {
   es: {
-    brand: 'Atlas ORL',
+    brand: 'Juan García Arteaga, ORL',
+    forPatients: 'Información para pacientes',
     doctor: 'Dr. Juan García Arteaga',
     specialty: 'Otorrinolaringología',
     tagline: 'Oído, nariz y garganta, explicados por tu otorrino.',
@@ -37,7 +40,7 @@ export const ui = {
     soon: 'En preparación',
     allZones: 'Todas las zonas',
     introTitle: 'Información clara, escrita por un especialista',
-    introText: 'Atlas reúne lo que suelo explicar en consulta: qué es cada problema, cómo se diagnostica, para qué sirve cada prueba, en qué consisten las cirugías y cómo cuidarse antes y después. Cada ficha está escrita en lenguaje sencillo y lleva la fecha de su última revisión.',
+    introText: 'Aquí reúno lo que suelo explicar en consulta: qué es cada problema, cómo se diagnostica, para qué sirve cada prueba, en qué consisten las cirugías y cómo cuidarse antes y después. Cada ficha está escrita en lenguaje sencillo y lleva la fecha de su última revisión.',
     aboutTitle: 'Sobre el doctor',
     aboutText: 'Soy médico especialista en Otorrinolaringología y ejerzo en Huelva. Me formé en Argentina, con formación en otorrinolaringología pediátrica, y trabajo en el sistema sanitario español. Puedes ver mi trayectoria completa en mi página profesional.',
     aboutCta: 'Ver trayectoria',
@@ -55,11 +58,12 @@ export const ui = {
     goHome: 'Ir al inicio',
     zoneEmpty: 'Estoy preparando las fichas de esta zona. Los temas marcados como “En preparación” se irán publicando.',
     zoneIntro: 'Temas de esta zona',
-    homeTitle: 'Atlas ORL · Dr. Juan García Arteaga, otorrinolaringólogo',
+    homeTitle: 'Juan García Arteaga, ORL · Información de oído, nariz y garganta para pacientes',
     homeDescription: 'Información clara sobre oído, nariz, garganta, laringe, cuello y glándulas salivales: enfermedades, pruebas diagnósticas, cirugías y cuidados, escrita por el Dr. Juan García Arteaga, otorrinolaringólogo en Huelva.',
   },
   en: {
-    brand: 'Atlas ENT',
+    brand: 'Juan Garcia Arteaga, ENT',
+    forPatients: 'Patient information',
     doctor: 'Dr. Juan García Arteaga',
     specialty: 'Ear, Nose and Throat',
     tagline: 'Ear, nose and throat, explained by your ENT specialist.',
@@ -91,7 +95,7 @@ export const ui = {
     soon: 'Coming soon',
     allZones: 'All areas',
     introTitle: 'Clear information, written by a specialist',
-    introText: 'Atlas gathers what I usually explain in clinic: what each condition is, how it is diagnosed, what each test is for, what operations involve and how to look after yourself before and after. Every page is written in plain language and shows the date it was last reviewed.',
+    introText: 'Here I gather what I usually explain in clinic: what each condition is, how it is diagnosed, what each test is for, what operations involve and how to look after yourself before and after. Every page is written in plain language and shows the date it was last reviewed.',
     aboutTitle: 'About the doctor',
     aboutText: 'I am an Ear, Nose and Throat (ENT) specialist practising in Huelva, Spain. I trained in Argentina, including paediatric ENT, and work in the Spanish health system. You can see my full background on my professional page.',
     aboutCta: 'See background',
@@ -109,7 +113,7 @@ export const ui = {
     goHome: 'Go to the home page',
     zoneEmpty: 'I am preparing the pages for this area. Topics marked “Coming soon” will be published over time.',
     zoneIntro: 'Topics in this area',
-    homeTitle: 'Atlas ENT · Dr. Juan García Arteaga, ENT specialist',
+    homeTitle: 'Juan Garcia Arteaga, ENT · Ear, nose and throat information for patients',
     homeDescription: 'Clear information about the ear, nose, throat, voice box, neck and salivary glands: conditions, diagnostic tests, operations and self-care, written by Dr. Juan García Arteaga, ENT specialist in Huelva, Spain.',
   },
 } as const;

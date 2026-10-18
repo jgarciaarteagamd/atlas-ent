@@ -1,9 +1,9 @@
 ---
 layout: ../../layouts/Legal.astro
 lang: en
-title: Legal notice · Atlas ENT
+title: Legal notice · Juan Garcia Arteaga, ENT
 heading: Legal notice and medical disclaimer
-description: Site owner details, terms of use and medical disclaimer for Atlas ENT, the patient information site of Dr. Juan García Arteaga.
+description: Site owner details, terms of use and medical disclaimer for jgarciaarteaga.pro, the patient information site of Dr. Juan García Arteaga.
 alt: /es/aviso-legal/
 updated: 2026-10-18
 ---
@@ -19,7 +19,7 @@ In accordance with Article 10 of Spanish Law 34/2002 on Information Society Serv
 | **Owner** | Juan Pablo García Arteaga (professional name: Dr. Juan García Arteaga) |
 | **Tax ID (NIE)** | Z0868950S |
 | **Professional address** | C/ Punta Umbría, 8, 21002 Huelva (Spain) |
-| **Email** | jgarciaarteaga.md@gmail.com |
+| **Email** | jgarciaarteaga.pro@gmail.com |
 | **Profession** | Medical doctor, specialist in Otorhinolaryngology (ENT), a regulated health profession |
 | **Professional body** | Ilustre Colegio de Médicos de Huelva (Huelva Medical Association) |
 | **Registration number** | 212105263 |
@@ -30,7 +30,7 @@ This website is Dr. García Arteaga’s personal health-education project. It is
 
 ## 2. Medical disclaimer
 
-The information on Atlas ENT is **general and for educational purposes**. It is meant to help patients and families understand ENT conditions, tests and treatments.
+The information on this website is **general and for educational purposes**. It is meant to help patients and families understand ENT conditions, tests and treatments.
 
 - **It does not replace a medical consultation.** Everyone is different, and only a professional who examines you can diagnose you and recommend treatment.
 - **It is not an online consultation service.** Reading this site or writing to the contact email does not create a doctor–patient relationship. Questions about personal cases are not answered this way.

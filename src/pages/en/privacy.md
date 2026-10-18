@@ -1,9 +1,9 @@
 ---
 layout: ../../layouts/Legal.astro
 lang: en
-title: Privacy policy · Atlas ENT
+title: Privacy policy · Juan Garcia Arteaga, ENT
 heading: Privacy policy
-description: How Atlas ENT handles personal data. The site has no forms, needs no sign-up and uses no cookies.
+description: How this website handles personal data. The site has no forms, needs no sign-up and uses no cookies.
 alt: /es/privacidad/
 updated: 2026-10-18
 ---
@@ -18,7 +18,7 @@ This is an English translation provided for convenience. If there is any discrep
 
 ## Data controller
 
-Juan Pablo García Arteaga (Dr. Juan García Arteaga), NIE Z0868950S, C/ Punta Umbría, 8, 21002 Huelva (Spain). Email: jgarciaarteaga.md@gmail.com.
+Juan Pablo García Arteaga (Dr. Juan García Arteaga), NIE Z0868950S, C/ Punta Umbría, 8, 21002 Huelva (Spain). Email: jgarciaarteaga.pro@gmail.com.
 
 ## What data is processed and why
 
@@ -44,7 +44,7 @@ Data is not shared with third parties unless required by law. No automated decis
 
 ## Your rights
 
-You can exercise your rights of access, rectification, erasure, objection, restriction and portability by writing to jgarciaarteaga.md@gmail.com. If you believe your data has not been handled properly, you can complain to the Spanish Data Protection Agency (www.aepd.es).
+You can exercise your rights of access, rectification, erasure, objection, restriction and portability by writing to jgarciaarteaga.pro@gmail.com. If you believe your data has not been handled properly, you can complain to the Spanish Data Protection Agency (www.aepd.es).
 
 ## Changes to this policy
 
