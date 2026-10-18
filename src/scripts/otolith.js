@@ -2,7 +2,7 @@
 // posterior semicircular canal, slide when the head is laid back (Dix-Hallpike)
 // pushing the cupula, and are led back to the utricle by the Epley manoeuvre.
 //
-// Frame (right labyrinth): x points backwards (posterior), y up, z lateral
+// Frame (left labyrinth seen from the left): x points backwards (posterior), y up, z lateral
 // (towards the viewer). Shapes are simplified for patient education.
 
 import * as THREE from 'three';
@@ -77,9 +77,8 @@ const deg = (d) => (d * Math.PI) / 180;
 
 // ---------- the labyrinth ----------
 const UP = v3(0, 1, 0);
-const uPost = v3(1, 0, -0.55).normalize();          // posterior canal plane (vertical)
-const uAnt = v3(-1, 0, -0.55).normalize();          // anterior canal plane (vertical)
-const nPost = uPost.clone().cross(UP).normalize();  // axis to tilt the posterior canal
+const uPost = v3(1, 0, 1).normalize();               // posterior canal plane: 45° back and outwards
+const uAnt = v3(-1, 0, 1).normalize();              // anterior canal plane: 45° forwards and outwards
 
 const UTRICLE = { c: v3(0, 0, 0), r: v3(0.44, 0.24, 0.25) };
 const postCenter = v3(0.25, 0.1, 0).addScaledVector(uPost, 0.55);
@@ -168,7 +167,7 @@ export async function createOtolithAnimation({ host, inset, headUrl, captions, l
   const headData = await loadHead(headUrl);
   const headScene = new THREE.Scene();
   const headCam = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
-  headCam.position.set(8, -0.1, 0);
+  headCam.position.set(0, -0.1, 8);
   headCam.lookAt(0, -0.1, 0);
   const headPivot = new THREE.Group();
   const headModel = new THREE.Group();
@@ -229,6 +228,7 @@ export async function createOtolithAnimation({ host, inset, headUrl, captions, l
     off: v3((Math.random() - 0.5) * 0.06, (Math.random() - 0.5) * 0.06, (Math.random() - 0.5) * 0.06),
     v: 0,
     home: false,
+    settle: 0,
   }));
 
   const crystalGeo = new THREE.BufferGeometry();
@@ -271,62 +271,51 @@ export async function createOtolithAnimation({ host, inset, headUrl, captions, l
   lab.add(new THREE.Points(cupGeo, cupMat));
 
   // ---------- timeline ----------
-  // Each step: duration (s) and the tilt of the head about the posterior canal axis.
+  // The head pose is two angles: pitch (lying back, about the patient's
+  // left-right axis, fixed to gravity) and turn (about the neck, so it follows
+  // the head). Positive pitch tips the head back, positive turn looks left.
+  // Each step lists the poses it moves through, one after another.
   const STEPS = [
-    { d: 4.5, tilt: 0 },      // 0 otoconia on the utricle
-    { d: 4.5, tilt: 0 },      // 1 some detach and fall into the posterior canal
-    { d: 3.5, tilt: 0 },      // 2 sitting: they rest at the lowest point
-    { d: 6.5, tilt: -110 },   // 3 lying back (Dix-Hallpike): they slide, cupula bends
-    { d: 4, tilt: -110 },     // 4 they stop, the cupula returns: vertigo lasts seconds
-    { d: 10, tilt: -360 },    // 5 Epley: successive positions lead them back to the utricle
-    { d: 3, tilt: -360 },     // 6 back in the utricle, where they cause no symptoms
+    { d: 4.5, poses: [[0, 0]] },                         // 0 otoconia on the utricle
+    { d: 4.5, poses: [[0, 0]] },                         // 1 some detach and fall into the posterior canal
+    { d: 3.5, poses: [[0, 0]] },                         // 2 sitting: they rest at the lowest point
+    { d: 6.5, poses: [[0, 45], [110, 45]] },             // 3 Dix-Hallpike: turn left, lie back; they slide, cupula bends
+    { d: 4, poses: [[110, 45]] },                        // 4 they stop, the cupula returns: vertigo lasts seconds
+    { d: 10, poses: [[110, -45], [110, -135], [0, -135]] }, // 5 Epley: turn right, roll onto the side, sit up
+    { d: 3, poses: [[0, 0]] },                           // 6 back in the utricle, where they cause no symptoms
   ];
   const TOTAL = STEPS.reduce((a, s) => a + s.d, 0);
-  let t = 0, step = -1, tilt = 0, bend = 0;
-  const q = new THREE.Quaternion();
+  let t = 0, step = -1, bend = 0;
   const sway = new THREE.Quaternion();
 
   const ease = (x) => x * x * (3 - 2 * x);
-  function targetTilt(time) {
-    let acc = 0, prev = 0;
-    for (let i = 0; i < STEPS.length; i++) {
-      const s = STEPS[i];
+  function targetPose(time) {
+    let acc = 0, prev = [0, 0];
+    for (const s of STEPS) {
       if (time < acc + s.d) {
-        const local = (time - acc) / s.d;
-        if (i === 5) {
-          // Epley: four held positions, each reached in ~1.2 s
-          const stops = [-110, -200, -290, -360];
-          const seg = Math.min(3, Math.floor(local * 4));
-          const segT = local * 4 - seg;
-          const from = seg === 0 ? -110 : stops[seg - 1];
-          return from + (stops[seg] - from) * ease(Math.min(1, segT * 1.8));
-        }
-        return prev + (s.tilt - prev) * ease(Math.min(1, local * 2.2));
+        const n = s.poses.length, x = ((time - acc) / s.d) * n;
+        const seg = Math.min(n - 1, Math.floor(x));
+        const from = seg ? s.poses[seg - 1] : prev, to = s.poses[seg];
+        const f = ease(Math.min(1, (x - seg) * 1.8));
+        return [from[0] + (to[0] - from[0]) * f, from[1] + (to[1] - from[1]) * f];
       }
-      acc += s.d; prev = s.tilt;
+      acc += s.d; prev = s.poses[s.poses.length - 1];
     }
     return prev;
   }
 
-  // Head posture shown in the corner. 0 to -110: lying back with the head turned 45°;
-  // -110 to -360: the Epley turns (head to the other side, roll onto the side, sit up).
-  const qPitch = new THREE.Quaternion(), qYaw = new THREE.Quaternion();
-  const AX = v3(1, 0, 0), AY = v3(0, 1, 0);
-  function headPose(tl) {
-    let pitch, yaw;
-    if (tl >= 0) { pitch = tl; yaw = 0; }
-    else if (tl >= -110) { pitch = tl; yaw = 45 * (-tl / 110); }
-    else if (tl >= -200) { pitch = -110; yaw = 45 - 90 * ((-tl - 110) / 90); }
-    else if (tl >= -290) { pitch = -110; yaw = -45 - 90 * ((-tl - 200) / 90); }
-    else { const f = (-tl - 290) / 70; pitch = -110 * (1 - f); yaw = -135 + 135 * f; }
-    // the face looks along +z; tipping the head back is a turn about the ear-to-ear axis (x)
-    qPitch.setFromAxisAngle(AX, deg(pitch));
-    qYaw.setFromAxisAngle(AY, deg(yaw));
-    headPivot.quaternion.copy(qPitch).multiply(qYaw);
-  }
+  // The labyrinth is a left ear seen from the patient's left. Its frame relates to
+  // the head model (face +z, left ear +x) by a quarter turn about the vertical.
+  const M = new THREE.Quaternion().setFromAxisAngle(UP, deg(90));
+  const Minv = M.clone().invert();
+  const orient = new THREE.Quaternion();        // labyrinth orientation (what gravity sees)
+  const qPitch = new THREE.Quaternion(), qTurn = new THREE.Quaternion();
+  const AXIS = v3(0, 0, 1), RATE = 70;          // left-right axis of the patient; degrees per second
+  const pose = { pitch: 0, turn: 0 };
 
-  // manual mode: the arrows tilt the head and gravity does the rest
-  let manual = false, manualTarget = 0, push = 0;
+  // free mode: the arrows move the head and gravity does the rest
+  let manual = false;
+  const input = { pitch: 0, turn: 0 };
 
   const world = new THREE.Vector3();
   const yAt = (s) => world.copy(at(s)).applyMatrix4(lab.matrixWorld).y;
@@ -338,6 +327,9 @@ export async function createOtolithAnimation({ host, inset, headUrl, captions, l
     camera.aspect = w / h;
     camera.position.set(0, 0.15, w / h < 0.8 ? 6.4 : 5.0);
     camera.lookAt(0, 0, 0);
+    // in portrait the head controls sit below: lift the labyrinth clear of them
+    if (w / h < 0.8) camera.setViewOffset(w, h, 0, h * 0.14, w, h);
+    else camera.clearViewOffset();
     camera.updateProjectionMatrix();
   }
   const ro = new ResizeObserver(resize);
@@ -356,8 +348,8 @@ export async function createOtolithAnimation({ host, inset, headUrl, captions, l
     const dt = Math.min(clock.getDelta(), 0.2);
     let local = 0;
     if (manual) {
-      manualTarget = Math.max(-180, Math.min(40, manualTarget + push * 70 * dt));
-      tilt += (manualTarget - tilt) * Math.min(1, dt * 5);
+      pose.pitch += input.pitch * RATE * dt;
+      pose.turn += input.turn * RATE * dt;
     } else {
       t = (t + dt) % TOTAL;
       // which step are we in?
@@ -367,19 +359,22 @@ export async function createOtolithAnimation({ host, inset, headUrl, captions, l
         step = i;
         onStep(step, captions[step]);
         if (step === 0) {
-          for (const p of free) { p.s = 0.14 + Math.random() * 0.1; p.v = 0; p.home = false; }
+          for (const p of free) { p.s = 0.14 + Math.random() * 0.1; p.v = 0; p.home = false; p.settle = 0; }
           bend = 0;
         }
       }
       local = (t - acc) / STEPS[step].d;
-      tilt = targetTilt(t);
+      [pose.pitch, pose.turn] = targetPose(t);
     }
-    q.setFromAxisAngle(nPost, deg(tilt));
+    // lying back turns about a fixed axis; the neck turn is in the head's own frame
+    qPitch.setFromAxisAngle(AXIS, -deg(pose.pitch));
+    qTurn.setFromAxisAngle(UP, deg(pose.turn));
+    orient.copy(qPitch).multiply(qTurn);
     // a gentle turn about the vertical axis to show depth; it does not change "down"
     sway.setFromAxisAngle(UP, reduceMotion ? -0.35 : -0.35 + Math.sin(t * 0.35) * 0.2);
-    pivot.quaternion.copy(sway).multiply(q);
+    pivot.quaternion.copy(sway).multiply(orient);
     pivot.updateMatrixWorld(true);
-    headPose(tilt);
+    headPivot.quaternion.copy(pivot.quaternion).multiply(Minv);
 
     // otoconia
     let flow = 0;
@@ -398,13 +393,18 @@ export async function createOtolithAnimation({ host, inset, headUrl, captions, l
         p.s = rest;
       } else {
         // overdamped sliding under gravity along the canal
-        const h = 0.01;
-        const slope = (yAt(p.s + h) - yAt(p.s - h)) / (2 * h);
-        const v = -slope * 0.55;
-        p.s = Math.max(0.09 + k * 0.008, Math.min(L - 0.02, p.s + v * dt));
-        if (p.s > ARC_END + 0.05) p.home = true;
-        if (p.s <= ARC_END) flow += v;
+        if (!p.settle) {
+          const h = 0.01;
+          const slope = (yAt(p.s + h) - yAt(p.s - h)) / (2 * h);
+          const v = -slope * 0.55;
+          p.s = Math.max(0.09 + k * 0.008, Math.min(L - 0.02, p.s + v * dt));
+          if (p.s > ARC_END + 0.05) p.home = true;
+          if (p.s <= ARC_END) flow += v;
+        }
         pos = at(p.s).add(p.off.clone().multiplyScalar(p.home ? 2.4 : 1));
+        // back in the utricle: they drift onto the macula and stay there
+        if (p.s >= L - 0.05) p.settle = Math.min(1, p.settle + dt * 0.8);
+        if (p.settle) pos.lerp(p.from, ease(p.settle));
       }
       crystalPos.set(pos.toArray(), (macula.length + k) * 3);
       crystalHot[macula.length + k] = 1;
@@ -460,11 +460,10 @@ export async function createOtolithAnimation({ host, inset, headUrl, captions, l
   function enterManual() {
     if (manual) return;
     manual = true;
-    manualTarget = tilt;
-    // the crystals must already be in the canal to play with them
-    if (step < 2 || step >= 6) {
-      tilt = manualTarget = 0;
-      free.forEach((p, k) => { p.s = S_REST + (k - N / 2) * 0.014; p.home = false; });
+    // the crystals must be in the canal to play with them: start seated
+    if (step < 2 || step >= 5) {
+      pose.pitch = pose.turn = 0;
+      free.forEach((p, k) => { p.s = S_REST + (k - N / 2) * 0.014; p.home = false; p.settle = 0; });
       step = 2;
     }
     onManual(true);
@@ -473,8 +472,10 @@ export async function createOtolithAnimation({ host, inset, headUrl, captions, l
   return {
     play() { if (running) return; running = true; clock.getDelta(); raf = requestAnimationFrame(frame); },
     pause() { running = false; cancelAnimationFrame(raf); },
-    restart() { manual = false; push = 0; onManual(false); t = 0; step = -1; },
-    // dir: +1 tips the head back, -1 brings it forward, 0 stops
-    tilt(dir) { if (dir) enterManual(); push = -dir; },
+    restart() { manual = false; input.pitch = input.turn = 0; onManual(false); t = 0; step = -1; },
+    // pitch: +1 tips the head back, -1 forward; turn: +1 towards the left, -1 right; 0 stops
+    move(axis, dir) { if (dir) enterManual(); input[axis] = dir; },
+    // for checks: how far the head has been moved and how many crystals are home
+    state: () => ({ ...pose, settled: free.filter((p) => p.settle >= 1).length, total: N, step }),
   };
 }
