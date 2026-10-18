@@ -6,6 +6,7 @@
 // (towards the viewer). Shapes are simplified for patient education.
 
 import * as THREE from 'three';
+import { loadHead } from './holo.js';
 
 // ---------- geometry helpers ----------
 const v3 = (x, y, z) => new THREE.Vector3(x, y, z);
@@ -153,14 +154,32 @@ const structFS = (points) => `
   }`;
 
 // ---------- animation ----------
-export function createOtolithAnimation({ host, captions, labels, onStep, onPosture }) {
+export async function createOtolithAnimation({ host, inset, headUrl, captions, labels, onStep, onManual }) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   host.appendChild(renderer.domElement);
 
+  renderer.autoClear = false;
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 50);
+
+  // Small hologram of the patient's head (the landing-page model) that copies the posture.
+  const headData = await loadHead(headUrl);
+  const headScene = new THREE.Scene();
+  const headCam = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
+  headCam.position.set(8, -0.1, 0);
+  headCam.lookAt(0, -0.1, 0);
+  const headPivot = new THREE.Group();
+  const headModel = new THREE.Group();
+  headModel.position.set(0, 0.55, 0.1);           // rotate about the top of the neck
+  headPivot.position.set(0, -0.55, -0.1);
+  headPivot.add(headModel);
+  headScene.add(headPivot);
+  const hp = new THREE.BufferGeometry();
+  hp.setAttribute('position', new THREE.BufferAttribute(headData.pts, 3));
+  hp.setAttribute('normal', new THREE.BufferAttribute(headData.ptsN, 3));
+  hp.setAttribute('feature', new THREE.BufferAttribute(headData.ptsF, 1));
   const pivot = new THREE.Group();          // rotates like the patient's head
   const lab = new THREE.Group();
   const centre = v3(0.42, 0.0, -0.08);
@@ -171,6 +190,20 @@ export function createOtolithAnimation({ host, captions, labels, onStep, onPostu
   const px = { value: renderer.getPixelRatio() };
   const fade = { value: 1 };
   const additive = { transparent: true, depthWrite: false, blending: THREE.AdditiveBlending };
+  headModel.add(new THREE.Points(hp, new THREE.ShaderMaterial({
+    uniforms: { uPx: px },
+    vertexShader: `${lit}
+      uniform float uPx; attribute float feature; varying float vA;
+      void main() {
+        vec3 nv = normalize(normalMatrix * normal);
+        vA = (shade(normal) * 0.55 + feature * 0.9) * smoothstep(-0.25, 0.3, nv.z) * smoothstep(-1.75, -1.3, position.y);
+        gl_PointSize = 1.1 * uPx;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }`,
+    fragmentShader: `varying float vA; void main() { float d = length(gl_PointCoord - 0.5); if (d > 0.5) discard; gl_FragColor = vec4(0.55, 0.95, 1.0, vA * (1.0 - d * 2.0)); }`,
+    ...additive,
+  })));
+
   const geo = buildLabyrinth();
   const lg = new THREE.BufferGeometry();
   lg.setAttribute('position', new THREE.Float32BufferAttribute(geo.lines, 3));
@@ -249,7 +282,7 @@ export function createOtolithAnimation({ host, captions, labels, onStep, onPostu
     { d: 3, tilt: -360 },     // 6 back in the utricle, where they cause no symptoms
   ];
   const TOTAL = STEPS.reduce((a, s) => a + s.d, 0);
-  let t = 0, step = -1, tilt = 0, bend = 0, lastPostureTilt = null;
+  let t = 0, step = -1, tilt = 0, bend = 0;
   const q = new THREE.Quaternion();
   const sway = new THREE.Quaternion();
 
@@ -274,6 +307,26 @@ export function createOtolithAnimation({ host, captions, labels, onStep, onPostu
     }
     return prev;
   }
+
+  // Head posture shown in the corner. 0 to -110: lying back with the head turned 45°;
+  // -110 to -360: the Epley turns (head to the other side, roll onto the side, sit up).
+  const qPitch = new THREE.Quaternion(), qYaw = new THREE.Quaternion();
+  const AX = v3(1, 0, 0), AY = v3(0, 1, 0);
+  function headPose(tl) {
+    let pitch, yaw;
+    if (tl >= 0) { pitch = tl; yaw = 0; }
+    else if (tl >= -110) { pitch = tl; yaw = 45 * (-tl / 110); }
+    else if (tl >= -200) { pitch = -110; yaw = 45 - 90 * ((-tl - 110) / 90); }
+    else if (tl >= -290) { pitch = -110; yaw = -45 - 90 * ((-tl - 200) / 90); }
+    else { const f = (-tl - 290) / 70; pitch = -110 * (1 - f); yaw = -135 + 135 * f; }
+    // the face looks along +z; tipping the head back is a turn about the ear-to-ear axis (x)
+    qPitch.setFromAxisAngle(AX, deg(pitch));
+    qYaw.setFromAxisAngle(AY, deg(yaw));
+    headPivot.quaternion.copy(qPitch).multiply(qYaw);
+  }
+
+  // manual mode: the arrows tilt the head and gravity does the rest
+  let manual = false, manualTarget = 0, push = 0;
 
   const world = new THREE.Vector3();
   const yAt = (s) => world.copy(at(s)).applyMatrix4(lab.matrixWorld).y;
@@ -301,29 +354,32 @@ export function createOtolithAnimation({ host, captions, labels, onStep, onPostu
     if (!running) return;
     // keep real time even on slow devices, but never jump more than a fifth of a second
     const dt = Math.min(clock.getDelta(), 0.2);
-    t = (t + dt) % TOTAL;
-
-    // which step are we in?
-    let acc = 0, i = 0;
-    while (i < STEPS.length - 1 && t >= acc + STEPS[i].d) { acc += STEPS[i].d; i++; }
-    if (i !== step) {
-      step = i;
-      onStep(step, captions[step]);
-      if (step === 0) {
-        for (const p of free) { p.s = 0.14 + Math.random() * 0.1; p.v = 0; p.home = false; }
-        bend = 0;
+    let local = 0;
+    if (manual) {
+      manualTarget = Math.max(-180, Math.min(40, manualTarget + push * 70 * dt));
+      tilt += (manualTarget - tilt) * Math.min(1, dt * 5);
+    } else {
+      t = (t + dt) % TOTAL;
+      // which step are we in?
+      let acc = 0, i = 0;
+      while (i < STEPS.length - 1 && t >= acc + STEPS[i].d) { acc += STEPS[i].d; i++; }
+      if (i !== step) {
+        step = i;
+        onStep(step, captions[step]);
+        if (step === 0) {
+          for (const p of free) { p.s = 0.14 + Math.random() * 0.1; p.v = 0; p.home = false; }
+          bend = 0;
+        }
       }
+      local = (t - acc) / STEPS[step].d;
+      tilt = targetTilt(t);
     }
-    const local = (t - acc) / STEPS[step].d;
-
-    tilt = targetTilt(t);
     q.setFromAxisAngle(nPost, deg(tilt));
     // a gentle turn about the vertical axis to show depth; it does not change "down"
     sway.setFromAxisAngle(UP, reduceMotion ? -0.35 : -0.35 + Math.sin(t * 0.35) * 0.2);
     pivot.quaternion.copy(sway).multiply(q);
     pivot.updateMatrixWorld(true);
-    const postureTilt = Math.round(tilt);
-    if (postureTilt !== lastPostureTilt) { lastPostureTilt = postureTilt; onPosture(tilt); }
+    headPose(tilt);
 
     // otoconia
     let flow = 0;
@@ -376,9 +432,22 @@ export function createOtolithAnimation({ host, captions, labels, onStep, onPostu
     cupGeo.attributes.position.needsUpdate = true;
 
     // fade between loops
-    fade.value = Math.min(1, t / 0.8, (TOTAL - t) / 0.8);
+    fade.value = manual ? 1 : Math.min(1, t / 0.8, (TOTAL - t) / 0.8);
 
+    renderer.setViewport(0, 0, host.clientWidth, host.clientHeight);
+    renderer.clear();
     renderer.render(scene, camera);
+    // corner view of the head, drawn into the inset box
+    const box = inset.getBoundingClientRect(), hb = host.getBoundingClientRect();
+    if (box.width > 0) {
+      const x = box.left - hb.left, y = hb.bottom - box.bottom;
+      renderer.setScissorTest(true);
+      renderer.setScissor(x, y, box.width, box.height);
+      renderer.setViewport(x, y, box.width, box.height);
+      renderer.clearDepth();
+      renderer.render(headScene, headCam);
+      renderer.setScissorTest(false);
+    }
     const out = {};
     for (const [key, a] of Object.entries(anchors)) {
       tmp.copy(a).applyMatrix4(lab.matrixWorld).project(camera);
@@ -388,9 +457,24 @@ export function createOtolithAnimation({ host, captions, labels, onStep, onPostu
     raf = requestAnimationFrame(frame);
   }
 
+  function enterManual() {
+    if (manual) return;
+    manual = true;
+    manualTarget = tilt;
+    // the crystals must already be in the canal to play with them
+    if (step < 2 || step >= 6) {
+      tilt = manualTarget = 0;
+      free.forEach((p, k) => { p.s = S_REST + (k - N / 2) * 0.014; p.home = false; });
+      step = 2;
+    }
+    onManual(true);
+  }
+
   return {
     play() { if (running) return; running = true; clock.getDelta(); raf = requestAnimationFrame(frame); },
     pause() { running = false; cancelAnimationFrame(raf); },
-    restart() { t = 0; step = -1; },
+    restart() { manual = false; push = 0; onManual(false); t = 0; step = -1; },
+    // dir: +1 tips the head back, -1 brings it forward, 0 stops
+    tilt(dir) { if (dir) enterManual(); push = -dir; },
   };
 }
