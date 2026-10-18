@@ -70,6 +70,10 @@ const data = {
 <script type="application/json" id="holo-data" set:html={JSON.stringify(data)} />
 
 <script>
+  // Imported as a URL so the file name carries a content hash and browsers
+  // never pair new code with a cached copy of older head data.
+  import headUrl from '../assets/head.bin?url';
+
   const root = document.querySelector<HTMLElement>('[data-holo]')!;
   const data = JSON.parse(document.getElementById('holo-data')!.textContent!);
   const panel = root.querySelector<HTMLElement>('.panel')!;
@@ -130,7 +134,8 @@ const data = {
     });
   }
 
-  function showFallback() {
+  function showFallback(err: unknown) {
+    console.error('Hologram unavailable:', err);
     root.classList.add('no-webgl');
     root.querySelector<HTMLImageElement>('.fallback')!.hidden = false;
   }
@@ -142,7 +147,7 @@ const data = {
     .then(({ createHologram }) => createHologram({
       host: canvasHost,
       zones: data.zones,
-      headUrl: '/holo/head.bin',
+      headUrl,
       onHover(id: string | null, p: { cx: number; cy: number }) {
         if (id !== headHover) { headHover = id; render(); }
         if (id) {
@@ -182,6 +187,7 @@ const data = {
     background: repeating-linear-gradient(to bottom, rgba(116, 241, 255, 0.025) 0 1px, transparent 1px 3px);
   }
   .canvas { position: absolute; inset: 0; }
+  .stage:global(.no-webgl) .canvas { display: none; }
   .canvas :global(canvas) { display: block; width: 100%; height: 100%; }
   .fallback {
     position: absolute;

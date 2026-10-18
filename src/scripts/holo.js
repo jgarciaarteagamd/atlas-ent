@@ -1,5 +1,5 @@
 // Holographic head: laser slices, meridians and a twinkling point cloud baked
-// from the head mesh (public/holo/head.bin), plus stylised inner anatomy that
+// from the head mesh (src/assets/head.bin), plus stylised inner anatomy that
 // lights up for the zone under the pointer or the selected zone.
 
 import * as THREE from 'three';
