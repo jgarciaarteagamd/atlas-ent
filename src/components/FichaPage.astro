@@ -10,7 +10,8 @@ const lang = entry.data.lang as Lang;
 const t = ui[lang];
 const zone = zoneById(entry.data.zone)!;
 const kind = zone.topics.find((x) => x.key === entry.data.topic)?.kind;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const sections = headings.filter((h) => h.depth === 2);
 
 // Same topic in the other language, if it has been published; otherwise the zone page.
 const twin = (await getCollection('fichas')).find(
@@ -34,11 +35,12 @@ const date = entry.data.updated.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en
         {t.written} {t.doctor} · {t.lastReview}: <time datetime={entry.data.updated.toISOString().slice(0, 10)}>{date}</time>
       </p>
     </header>
+    <div class="layout">
     <div class="prose">
       <Content />
       {entry.data.references.length > 0 && (
         <section class="refs">
-          <h2>{t.references}</h2>
+          <h2 id="refs">{t.references}</h2>
           <ol>
             {entry.data.references.map((r) => (
               <li>{r.url ? <a href={r.url} rel="noopener">{r.label}</a> : r.label}</li>
@@ -48,6 +50,14 @@ const date = entry.data.updated.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en
       )}
       <blockquote>{t.disclaimerShort}</blockquote>
       <p class="no-print"><a href={paths.zone(lang, zone)}>← {t.backTo(zone.name[lang])}</a></p>
+    </div>
+    <nav class="toc no-print" aria-label={lang === 'es' ? 'En esta página' : 'On this page'}>
+      <p class="label">{lang === 'es' ? 'En esta página' : 'On this page'}</p>
+      <ol>
+        {sections.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+        {entry.data.references.length > 0 && <li><a href="#refs">{t.references}</a></li>}
+      </ol>
+    </nav>
     </div>
   </article>
 </Base>
@@ -59,4 +69,14 @@ const date = entry.data.updated.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en
   .lede { margin: 0; font-size: 1.2rem; line-height: 1.55; }
   .meta { color: var(--ink-soft); }
   .refs ol { font-size: 0.92rem; color: var(--ink-soft); }
+  .layout { display: grid; gap: 64px; grid-template-columns: minmax(0, 1fr); }
+  .toc { display: none; }
+  @media (min-width: 1100px) {
+    .layout { grid-template-columns: minmax(0, var(--measure)) 260px; }
+    .toc { display: block; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 90px); align-self: start; border-left: 1px solid var(--holo-line); padding-left: 18px; }
+    .toc ol { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; font-size: 0.9rem; }
+    .toc a { color: var(--ink-soft); text-decoration: none; }
+    .toc a:hover { color: var(--flare); }
+  }
+  :global(html) { scroll-padding-top: 90px; scroll-behavior: smooth; }
 </style>

@@ -1,0 +1,134 @@
+---
+lang: es
+zone: oido
+topic: vppb
+slug: vertigo-posicional-paroxistico-benigno
+title: Vértigo posicional paroxístico benigno (VPPB)
+summary: La causa más frecuente de vértigo. Unos pequeños cristales del oído interno se desplazan y provocan giros de pocos segundos al cambiar de postura. Se trata en consulta con maniobras sencillas.
+updated: 2026-10-18
+references:
+  - label: "Bhattacharyya N, et al. Clinical Practice Guideline: Benign Paroxysmal Positional Vertigo (Update). Otolaryngol Head Neck Surg. 2017;156(3 Suppl):S1-S47."
+    url: https://doi.org/10.1177/0194599816689667
+  - label: "Pérez-Vázquez P, et al. Guía de práctica clínica para el diagnóstico y tratamiento del vértigo posicional paroxístico benigno. Documento de consenso de la Comisión de Otoneurología de la SEORL-CCC. Acta Otorrinolaringol Esp. 2018;69(6):345-366."
+    url: https://doi.org/10.1016/j.otorri.2017.05.001
+  - label: "von Brevern M, et al. Benign paroxysmal positional vertigo: Diagnostic criteria. Consensus document of the Committee for the Classification of Vestibular Disorders of the Bárány Society. J Vestib Res. 2015;25(3-4):105-117."
+    url: https://doi.org/10.3233/VES-150553
+  - label: "Xin H, et al. Comparative efficacy and safety of repositioning maneuvers for posterior canal BPPV: a network meta-analysis. Front Neurol. 2026;17:1762375."
+    url: https://doi.org/10.3389/fneur.2026.1762375
+  - label: "Imai T, et al. Therapeutic strategies for benign paroxysmal positional vertigo of the Japan Society for Equilibrium Research. Auris Nasus Larynx. 2026;53(4):554-557."
+    url: https://doi.org/10.1016/j.anl.2026.05.002
+  - label: "Cox H, Frith J. Best practice assessment and management of benign paroxysmal positional vertigo in older adults. Age Ageing. 2025;54(8):afaf225."
+    url: https://doi.org/10.1093/ageing/afaf225
+---
+
+## ¿Qué es?
+
+El vértigo posicional paroxístico benigno, o **VPPB**, es la causa más frecuente de vértigo. Su nombre lo describe bien:
+
+- **Vértigo:** sensación de que todo gira a tu alrededor, o de que giras tú.
+- **Posicional:** aparece al mover la cabeza en determinadas posturas.
+- **Paroxístico:** empieza de golpe y dura poco.
+- **Benigno:** no es una enfermedad grave ni pone en riesgo tu vida, aunque resulte muy desagradable.
+
+Dentro del oído interno hay un órgano del equilibrio con unos cristales microscópicos de calcio llamados **otoconias** u otolitos. A veces algunos se sueltan y se cuelan en los **conductos semicirculares**, unos tubitos llenos de líquido que detectan los giros de la cabeza. Cuando cambias de postura, esos cristales se desplazan dentro del tubo, mueven el líquido y envían al cerebro una señal falsa de giro. El resultado es un vértigo intenso, pero breve.
+
+En la mayoría de las personas los cristales se alojan en el **conducto posterior**. Con menos frecuencia afectan al conducto lateral (u horizontal) y, de forma excepcional, al anterior.
+
+## ¿Qué síntomas produce?
+
+- **Vértigo de pocos segundos**, normalmente menos de un minuto, que aparece al:
+  - acostarte o levantarte de la cama,
+  - darte la vuelta en la cama,
+  - mirar hacia arriba (por ejemplo, para tender la ropa o coger algo de una estantería),
+  - agacharte o inclinar la cabeza hacia atrás (en la peluquería o el dentista).
+- **Náuseas** y, a veces, vómitos durante la crisis.
+- **Sensación de inestabilidad** o de "ir flotando" que puede durar horas o días entre las crisis.
+
+El VPPB **no produce pérdida de audición**, ni dolor de cabeza intenso, ni síntomas neurológicos como visión doble, dificultad para hablar o falta de fuerza.
+
+## ¿Por qué ocurre?
+
+En la mayoría de los casos los cristales se sueltan sin una causa concreta. Es más frecuente:
+
+- a partir de los 50 años y en mujeres;
+- después de un **golpe en la cabeza**;
+- tras otros problemas del oído interno, como una neuritis vestibular o la enfermedad de Ménière;
+- después de pasar mucho tiempo en cama, por una enfermedad o una cirugía;
+- en personas con **osteoporosis**, **niveles bajos de vitamina D** o **migraña**.
+
+## ¿Cómo se diagnostica?
+
+El diagnóstico se hace **en la consulta**, con tu historia y una exploración que dura pocos minutos. Normalmente **no hacen falta análisis, resonancias ni escáneres**.
+
+- **Maniobra de Dix-Hallpike:** sentado en la camilla, con la cabeza girada hacia un lado, te tumbamos rápidamente hacia atrás con la cabeza un poco colgando. Si el VPPB está en el conducto posterior de ese oído, aparecerá el vértigo durante unos segundos.
+- **Prueba de giro en decúbito:** tumbado boca arriba, giramos la cabeza hacia cada lado para valorar el conducto lateral.
+
+Mientras tanto observamos tus ojos. Los cristales provocan un movimiento involuntario característico, el **nistagmo**, que indica qué oído y qué conducto están afectados. A veces se usan unas gafas con cámara (videonistagmoscopia) para verlo mejor.
+
+Es normal sentir vértigo durante estas pruebas. Precisamente así se confirma el diagnóstico, y se pasa en unos segundos.
+
+Si la historia o la exploración no encajan con un VPPB, pueden ser necesarias otras pruebas para descartar otras causas de vértigo.
+
+## ¿Cómo se trata?
+
+### Maniobras de reposicionamiento
+
+El tratamiento eficaz son las **maniobras de reposicionamiento**: una secuencia de cambios de postura de la cabeza y el cuerpo que guía los cristales fuera del conducto para que vuelvan a la zona del oído donde no molestan.
+
+- Para el conducto posterior, las más utilizadas son la **maniobra de Epley** y la **de Semont**.
+- Para el conducto lateral se usan otras, como la **de Lempert** (también llamada "barbacoa") o la **de Gufoni**.
+
+Se hacen en la consulta, en unos 10 o 15 minutos, y no duelen, aunque pueden provocar vértigo y náuseas momentáneas. En la mayoría de las personas los síntomas desaparecen tras una a tres maniobras. A veces hay que repetirlas en otra visita.
+
+### Medicamentos
+
+Los medicamentos contra el mareo **no curan el VPPB**. Pueden ayudar durante uno o dos días si hay muchas náuseas, pero tomarlos de forma prolongada no está recomendado: retrasan la recuperación del equilibrio y aumentan el riesgo de caídas.
+
+### Otras opciones
+
+- **Esperar y vigilar:** el VPPB puede desaparecer solo en días o semanas. Sin embargo, las maniobras suelen resolverlo mucho antes.
+- **Ejercicios de rehabilitación vestibular**, como los de Brandt-Daroff, cuando persiste la inestabilidad o no se pueden hacer las maniobras.
+- **Cirugía:** se reserva para casos excepcionales que no mejoran con nada de lo anterior.
+
+## Después de la maniobra
+
+- Puedes notar una **ligera inestabilidad** durante unos días. Es normal y suele desaparecer sola.
+- **No hace falta** dormir sentado, usar collarín ni mantener la cabeza quieta. Las guías actuales no recomiendan estas restricciones.
+- **Levántate despacio**, en dos tiempos: primero siéntate en el borde de la cama, espera unos segundos y después ponte de pie.
+- Si al cabo de unas **cuatro semanas** sigues con vértigo, vuelve a consulta. Puede que haga falta repetir la maniobra o valorar otra causa.
+
+## Recomendaciones
+
+- **Prevén las caídas**, sobre todo si eres mayor: deja una luz encendida por la noche, sujétate a la barandilla en las escaleras y evita subirte a sillas o escaleras mientras tengas crisis.
+- **No conduzcas ni trabajes en altura** mientras tengas vértigo.
+- **No intentes maniobras que hayas visto en internet** sin un diagnóstico previo. Hay que saber qué oído y qué conducto están afectados, porque hacer la maniobra en el lado equivocado no ayuda.
+- **El VPPB puede volver.** Es frecuente que reaparezca con los años, a veces en el mismo oído. Si te vuelve a pasar, consulta: se trata igual de bien.
+- **Si tienes la vitamina D baja**, corregirla podría reducir las recaídas. Coméntalo con tu médico antes de tomar suplementos.
+
+## ¿Cuándo consultar de forma urgente?
+
+Algunos vértigos **no son un VPPB** y pueden deberse a un problema del cerebro. **Llama al 112 o acude a urgencias** si el vértigo:
+
+- dura horas de forma continua, aunque estés quieto;
+- se acompaña de **dolor de cabeza intenso y repentino**;
+- aparece junto a **visión doble**, **dificultad para hablar o tragar**, **debilidad u hormigueo** en un lado del cuerpo, o la cara torcida;
+- impide caminar o mantenerse en pie, aunque no muevas la cabeza;
+- se acompaña de una **pérdida brusca de audición**;
+- aparece después de un **golpe fuerte en la cabeza** o con pérdida de conocimiento.
+
+## Preguntas frecuentes
+
+**¿Es grave?**
+No. Es muy molesto, pero no daña el oído ni el cerebro. El principal riesgo son las caídas durante las crisis.
+
+**¿Me voy a quedar sordo?**
+No. El VPPB no afecta a la audición. Si notas que oyes peor, coméntalo, porque podría tratarse de otro problema.
+
+**¿Es por las cervicales?**
+No. Es una creencia muy extendida, pero el VPPB se origina en el oído interno. Por eso se trata con maniobras específicas y no con tratamientos para el cuello.
+
+**¿Por qué me pasa al girarme en la cama?**
+Porque en esa postura los cristales se desplazan por el conducto afectado. Por eso el vértigo aparece siempre con los mismos movimientos.
+
+**¿Puedo hacer la maniobra yo en casa?**
+En algunos casos te podemos enseñar a hacerla, una vez confirmado qué oído y qué conducto están afectados. Sin ese diagnóstico, no es recomendable.
