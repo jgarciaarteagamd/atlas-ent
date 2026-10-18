@@ -13,7 +13,7 @@ async function loadHead(url) {
   const buf = await res.arrayBuffer();
   const dv = new DataView(buf);
   const magic = String.fromCharCode(dv.getUint8(0), dv.getUint8(1), dv.getUint8(2), dv.getUint8(3));
-  if (magic !== 'ATL1') throw new Error('bad head data');
+  if (magic !== 'ATL3') throw new Error('bad head data');
   const nLines = dv.getUint32(4, true), nPolyPts = dv.getUint32(8, true), nPts = dv.getUint32(12, true);
   let o = 16;
   const counts = new Uint32Array(buf.slice(o, o + nLines * 4)); o += nLines * 4;
@@ -26,22 +26,39 @@ async function loadHead(url) {
   };
   const poly = deq(nPolyPts);
   const pts = deq(nPts);
+  const nrm = (n) => {
+    const q = new Int8Array(buf.slice(o, o + n * 3)); o += n * 3;
+    return Float32Array.from(q, (v) => v / 127);
+  };
+  const polyN = nrm(nPolyPts);
+  const ptsN = nrm(nPts);
+  const feat = (n) => {
+    const q = new Uint8Array(buf.slice(o, o + n)); o += n;
+    return Float32Array.from(q, (v) => v / 255);
+  };
+  const polyF = feat(nPolyPts);
+  const ptsF = feat(nPts);
 
   // polylines -> segment pairs, keeping the slice/meridian kind per vertex
   let nSeg = 0;
   for (const c of counts) nSeg += c - 1;
   const seg = new Float32Array(nSeg * 6);
+  const segN = new Float32Array(nSeg * 6);
   const segKind = new Float32Array(nSeg * 2);
+  const segF = new Float32Array(nSeg * 2);
   let p = 0, s = 0;
   for (let l = 0; l < nLines; l++) {
     for (let i = 0; i < counts[l] - 1; i++) {
       seg.set(poly.subarray((p + i) * 3, (p + i) * 3 + 6), s * 6);
+      segN.set(polyN.subarray((p + i) * 3, (p + i) * 3 + 6), s * 6);
       segKind[s * 2] = segKind[s * 2 + 1] = kinds[l];
+      segF[s * 2] = polyF[p + i];
+      segF[s * 2 + 1] = polyF[p + i + 1];
       s++;
     }
     p += counts[l];
   }
-  return { seg, segKind, pts };
+  return { seg, segN, segKind, segF, pts, ptsN, ptsF };
 }
 
 // ---------- inner anatomy (stylised, in the mesh frame) ----------
@@ -138,11 +155,26 @@ const common = `
     return m;
   }`;
 
-const lineVS = `${common}
+const lighting = `
+  // Key light from the upper left, a soft rim, and surfaces facing away
+  // from the viewer fade so the back of the head does not cross the face.
+  float shade(vec3 n, out float front) {
+    vec3 nv = normalize(normalMatrix * n);
+    front = smoothstep(-0.2, 0.35, nv.z);
+    float key = max(dot(nv, normalize(vec3(-0.45, 0.55, 0.75))), 0.0);
+    float fill = max(dot(nv, normalize(vec3(0.6, -0.1, 0.6))), 0.0);
+    float rim = pow(1.0 - clamp(nv.z, 0.0, 1.0), 2.5);
+    return (0.08 + 0.95 * key * key + 0.25 * fill) * mix(0.1, 1.0, front) + rim * 0.45 * front;
+  }
+  float base(vec3 p) { return smoothstep(-1.78, -1.35, p.y); }`;
+
+const lineVS = `${common}${lighting}
   attribute float kind;
-  varying float vHot, vSel, vScan, vDepth, vKind;
+  attribute float feature;
+  varying float vHot, vSel, vScan, vDepth, vKind, vLight, vFront;
   void main() {
     vKind = kind;
+    vLight = (shade(normal, vFront) + feature * 1.1 * vFront) * base(position);
     vHot = near(position, uHot, uHotR) * uHotK;
     vSel = near(position, uSel, uSelR) * uSelK;
     vScan = exp(-abs(position.y - uScan) * 14.0);
@@ -151,19 +183,20 @@ const lineVS = `${common}
     gl_Position = projectionMatrix * mv;
   }`;
 const lineFS = `${common}
-  varying float vHot, vSel, vScan, vDepth, vKind;
+  varying float vHot, vSel, vScan, vDepth, vKind, vLight, vFront;
   void main() {
     vec3 holo = vec3(0.45, 0.94, 1.0);
     vec3 flare = vec3(1.0, 0.77, 0.42);
-    vec3 col = holo * (0.55 + vScan * 1.4);
+    vec3 col = holo * (0.6 + vScan * 1.2);
     col = mix(col, vec3(0.85, 1.0, 1.0), vHot * 0.8);
     col = mix(col, flare, vSel);
-    float base = mix(0.42, 0.13, vKind);
-    float a = base * (0.22 + 0.78 * vDepth) + vScan * 0.32 * (1.0 - vKind * 0.6) + vHot * 0.5 + vSel * 0.6;
+    float strength = mix(0.55, 0.2, vKind);
+    float a = strength * vLight + (vScan * 0.3 * (1.0 - vKind * 0.6) + vHot * 0.45 + vSel * 0.55) * (0.3 + 0.7 * vFront);
     gl_FragColor = vec4(col, a);
   }`;
-const pointVS = `${common}
+const pointVS = `${common}${lighting}
   attribute float seed;
+  attribute float feature;
   varying float vA, vSel;
   void main() {
     float hot = near(position, uHot, uHotR) * uHotK;
@@ -171,9 +204,10 @@ const pointVS = `${common}
     float tw = 0.5 + 0.5 * sin(uTime * (1.5 + seed * 3.0) + seed * 40.0);
     float scan = exp(-abs(position.y - uScan) * 10.0);
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    float depth = smoothstep(-8.3, -5.5, mv.z);
-    vA = (0.15 + 0.55 * tw * tw) * (0.2 + 0.8 * depth) + scan * 0.6 + hot * 0.6 + vSel * 0.6;
-    gl_PointSize = (1.4 + scan * 1.6 + (hot + vSel) * 1.2) * uPx;
+    float front;
+    float light = (shade(normal, front) + feature * 1.3 * front) * base(position);
+    vA = light * (0.55 + 0.45 * tw) + (scan * 0.5 + hot * 0.5 + vSel * 0.5) * front;
+    gl_PointSize = (1.1 + feature * 0.6 * front + scan * 1.2 + (hot + vSel) * 0.9) * uPx;
     gl_Position = projectionMatrix * mv;
   }`;
 const pointFS = `
@@ -218,10 +252,14 @@ export async function createHologram({ host, zones, headUrl, onHover, onSelect }
   const lineGeo = new THREE.BufferGeometry();
   lineGeo.setAttribute('position', new THREE.BufferAttribute(head.seg, 3));
   lineGeo.setAttribute('kind', new THREE.BufferAttribute(head.segKind, 1));
+  lineGeo.setAttribute('normal', new THREE.BufferAttribute(head.segN, 3));
+  lineGeo.setAttribute('feature', new THREE.BufferAttribute(head.segF, 1));
   holo.add(new THREE.LineSegments(lineGeo, new THREE.ShaderMaterial({ uniforms, vertexShader: lineVS, fragmentShader: lineFS, ...additive })));
 
   const pointGeo = new THREE.BufferGeometry();
   pointGeo.setAttribute('position', new THREE.BufferAttribute(head.pts, 3));
+  pointGeo.setAttribute('normal', new THREE.BufferAttribute(head.ptsN, 3));
+  pointGeo.setAttribute('feature', new THREE.BufferAttribute(head.ptsF, 1));
   pointGeo.setAttribute('seed', new THREE.BufferAttribute(Float32Array.from({ length: head.pts.length / 3 }, Math.random), 1));
   holo.add(new THREE.Points(pointGeo, new THREE.ShaderMaterial({ uniforms, vertexShader: pointVS, fragmentShader: pointFS, ...additive })));
 

@@ -16,10 +16,10 @@ if (!input || !output) {
 
 const HEIGHT = 3.0;
 const BASE_Y = -1.75;
-const SLICE_STEP = 0.05;
-const MERIDIANS = 12;
-const RESAMPLE = 0.012;
-const POINTS = 9000;
+const SLICE_STEP = 0.032;
+const MERIDIANS = 16;
+const RESAMPLE = 0.018;
+const POINTS = 40000;
 const QUANT = 32767 / 2; // positions are stored as int16 in [-2, 2]
 
 // ---------- read GLB ----------
@@ -72,6 +72,57 @@ const nV = V.length / 3;
 const T = Uint32Array.from(rawIdx, (i) => remap[i]);
 console.log(`mesh: ${nV} vertices, ${T.length / 3} triangles`);
 
+// smooth vertex normals (area weighted), used to light the hologram
+const N = new Float32Array(nV * 3);
+for (let t = 0; t < T.length; t += 3) {
+  const [a, b, c] = [T[t], T[t + 1], T[t + 2]];
+  const ux = V[b * 3] - V[a * 3], uy = V[b * 3 + 1] - V[a * 3 + 1], uz = V[b * 3 + 2] - V[a * 3 + 2];
+  const vx = V[c * 3] - V[a * 3], vy = V[c * 3 + 1] - V[a * 3 + 1], vz = V[c * 3 + 2] - V[a * 3 + 2];
+  const nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+  for (const i of [a, b, c]) { N[i * 3] += nx; N[i * 3 + 1] += ny; N[i * 3 + 2] += nz; }
+}
+// make sure normals point outwards: most of the surface faces away from the centre axis
+let outward = 0;
+for (let i = 0; i < nV; i++) outward += N[i * 3] * V[i * 3] + N[i * 3 + 2] * V[i * 3 + 2];
+const flip = outward < 0 ? -1 : 1;
+for (let i = 0; i < nV; i++) {
+  const l = Math.hypot(N[i * 3], N[i * 3 + 1], N[i * 3 + 2]) || 1;
+  for (let k = 0; k < 3; k++) N[i * 3 + k] = (N[i * 3 + k] / l) * flip;
+}
+const lerp3 = (A, a, b, t) => [0, 1, 2].map((k) => A[a * 3 + k] + (A[b * 3 + k] - A[a * 3 + k]) * t);
+
+// Facial detail: umbrella-Laplacian curvature picks out eyelids, brows,
+// nostrils, lips and ear folds. Stored as 0..1 "feature" strength.
+const sum = new Float64Array(nV * 3), deg = new Float64Array(nV);
+for (let t = 0; t < T.length; t += 3) {
+  for (let e = 0; e < 3; e++) {
+    const a = T[t + e], b = T[t + ((e + 1) % 3)];
+    for (const [i, j] of [[a, b], [b, a]]) {
+      sum[i * 3] += V[j * 3]; sum[i * 3 + 1] += V[j * 3 + 1]; sum[i * 3 + 2] += V[j * 3 + 2]; deg[i]++;
+    }
+  }
+}
+let curv = new Float64Array(nV);
+for (let i = 0; i < nV; i++) {
+  let d = 0;
+  for (let k = 0; k < 3; k++) d += (sum[i * 3 + k] / deg[i] - V[i * 3 + k]) * N[i * 3 + k];
+  curv[i] = d;
+}
+for (let it = 0; it < 2; it++) {
+  const acc = new Float64Array(nV);
+  for (let t = 0; t < T.length; t += 3) {
+    for (let e = 0; e < 3; e++) {
+      const a = T[t + e], b = T[t + ((e + 1) % 3)];
+      acc[a] += curv[b]; acc[b] += curv[a];
+    }
+  }
+  curv = curv.map((c, i) => 0.5 * c + (0.5 * acc[i]) / deg[i]);
+}
+const sorted = Float64Array.from(curv, Math.abs).sort();
+const ref = sorted[Math.floor(sorted.length * 0.97)] || 1;
+const F = Float32Array.from(curv, (c) => Math.min(1, Math.abs(c) / ref));
+const lerp1 = (A, a, b, t) => A[a] + (A[b] - A[a]) * t;
+
 // ---------- planar sections ----------
 function section(fn) {
   const d = new Float64Array(nV);
@@ -83,11 +134,7 @@ function section(fn) {
     const key = a * nV + b;
     if (!point.has(key)) {
       const t = d[a] / (d[a] - d[b]);
-      point.set(key, [
-        V[a * 3] + (V[b * 3] - V[a * 3]) * t,
-        V[a * 3 + 1] + (V[b * 3 + 1] - V[a * 3 + 1]) * t,
-        V[a * 3 + 2] + (V[b * 3 + 2] - V[a * 3 + 2]) * t,
-      ]);
+      point.set(key, [...lerp3(V, a, b, t), ...lerp3(N, a, b, t), lerp1(F, a, b, t)]);
     }
     return key;
   };
@@ -134,7 +181,7 @@ function resample(line) {
     let s = RESAMPLE - carry;
     while (s <= len) {
       const t = s / len;
-      out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]);
+      out.push(a.map((v, k) => v + (b[k] - v) * t));
       s += RESAMPLE;
     }
     carry = len - (s - RESAMPLE);
@@ -160,7 +207,8 @@ for (let t = 0; t < T.length; t += 3) {
   const [a, b, c] = [T[t], T[t + 1], T[t + 2]];
   const ux = V[b * 3] - V[a * 3], uy = V[b * 3 + 1] - V[a * 3 + 1], uz = V[b * 3 + 2] - V[a * 3 + 2];
   const vx = V[c * 3] - V[a * 3], vy = V[c * 3 + 1] - V[a * 3 + 1], vz = V[c * 3 + 2] - V[a * 3 + 2];
-  total += Math.hypot(uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx) / 2;
+  const feature = (F[a] + F[b] + F[c]) / 3;
+  total += (Math.hypot(uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx) / 2) * (1 + 3 * feature);
   areas[t / 3] = total;
 }
 let seed = 7;
@@ -173,20 +221,25 @@ for (let n = 0; n < POINTS; n++) {
   const [a, b, c] = [T[lo * 3], T[lo * 3 + 1], T[lo * 3 + 2]];
   let u = rand(), v = rand();
   if (u + v > 1) { u = 1 - u; v = 1 - v; }
-  for (let k = 0; k < 3; k++) points.push(V[a * 3 + k] + (V[b * 3 + k] - V[a * 3 + k]) * u + (V[c * 3 + k] - V[a * 3 + k]) * v);
+  const p = [0, 1, 2].map((k) => V[a * 3 + k] + (V[b * 3 + k] - V[a * 3 + k]) * u + (V[c * 3 + k] - V[a * 3 + k]) * v);
+  const nn = [0, 1, 2].map((k) => N[a * 3 + k] + (N[b * 3 + k] - N[a * 3 + k]) * u + (N[c * 3 + k] - N[a * 3 + k]) * v);
+  if (p[1] < BASE_Y + 0.05 && nn[1] < -0.7) continue; // flat cut under the neck
+  points.push(...p, ...nn, F[a] + (F[b] - F[a]) * u + (F[c] - F[a]) * v);
 }
 
 // ---------- write ----------
-// header: 'ATL1', polyline count, polyline point count, surface point count
-// then uint32 counts[], uint8 kinds[] (padded to 2 bytes), int16 polyline xyz, int16 point xyz
+// header: 'ATL3', polyline count, polyline point count, surface point count
+// then uint32 counts[], uint8 kinds[] (padded to 2 bytes),
+// int16 polyline xyz, int16 point xyz, int8 polyline normals, int8 point normals,
+// uint8 polyline feature, uint8 point feature
 const nLines = polylines.length;
 const nPolyPts = polylines.reduce((s, p) => s + p.l.length, 0);
-const nPts = points.length / 3;
+const nPts = points.length / 7;
 const kindsBytes = nLines + (nLines % 2);
-const size = 16 + nLines * 4 + kindsBytes + nPolyPts * 6 + nPts * 6;
+const size = 16 + nLines * 4 + kindsBytes + nPolyPts * 10 + nPts * 10;
 const out = Buffer.alloc(size);
 let o = 0;
-out.write('ATL1', 0, 'ascii'); o = 4;
+out.write('ATL3', 0, 'ascii'); o = 4;
 out.writeUInt32LE(nLines, o); o += 4;
 out.writeUInt32LE(nPolyPts, o); o += 4;
 out.writeUInt32LE(nPts, o); o += 4;
@@ -194,7 +247,13 @@ for (const p of polylines) { out.writeUInt32LE(p.l.length, o); o += 4; }
 for (const p of polylines) out.writeUInt8(p.kind, o++);
 o += nLines % 2;
 const q = (v) => Math.max(-32767, Math.min(32767, Math.round(v * QUANT)));
-for (const p of polylines) for (const pt of p.l) for (const v of pt) { out.writeInt16LE(q(v), o); o += 2; }
-for (const v of points) { out.writeInt16LE(q(v), o); o += 2; }
+const qn = (v) => Math.max(-127, Math.min(127, Math.round(v * 127)));
+for (const p of polylines) for (const pt of p.l) for (let k = 0; k < 3; k++) { out.writeInt16LE(q(pt[k]), o); o += 2; }
+for (let i = 0; i < nPts; i++) for (let k = 0; k < 3; k++) { out.writeInt16LE(q(points[i * 7 + k]), o); o += 2; }
+for (const p of polylines) for (const pt of p.l) for (let k = 3; k < 6; k++) out.writeInt8(qn(pt[k]), o++);
+for (let i = 0; i < nPts; i++) for (let k = 3; k < 6; k++) out.writeInt8(qn(points[i * 7 + k]), o++);
+const qf = (v) => Math.max(0, Math.min(255, Math.round(v * 255)));
+for (const p of polylines) for (const pt of p.l) out.writeUInt8(qf(pt[6]), o++);
+for (let i = 0; i < nPts; i++) out.writeUInt8(qf(points[i * 7 + 6]), o++);
 writeFileSync(output, out);
 console.log(`wrote ${output}: ${nLines} polylines, ${nPolyPts} line points, ${nPts} surface points, ${(size / 1024).toFixed(0)} KB`);
