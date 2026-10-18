@@ -1,0 +1,244 @@
+---
+// Button that opens a dialog with the BPPV hologram animation.
+// The animation code loads only when the dialog is opened.
+import type { Lang } from '../data/zones';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const text = lang === 'es'
+  ? {
+      open: 'Ver animación: cómo se mueven los cristales',
+      title: 'Así se produce el VPPB',
+      close: 'Cerrar',
+      replay: 'Volver a empezar',
+      vertigo: 'Señal falsa de giro: vértigo',
+      gravity: 'gravedad',
+      labels: { utricle: 'Utrículo', canal: 'Conducto posterior', cupula: 'Cúpula', cochlea: 'Cóclea' },
+      captions: [
+        'En el utrículo, unos cristales de calcio (otoconias) están pegados a una membrana. Ahí no causan síntomas.',
+        'Algunos se desprenden y caen al conducto semicircular posterior.',
+        'Sentado, los cristales reposan en la parte más baja del conducto.',
+        'Al tumbarte con la cabeza girada, el conducto cambia de posición: los cristales caen, arrastran el líquido y doblan la cúpula. El cerebro cree que giras.',
+        'Cuando los cristales se detienen, la cúpula vuelve a su sitio. Por eso el vértigo dura solo unos segundos.',
+        'La maniobra de Epley encadena varias posturas para que los cristales recorran el conducto hasta su salida.',
+        'Los cristales vuelven al utrículo, donde ya no molestan.',
+      ],
+      note: 'Esquema simplificado del oído interno derecho, visto desde un lado.',
+    }
+  : {
+      open: 'Watch the animation: how the crystals move',
+      title: 'How BPPV happens',
+      close: 'Close',
+      replay: 'Start again',
+      vertigo: 'False spinning signal: vertigo',
+      gravity: 'gravity',
+      labels: { utricle: 'Utricle', canal: 'Posterior canal', cupula: 'Cupula', cochlea: 'Cochlea' },
+      captions: [
+        'In the utricle, calcium crystals (otoconia) are attached to a membrane. There they cause no symptoms.',
+        'Some come loose and fall into the posterior semicircular canal.',
+        'When you sit, the crystals rest at the lowest part of the canal.',
+        'When you lie back with your head turned, the canal changes position: the crystals fall, drag the fluid and bend the cupula. Your brain thinks you are spinning.',
+        'When the crystals stop, the cupula returns to its place. That is why the vertigo lasts only seconds.',
+        'The Epley manoeuvre links several positions so that the crystals travel along the canal to its exit.',
+        'The crystals are back in the utricle, where they no longer cause trouble.',
+      ],
+      note: 'Simplified diagram of the right inner ear, seen from the side.',
+    };
+---
+
+<div class="oto not-prose">
+  <button type="button" class="button oto-open">
+    <span aria-hidden="true">▶</span> {text.open}
+  </button>
+  <dialog class="oto-dialog" aria-labelledby="oto-title">
+    <div class="oto-frame">
+      <header>
+        <h2 id="oto-title">{text.title}</h2>
+        <div class="oto-actions">
+          <button type="button" class="oto-replay">{text.replay}</button>
+          <button type="button" class="oto-close">{text.close}</button>
+        </div>
+      </header>
+      <div class="oto-stage">
+        <div class="oto-canvas"></div>
+        <span class="oto-label" data-k="utricle">{text.labels.utricle}</span>
+        <span class="oto-label" data-k="canal">{text.labels.canal}</span>
+        <span class="oto-label" data-k="cupula">{text.labels.cupula}</span>
+        <span class="oto-label" data-k="cochlea">{text.labels.cochlea}</span>
+        <div class="oto-vertigo" aria-hidden="true">{text.vertigo}</div>
+        <div class="oto-posture" aria-hidden="true">
+          <svg viewBox="-40 -40 80 80">
+            <g class="oto-head">
+              <circle r="22" />
+              <path d="M-22 -2 L-29 4 L-21 7" />
+              <path d="M6 -4 Q12 -10 12 0 Q12 8 6 4" />
+              <line x1="0" y1="22" x2="0" y2="34" />
+            </g>
+          </svg>
+          <span>↓ {text.gravity}</span>
+        </div>
+      </div>
+      <footer>
+        <ol class="oto-steps">
+          {text.captions.map((c, i) => <li data-i={i}>{c}</li>)}
+        </ol>
+        <p class="oto-note">{text.note}</p>
+      </footer>
+    </div>
+  </dialog>
+  <script type="application/json" class="oto-data" set:html={JSON.stringify({ captions: text.captions })} />
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('.oto')) {
+    const dialog = root.querySelector<HTMLDialogElement>('dialog')!;
+    const host = root.querySelector<HTMLElement>('.oto-canvas')!;
+    const steps = [...root.querySelectorAll<HTMLElement>('.oto-steps li')];
+    const labelEls = Object.fromEntries([...root.querySelectorAll<HTMLElement>('.oto-label')].map((el) => [el.dataset.k!, el]));
+    const vertigo = root.querySelector<HTMLElement>('.oto-vertigo')!;
+    const head = root.querySelector<SVGGElement>('.oto-head')!;
+    const { captions } = JSON.parse(root.querySelector('.oto-data')!.textContent!);
+    let anim: any = null;
+
+    root.querySelector('.oto-open')!.addEventListener('click', async () => {
+      dialog.showModal();
+      if (!anim) {
+        try {
+          const { createOtolithAnimation } = await import('../scripts/otolith.js');
+          anim = createOtolithAnimation({
+            host,
+            captions,
+            onStep(i: number) {
+              steps.forEach((li, k) => li.classList.toggle('on', k === i));
+              steps[i]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            },
+            onPosture(tilt: number) {
+              head.setAttribute('transform', `rotate(${-tilt})`);
+            },
+            labels(pos: Record<string, { x: number; y: number }>, spinning: boolean) {
+              for (const [k, p] of Object.entries(pos)) {
+                labelEls[k].style.left = `${p.x}%`;
+                labelEls[k].style.top = `${p.y}%`;
+              }
+              vertigo.classList.toggle('on', spinning);
+            },
+          });
+        } catch (err) {
+          console.error('Animation unavailable:', err);
+          host.textContent = '';
+          return;
+        }
+      }
+      anim.restart();
+      anim.play();
+    });
+    root.querySelector('.oto-replay')!.addEventListener('click', () => anim?.restart());
+    root.querySelector('.oto-close')!.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('close', () => anim?.pause());
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+  }
+</script>
+
+<style>
+  .oto { margin: 1.4em 0 1.8em; }
+  .oto-dialog {
+    width: min(1100px, calc(100vw - 24px));
+    max-height: calc(100dvh - 24px);
+    padding: 0;
+    border: 1px solid var(--holo-line);
+    background: var(--void);
+    color: var(--ink);
+  }
+  .oto-dialog::backdrop { background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); }
+  .oto-frame { display: grid; grid-template-rows: auto 1fr auto; height: min(820px, calc(100dvh - 26px)); }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--holo-line);
+  }
+  h2 { font-size: 1.25rem; color: var(--holo); margin: 0; }
+  .oto-actions { display: flex; gap: 8px; }
+  .oto-actions button {
+    background: none;
+    border: 1px solid var(--holo-line);
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  .oto-actions button:hover { color: var(--flare); border-color: var(--flare); }
+  .oto-stage {
+    position: relative;
+    min-height: 0;
+    background: radial-gradient(80% 80% at 50% 45%, #071422 0%, var(--void) 75%);
+    overflow: hidden;
+  }
+  .oto-canvas { position: absolute; inset: 0; }
+  .oto-canvas :global(canvas) { display: block; width: 100%; height: 100%; }
+  .oto-label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--holo);
+    background: rgba(3, 7, 12, 0.7);
+    padding: 2px 6px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .oto-label[data-k='cupula'] { color: var(--flare); }
+  .oto-vertigo {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--void);
+    background: var(--flare);
+    padding: 4px 10px;
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+  .oto-vertigo:global(.on) { opacity: 1; animation: pulse 0.6s infinite alternate; }
+  @keyframes pulse { to { opacity: 0.55; } }
+  .oto-posture {
+    position: absolute;
+    left: 16px;
+    bottom: 14px;
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .oto-posture svg { width: 64px; height: 64px; }
+  .oto-head { fill: rgba(116, 241, 255, 0.08); stroke: var(--holo); stroke-width: 2; stroke-linejoin: round; transition: transform 300ms; }
+  footer { padding: 12px 18px 14px; border-top: 1px solid var(--holo-line); max-height: 30dvh; overflow-y: auto; }
+  .oto-steps { margin: 0; padding-left: 1.4em; display: grid; gap: 4px; font-size: 0.92rem; color: var(--ink-soft); }
+  .oto-steps li { transition: color 200ms; }
+  .oto-steps li:global(.on) { color: var(--ink); }
+  .oto-steps li:global(.on)::marker { color: var(--flare); }
+  .oto-note { margin: 8px 0 0; font-family: var(--mono); font-size: 0.68rem; color: var(--ink-soft); }
+  @media (max-width: 640px) {
+    .oto-frame { height: calc(100dvh - 26px); }
+    .oto-label { font-size: 0.6rem; }
+    .oto-steps { font-size: 0.85rem; }
+  }
+  @media print { .oto { display: none; } }
+</style>

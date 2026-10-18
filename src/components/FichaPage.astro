@@ -1,8 +1,10 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+import QRCode from 'qrcode';
 import Base from '../layouts/Base.astro';
 import { zoneById, type Lang } from '../data/zones';
-import { ui, paths, otherLang } from '../i18n/ui';
+import { ui, paths, otherLang, BIO_URL } from '../i18n/ui';
 
 interface Props { entry: CollectionEntry<'fichas'> }
 const { entry } = Astro.props;
@@ -19,9 +21,53 @@ const twin = (await getCollection('fichas')).find(
 );
 const alt = twin ? paths.ficha(otherLang(lang), zone, twin.data.slug) : paths.zone(otherLang(lang), zone);
 const date = entry.data.updated.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const isoDate = entry.data.updated.toISOString().slice(0, 10);
+
+const pageUrl = new URL(paths.ficha(lang, zone, entry.data.slug), Astro.site).href;
+// Printed handouts carry a QR code back to the online page.
+const qr = await QRCode.toString(pageUrl, { type: 'svg', margin: 0, errorCorrectionLevel: 'M' });
+
+const cover = entry.data.cover;
+const ogImage = cover ? new URL((await getImage({ src: cover, width: 1200, format: 'jpg' })).src, Astro.site).href : undefined;
+
+const doctor = {
+  '@type': 'Physician',
+  name: 'Juan García Arteaga',
+  url: BIO_URL,
+  medicalSpecialty: 'Otolaryngologic',
+};
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'MedicalWebPage',
+      '@id': `${pageUrl}#page`,
+      url: pageUrl,
+      name: entry.data.title,
+      description: entry.data.summary,
+      inLanguage: lang,
+      lastReviewed: isoDate,
+      dateModified: isoDate,
+      author: doctor,
+      reviewedBy: doctor,
+      audience: { '@type': 'PeopleAudience', audienceType: 'Patient' },
+      ...(ogImage && { image: ogImage }),
+      about: { '@type': kind === 'patologia' ? 'MedicalCondition' : 'MedicalTherapy', name: entry.data.title },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: t.brand, item: new URL(paths.home(lang), Astro.site).href },
+        { '@type': 'ListItem', position: 2, name: zone.name[lang], item: new URL(paths.zone(lang, zone), Astro.site).href },
+        { '@type': 'ListItem', position: 3, name: entry.data.title, item: pageUrl },
+      ],
+    },
+  ],
+};
 ---
 
-<Base lang={lang} title={`${entry.data.title} · ${t.brand}`} description={entry.data.summary} alt={alt}>
+<Base lang={lang} title={`${entry.data.title} · ${t.brand}`} description={entry.data.summary} alt={alt} image={ogImage}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <article class="wrap">
     <nav class="crumbs label" aria-label={lang === 'es' ? 'Ruta' : 'Breadcrumb'}>
       <a href={paths.home(lang)}>{t.brand}</a> <span aria-hidden="true">/</span>
@@ -32,32 +78,45 @@ const date = entry.data.updated.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en
       <h1>{entry.data.title}</h1>
       <p class="lede">{entry.data.summary}</p>
       <p class="meta label">
-        {t.written} {t.doctor} · {t.lastReview}: <time datetime={entry.data.updated.toISOString().slice(0, 10)}>{date}</time>
+        {t.written} {t.doctor} · {t.lastReview}: <time datetime={isoDate}>{date}</time>
       </p>
     </header>
+    {cover && (
+      <figure class="cover no-print">
+        <Image src={cover} alt={entry.data.coverAlt ?? ''} widths={[640, 960, 1280]} sizes="(min-width: 1100px) 1100px, 100vw" loading="eager" />
+      </figure>
+    )}
     <div class="layout">
-    <div class="prose">
-      <Content />
-      {entry.data.references.length > 0 && (
-        <section class="refs">
-          <h2 id="refs">{t.references}</h2>
-          <ol>
-            {entry.data.references.map((r) => (
-              <li>{r.url ? <a href={r.url} rel="noopener">{r.label}</a> : r.label}</li>
-            ))}
-          </ol>
-        </section>
-      )}
-      <blockquote>{t.disclaimerShort}</blockquote>
-      <p class="no-print"><a href={paths.zone(lang, zone)}>← {t.backTo(zone.name[lang])}</a></p>
-    </div>
-    <nav class="toc no-print" aria-label={lang === 'es' ? 'En esta página' : 'On this page'}>
-      <p class="label">{lang === 'es' ? 'En esta página' : 'On this page'}</p>
-      <ol>
-        {sections.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
-        {entry.data.references.length > 0 && <li><a href="#refs">{t.references}</a></li>}
-      </ol>
-    </nav>
+      <div class="prose">
+        <Content />
+        {entry.data.references.length > 0 && (
+          <section class="refs">
+            <h2 id="refs">{t.references}</h2>
+            <ol>
+              {entry.data.references.map((r) => (
+                <li>{r.url ? <a href={r.url} rel="noopener">{r.label}</a> : r.label}</li>
+              ))}
+            </ol>
+          </section>
+        )}
+        <blockquote>{t.disclaimerShort}</blockquote>
+        <p class="no-print"><a href={paths.zone(lang, zone)}>← {t.backTo(zone.name[lang])}</a></p>
+        <aside class="print-only handout">
+          <div class="qr" set:html={qr} />
+          <p>
+            <strong>{t.doctor}</strong> · {t.specialty}<br />
+            {lang === 'es' ? 'Escanea el código para ver esta ficha actualizada:' : 'Scan the code to see the latest version of this page:'}<br />
+            {pageUrl}
+          </p>
+        </aside>
+      </div>
+      <nav class="toc no-print" aria-label={lang === 'es' ? 'En esta página' : 'On this page'}>
+        <p class="label">{lang === 'es' ? 'En esta página' : 'On this page'}</p>
+        <ol>
+          {sections.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+          {entry.data.references.length > 0 && <li><a href="#refs">{t.references}</a></li>}
+        </ol>
+      </nav>
     </div>
   </article>
 </Base>
@@ -68,9 +127,12 @@ const date = entry.data.updated.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en
   .head { padding-block: 32px 28px; display: grid; gap: 12px; max-width: var(--measure); }
   .lede { margin: 0; font-size: 1.2rem; line-height: 1.55; }
   .meta { color: var(--ink-soft); }
+  .cover { margin: 0 0 40px; border: 1px solid var(--holo-line); overflow: hidden; max-width: 1100px; }
+  .cover :global(img) { display: block; width: 100%; height: auto; aspect-ratio: 16 / 7; object-fit: cover; }
   .refs ol { font-size: 0.92rem; color: var(--ink-soft); }
   .layout { display: grid; gap: 64px; grid-template-columns: minmax(0, 1fr); }
   .toc { display: none; }
+  .print-only { display: none; }
   @media (min-width: 1100px) {
     .layout { grid-template-columns: minmax(0, var(--measure)) 260px; }
     .toc { display: block; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 90px); align-self: start; border-left: 1px solid var(--holo-line); padding-left: 18px; }
@@ -79,4 +141,11 @@ const date = entry.data.updated.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en
     .toc a:hover { color: var(--flare); }
   }
   :global(html) { scroll-padding-top: 90px; scroll-behavior: smooth; }
+  @media print {
+    .print-only { display: flex; }
+    .handout { gap: 16px; align-items: center; margin-top: 24px; padding-top: 12px; border-top: 1px solid #000; font-size: 0.85rem; break-inside: avoid; }
+    .qr { width: 90px; flex: none; }
+    .qr :global(svg) { width: 100%; height: auto; }
+    .layout { display: block; }
+  }
 </style>

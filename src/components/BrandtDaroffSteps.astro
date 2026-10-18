@@ -1,0 +1,135 @@
+---
+// Five positions of the Brandt-Daroff exercises, drawn as line figures seen
+// from the front. The patient's right side is on the viewer's left.
+import type { Lang } from '../data/zones';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const steps = lang === 'es'
+  ? [
+      { pose: 'sit', title: 'Posición 1', text: 'Siéntate en el centro del borde de la cama, con los pies apoyados en el suelo y mirando al frente.' },
+      { pose: 'right', title: 'Posición 2', text: 'Gira la cabeza 45° hacia la izquierda y, sin enderezarla, túmbate rápido sobre tu lado derecho. Tu cara queda mirando en diagonal hacia el techo.' },
+      { pose: 'sit', title: 'Posición 3', text: 'Vuelve a sentarte y mira al frente.' },
+      { pose: 'left', title: 'Posición 4', text: 'Gira la cabeza 45° hacia la derecha y túmbate rápido sobre tu lado izquierdo, mirando en diagonal hacia el techo.' },
+      { pose: 'sit', title: 'Posición 5', text: 'Vuelve a sentarte y mira al frente. Con esto completas un ciclo.' },
+    ]
+  : [
+      { pose: 'sit', title: 'Position 1', text: 'Sit in the middle of the edge of the bed, feet on the floor, looking straight ahead.' },
+      { pose: 'right', title: 'Position 2', text: 'Turn your head 45° to the left and, keeping it turned, quickly lie down on your right side. Your face ends up looking diagonally at the ceiling.' },
+      { pose: 'sit', title: 'Position 3', text: 'Sit back up and look straight ahead.' },
+      { pose: 'left', title: 'Position 4', text: 'Turn your head 45° to the right and quickly lie down on your left side, looking diagonally at the ceiling.' },
+      { pose: 'sit', title: 'Position 5', text: 'Sit back up and look straight ahead. That completes one cycle.' },
+    ];
+const ceiling = lang === 'es' ? 'techo' : 'ceiling';
+---
+
+<ol class="bd-steps">
+  {steps.map((s) => (
+    <li>
+      <svg viewBox="0 0 240 165" role="img" aria-label={`${s.title}: ${s.text}`}>
+        <g class="bed">
+          <rect x="18" y="100" width="204" height="22" rx="7" />
+          <line x1="34" y1="122" x2="34" y2="148" />
+          <line x1="206" y1="122" x2="206" y2="148" />
+          <line class="floor" x1="6" y1="150" x2="234" y2="150" />
+        </g>
+        {s.pose === 'sit' && (
+          <g class="body">
+            <circle cx="120" cy="36" r="13" />
+            <circle class="dot" cx="115.5" cy="34" r="1.6" />
+            <circle class="dot" cx="124.5" cy="34" r="1.6" />
+            <line x1="120" y1="37" x2="120" y2="42" />
+            <line x1="120" y1="49" x2="120" y2="56" />
+            <path d="M101 61 Q120 53 139 61 L135 100 L105 100 Z" />
+            <path d="M101 63 L95 86 L105 103" />
+            <path d="M139 63 L145 86 L135 103" />
+            <path d="M111 103 L111 146 L104 148" />
+            <path d="M129 103 L129 146 L136 148" />
+          </g>
+        )}
+        {s.pose === 'right' && (
+          <g class="body">
+            <circle cx="46" cy="86" r="13" />
+            <circle class="dot" cx="42" cy="81" r="1.6" />
+            <circle class="dot" cx="50" cy="79" r="1.6" />
+            <line x1="46" y1="80" x2="49" y2="74" />
+            <path d="M60 78 L132 81 Q136 90 132 99 L60 99 Q55 89 60 78 Z" />
+            <path d="M132 85 L204 87 L210 82" />
+            <path d="M132 95 L204 96 L210 92" />
+            <path d="M70 84 L110 90" />
+            <line class="gaze" x1="49" y1="72" x2="66" y2="40" />
+            <text class="tag" x="68" y="36">{ceiling}</text>
+            <path class="angle" d="M34 64 A22 22 0 0 1 58 62" />
+            <text class="tag" x="22" y="60">45°</text>
+          </g>
+        )}
+        {s.pose === 'left' && (
+          <g class="body">
+            <circle cx="194" cy="86" r="13" />
+            <circle class="dot" cx="198" cy="81" r="1.6" />
+            <circle class="dot" cx="190" cy="79" r="1.6" />
+            <line x1="194" y1="80" x2="191" y2="74" />
+            <path d="M180 78 L108 81 Q104 90 108 99 L180 99 Q185 89 180 78 Z" />
+            <path d="M108 85 L36 87 L30 82" />
+            <path d="M108 95 L36 96 L30 92" />
+            <path d="M170 84 L130 90" />
+            <line class="gaze" x1="191" y1="72" x2="174" y2="40" />
+            <text class="tag" x="140" y="36">{ceiling}</text>
+            <path class="angle" d="M206 64 A22 22 0 0 0 182 62" />
+            <text class="tag" x="196" y="60">45°</text>
+          </g>
+        )}
+      </svg>
+      <div>
+        <h3>{s.title}</h3>
+        <p>{s.text}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .bd-steps {
+    list-style: none;
+    margin: 1.4em 0 1.8em;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .bd-steps li {
+    display: grid;
+    grid-template-columns: minmax(150px, 220px) 1fr;
+    gap: 18px;
+    align-items: center;
+    padding: 12px 16px 12px 12px;
+    border: 1px solid var(--holo-line);
+    background: rgba(7, 16, 25, 0.55);
+    margin: 0;
+  }
+  .bd-steps h3 { margin: 0 0 4px; font-size: 1.05rem; color: var(--holo); }
+  .bd-steps p { margin: 0; }
+  svg { width: 100%; height: auto; display: block; color: var(--holo); }
+  svg :global(*) { vector-effect: non-scaling-stroke; }
+  .bed { fill: none; stroke: rgba(116, 241, 255, 0.45); stroke-width: 1.4; }
+  .floor { stroke-dasharray: 3 4; }
+  .body { fill: rgba(116, 241, 255, 0.08); stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .body path[d^='M101 63'], .body path[d^='M139 63'], .body path[d*='L204'], .body path[d*='L36 '], .body path[d^='M70'], .body path[d^='M170'], .body path[d^='M111'], .body path[d^='M129'] { fill: none; }
+  .dot { fill: currentColor; stroke: none; }
+  .gaze { stroke: var(--flare); stroke-dasharray: 4 3; }
+  .angle { fill: none; stroke: var(--flare); stroke-width: 1.2; }
+  .tag { fill: var(--flare); stroke: none; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; }
+  @media (max-width: 560px) {
+    .bd-steps li { grid-template-columns: 1fr; }
+    svg { max-width: 260px; }
+  }
+  @media print {
+    .bd-steps li { background: none; border-color: #999; break-inside: avoid; }
+    svg { color: #000; }
+    .bed { stroke: #777; }
+    .body { fill: none; }
+    .gaze, .angle { stroke: #000; }
+    .tag { fill: #000; }
+    .bd-steps h3 { color: #000; }
+  }
+</style>

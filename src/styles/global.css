@@ -141,5 +141,6 @@ h3 { font-size: var(--step-1); font-weight: 500; }
   body { background: #fff; color: #000; }
   header.site, footer.site, .no-print { display: none !important; }
   a { color: #000; }
-  .prose h2 { color: #000; }
+  .prose h2, .prose h3, .prose strong, .prose th { color: #000; }
+  .prose blockquote { background: none; border-left-color: #000; }
 }
