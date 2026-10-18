@@ -80,6 +80,9 @@ const jsonLd = {
       <p class="meta label">
         {t.written} {t.doctor} · {t.lastReview}: <time datetime={isoDate}>{date}</time>
       </p>
+      <button type="button" class="print-btn no-print" data-print>
+        <span aria-hidden="true">⎙</span> {lang === 'es' ? 'Imprimir o guardar en PDF' : 'Print or save as PDF'}
+      </button>
     </header>
     {cover && (
       <figure class="cover no-print">
@@ -121,7 +124,27 @@ const jsonLd = {
   </article>
 </Base>
 
+<script>
+  for (const b of document.querySelectorAll('[data-print]')) b.addEventListener('click', () => window.print());
+</script>
+
 <style>
+  .print-btn {
+    justify-self: start;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    background: none;
+    border: 1px solid var(--holo-line);
+    color: var(--holo);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 7px 12px;
+    cursor: pointer;
+  }
+  .print-btn:hover { color: var(--flare); border-color: var(--flare); }
   .crumbs { padding-top: 28px; }
   .crumbs a { color: var(--holo-dim); text-decoration: none; }
   .head { padding-block: 32px 28px; display: grid; gap: 12px; max-width: var(--measure); }
