@@ -1,0 +1,62 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { zoneById, type Lang } from '../data/zones';
+import { ui, paths, otherLang } from '../i18n/ui';
+
+interface Props { entry: CollectionEntry<'fichas'> }
+const { entry } = Astro.props;
+const lang = entry.data.lang as Lang;
+const t = ui[lang];
+const zone = zoneById(entry.data.zone)!;
+const kind = zone.topics.find((x) => x.key === entry.data.topic)?.kind;
+const { Content } = await render(entry);
+
+// Same topic in the other language, if it has been published; otherwise the zone page.
+const twin = (await getCollection('fichas')).find(
+  (f) => f.data.lang === otherLang(lang) && f.data.zone === entry.data.zone && f.data.topic === entry.data.topic,
+);
+const alt = twin ? paths.ficha(otherLang(lang), zone, twin.data.slug) : paths.zone(otherLang(lang), zone);
+const date = entry.data.updated.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Base lang={lang} title={`${entry.data.title} · ${t.brand}`} description={entry.data.summary} alt={alt}>
+  <article class="wrap">
+    <nav class="crumbs label" aria-label={lang === 'es' ? 'Ruta' : 'Breadcrumb'}>
+      <a href={paths.home(lang)}>{t.brand}</a> <span aria-hidden="true">/</span>
+      <a href={paths.zone(lang, zone)}>{zone.name[lang]}</a>
+      {kind && <><span aria-hidden="true">/</span> <span>{t.kinds[kind]}</span></>}
+    </nav>
+    <header class="head">
+      <h1>{entry.data.title}</h1>
+      <p class="lede">{entry.data.summary}</p>
+      <p class="meta label">
+        {t.written} {t.doctor} · {t.lastReview}: <time datetime={entry.data.updated.toISOString().slice(0, 10)}>{date}</time>
+      </p>
+    </header>
+    <div class="prose">
+      <Content />
+      {entry.data.references.length > 0 && (
+        <section class="refs">
+          <h2>{t.references}</h2>
+          <ol>
+            {entry.data.references.map((r) => (
+              <li>{r.url ? <a href={r.url} rel="noopener">{r.label}</a> : r.label}</li>
+            ))}
+          </ol>
+        </section>
+      )}
+      <blockquote>{t.disclaimerShort}</blockquote>
+      <p class="no-print"><a href={paths.zone(lang, zone)}>← {t.backTo(zone.name[lang])}</a></p>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .crumbs { padding-top: 28px; }
+  .crumbs a { color: var(--holo-dim); text-decoration: none; }
+  .head { padding-block: 32px 28px; display: grid; gap: 12px; max-width: var(--measure); }
+  .lede { margin: 0; font-size: 1.2rem; line-height: 1.55; }
+  .meta { color: var(--ink-soft); }
+  .refs ol { font-size: 0.92rem; color: var(--ink-soft); }
+</style>

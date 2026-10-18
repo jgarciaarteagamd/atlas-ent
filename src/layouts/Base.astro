@@ -1,0 +1,63 @@
+---
+import '@fontsource/oxanium/500.css';
+import '@fontsource/oxanium/700.css';
+import '@fontsource/instrument-sans/400.css';
+import '@fontsource/instrument-sans/500.css';
+import '@fontsource/instrument-sans/600.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { ui, otherLang } from '../i18n/ui';
+import type { Lang } from '../data/zones';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Path of the same page in the other language. */
+  alt: string;
+}
+
+const { lang, title, description, alt } = Astro.props;
+const t = ui[lang];
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const altUrl = new URL(alt, Astro.site);
+const ogLocale = lang === 'es' ? 'es_ES' : 'en_GB';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Dr. Juan García Arteaga" />
+    <meta name="theme-color" content="#03070c" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <link rel="alternate" hreflang={otherLang(lang)} href={altUrl} />
+    <link rel="alternate" hreflang="x-default" href={lang === 'es' ? canonical : altUrl} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t.brand} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={new URL('/og.jpg', Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#main">{t.skip}</a>
+    <Header lang={lang} alt={alt} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

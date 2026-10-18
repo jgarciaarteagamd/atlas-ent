@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import FichaPage from '../../../../components/FichaPage.astro';
+import { zoneById } from '../../../../data/zones';
+
+export async function getStaticPaths() {
+  const fichas = await getCollection('fichas', (f) => f.data.lang === 'en');
+  return fichas.map((entry) => ({
+    params: { area: zoneById(entry.data.zone)!.slug.en, entry: entry.data.slug },
+    props: { entry },
+  }));
+}
+const { entry } = Astro.props;
+---
+<FichaPage entry={entry} />

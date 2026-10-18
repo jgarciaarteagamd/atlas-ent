@@ -1,0 +1,31 @@
+---
+// Layout for the Markdown legal pages in src/pages/<lang>/.
+import Base from './Base.astro';
+import type { Lang } from '../data/zones';
+
+const { frontmatter } = Astro.props;
+const lang = frontmatter.lang as Lang;
+const updated = new Date(frontmatter.updated).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<Base lang={lang} title={frontmatter.title} description={frontmatter.description} alt={frontmatter.alt}>
+  <article class="wrap">
+    <header class="head">
+      <p class="label">{lang === 'es' ? 'Información legal' : 'Legal information'}</p>
+      <h1>{frontmatter.heading}</h1>
+      <p class="label">{lang === 'es' ? 'Última actualización' : 'Last updated'}: {updated}</p>
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .head { padding-block: 48px 28px; display: grid; gap: 12px; }
+  .head h1 { font-size: var(--step-3); }
+</style>

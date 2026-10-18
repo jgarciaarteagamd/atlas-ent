@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { KINDS, type Lang, type Zone } from '../data/zones';
+import { ui, paths, otherLang } from '../i18n/ui';
+
+interface Props { lang: Lang; zone: Zone }
+const { lang, zone } = Astro.props;
+const t = ui[lang];
+
+const fichas = await getCollection('fichas', (f) => f.data.lang === lang && f.data.zone === zone.id);
+const fichaFor = (key: string) => fichas.find((f) => f.data.topic === key);
+const published = fichas.length;
+---
+
+<Base
+  lang={lang}
+  title={`${zone.name[lang]} · ${t.brand}`}
+  description={zone.lede[lang]}
+  alt={paths.zone(otherLang(lang), zone)}
+>
+  <div class="wrap">
+    <nav class="crumbs label" aria-label={lang === 'es' ? 'Ruta' : 'Breadcrumb'}>
+      <a href={paths.home(lang)}>{t.brand}</a> <span aria-hidden="true">/</span> <span>{zone.name[lang]}</span>
+    </nav>
+    <header class="head">
+      <p class="label">{zone.sub[lang]}</p>
+      <h1>{zone.name[lang]}</h1>
+      <p class="lede">{zone.lede[lang]}</p>
+      {published === 0 && <p class="note">{t.zoneEmpty}</p>}
+    </header>
+
+    <div class="kinds">
+      {KINDS.map((k) => {
+        const items = zone.topics.filter((x) => x.kind === k);
+        if (!items.length) return null;
+        return (
+          <section class="kind" aria-labelledby={`k-${k}`}>
+            <h2 id={`k-${k}`} class="label">{t.kinds[k]}</h2>
+            <ul>
+              {items.map((item) => {
+                const f = fichaFor(item.key);
+                return (
+                  <li>
+                    {f ? (
+                      <a href={paths.ficha(lang, zone, f.data.slug)}>
+                        <span class="title">{f.data.title}</span>
+                        <span class="summary">{f.data.summary}</span>
+                      </a>
+                    ) : (
+                      <span class="pending">
+                        <span class="title">{item[lang]}</span>
+                        <span class="soon">{t.soon}</span>
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        );
+      })}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .crumbs { padding-top: 28px; }
+  .crumbs a { color: var(--holo-dim); text-decoration: none; }
+  .head { padding-block: 36px 40px; display: grid; gap: 12px; max-width: 760px; }
+  .lede { margin: 0; font-size: 1.2rem; line-height: 1.6; }
+  .note { margin: 6px 0 0; color: var(--ink-soft); font-size: 0.95rem; }
+  .kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px 40px; }
+  .kind h2 { color: var(--holo); padding-bottom: 10px; border-bottom: 1px solid var(--holo-line); margin-bottom: 4px; }
+  .kind ul { list-style: none; margin: 0; padding: 0; }
+  .kind li { border-bottom: 1px solid var(--holo-line); }
+  .kind a, .pending { display: grid; gap: 4px; padding: 12px 0; text-decoration: none; }
+  .kind a .title { color: var(--ink); font-weight: 600; }
+  .kind a:hover .title { color: var(--flare); }
+  .summary { color: var(--ink-soft); font-size: 0.92rem; }
+  .pending .title { color: var(--ink-soft); }
+  .soon {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(148, 182, 190, 0.7);
+  }
+</style>

@@ -1,0 +1,323 @@
+---
+// Landing hero: the projected head, the zone index and the detail panel.
+// Without JavaScript or WebGL the zone index still links to every zone page.
+import { zones, KINDS, type Lang } from '../data/zones';
+import { ui, paths } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+
+const data = {
+  t: {
+    close: t.close,
+    howTitle: t.howTitle,
+    howText: t.howText,
+    sevenZones: t.sevenZones,
+    kinds: t.kindsShort,
+    enter: zones.map((z) => t.enter(z.name[lang])),
+  },
+  kinds: KINDS.filter((k) => k !== 'cuidados'),
+  zones: zones.map((z) => ({
+    id: z.id,
+    name: z.name[lang],
+    sub: z.sub[lang],
+    lede: z.lede[lang],
+    url: paths.zone(lang, z),
+    hit: z.hit,
+    inner: z.inner,
+    topics: Object.fromEntries(KINDS.map((k) => [k, z.topics.filter((x) => x.kind === k).map((x) => x[lang])])),
+  })),
+};
+---
+
+<section class="stage" data-holo aria-label={t.howTitle}>
+  <div class="canvas" aria-hidden="true"></div>
+  <img class="fallback" src="/holo/fallback.webp" alt="" width="600" height="796" hidden />
+
+  <div class="hud">
+    <div class="status label">
+      <span><span class="dot"></span>{t.projecting}</span>
+      <span>{t.model} <b>{t.modelName}</b></span>
+    </div>
+
+    <nav class="index" aria-label={t.chooseZone}>
+      <p class="label">{t.chooseZone}</p>
+      <ul>
+        {zones.map((z) => (
+          <li>
+            <a href={paths.zone(lang, z)} data-zone={z.id}>
+              <span class="tick"></span>
+              <span class="name">{z.name[lang]}</span>
+              <span class="sub">{z.sub[lang]}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <aside class="panel cut" aria-live="polite">
+      <p class="label">{lang === 'es' ? 'Cómo funciona' : 'How it works'}</p>
+      <h2>{t.howTitle}</h2>
+      <p class="lede">{t.howText}</p>
+    </aside>
+
+    <p class="readout label" aria-hidden="true">rot x +00.0° · y +00.0° · scan 000</p>
+  </div>
+  <div class="tip" aria-hidden="true"></div>
+</section>
+
+<script type="application/json" id="holo-data" set:html={JSON.stringify(data)} />
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-holo]')!;
+  const data = JSON.parse(document.getElementById('holo-data')!.textContent!);
+  const panel = root.querySelector<HTMLElement>('.panel')!;
+  const tip = root.querySelector<HTMLElement>('.tip')!;
+  const readout = root.querySelector<HTMLElement>('.readout')!;
+  const links = [...root.querySelectorAll<HTMLAnchorElement>('.index a')];
+  const byId = Object.fromEntries(data.zones.map((z: any) => [z.id, z]));
+  const idle = panel.innerHTML;
+
+  let listHover: string | null = null;
+  let headHover: string | null = null;
+  let selected: string | null = null;
+  let holo: any = null;
+
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+
+  function render() {
+    const hovered = listHover || headHover;
+    holo?.setHover(hovered);
+    holo?.setSelected(selected);
+    for (const a of links) {
+      a.classList.toggle('is-hot', a.dataset.zone === hovered);
+      a.setAttribute('aria-current', String(a.dataset.zone === selected));
+    }
+  }
+
+  function renderPanel() {
+    const z = selected && byId[selected];
+    if (!z) { panel.innerHTML = idle; panel.classList.remove('is-zone'); return; }
+    const i = data.zones.indexOf(z);
+    const cols = data.kinds
+      .map((k: string) => z.topics[k].length
+        ? `<div><h3>${esc(data.t.kinds[k])}</h3><ul>${z.topics[k].map((x: string) => `<li class="chip">${esc(x)}</li>`).join('')}</ul></div>`
+        : '')
+      .join('');
+    panel.innerHTML = `<div class="head"><p class="label">${esc(z.sub)}</p><button type="button" class="close">${esc(data.t.close)}</button></div>
+      <h2>${esc(z.name)}</h2><p class="lede">${esc(z.lede)}</p><div class="cols">${cols}</div>
+      <a class="button" href="${z.url}">${esc(data.t.enter[i])} <span aria-hidden="true">→</span></a>`;
+    panel.classList.add('is-zone');
+    panel.querySelector('.close')!.addEventListener('click', () => select(null));
+  }
+
+  function select(id: string | null) {
+    selected = selected === id ? null : id;
+    render();
+    renderPanel();
+  }
+
+  for (const a of links) {
+    a.addEventListener('pointerenter', () => { listHover = a.dataset.zone!; render(); });
+    a.addEventListener('pointerleave', () => { listHover = null; render(); });
+    a.addEventListener('focus', () => { listHover = a.dataset.zone!; render(); });
+    a.addEventListener('blur', () => { listHover = null; render(); });
+    a.addEventListener('click', (e) => {
+      // First click shows the summary on the hologram; a click on the
+      // already selected zone follows the link to its page.
+      if (selected !== a.dataset.zone) { e.preventDefault(); select(a.dataset.zone!); }
+    });
+  }
+
+  function showFallback() {
+    root.classList.add('no-webgl');
+    root.querySelector<HTMLImageElement>('.fallback')!.hidden = false;
+  }
+
+  const canvasHost = root.querySelector<HTMLElement>('.canvas')!;
+  const deg = (v: number) => (v >= 0 ? '+' : '−') + Math.abs(v * 57.2958).toFixed(1).padStart(4, '0') + '°';
+
+  import('../scripts/holo.js')
+    .then(({ createHologram }) => createHologram({
+      host: canvasHost,
+      zones: data.zones,
+      headUrl: '/holo/head.bin',
+      onHover(id: string | null, p: { cx: number; cy: number }) {
+        if (id !== headHover) { headHover = id; render(); }
+        if (id) {
+          tip.textContent = byId[id].name;
+          tip.style.left = `${p.cx}px`;
+          tip.style.top = `${p.cy}px`;
+          tip.classList.add('on');
+        } else tip.classList.remove('on');
+      },
+      onSelect: (id: string) => select(id),
+    }))
+    .then((h) => {
+      holo = h;
+      root.classList.add('is-live');
+      render();
+      setInterval(() => {
+        const r = holo.rotation;
+        readout.textContent = `rot x ${deg(r.x)} · y ${deg(r.y)} · scan ${String(Math.floor((r.t * 45) % 1000)).padStart(3, '0')}`;
+      }, 120);
+    })
+    .catch(showFallback);
+</script>
+
+<style>
+  .stage {
+    position: relative;
+    height: min(calc(100svh - 64px), 900px);
+    min-height: 620px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--holo-line);
+  }
+  .stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(116, 241, 255, 0.025) 0 1px, transparent 1px 3px);
+  }
+  .canvas { position: absolute; inset: 0; }
+  .canvas :global(canvas) { display: block; width: 100%; height: 100%; }
+  .fallback {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 92%;
+    width: auto;
+    opacity: 0.9;
+  }
+
+  .hud {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter-r);
+    padding-block: 20px;
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) 1fr minmax(300px, 380px);
+    grid-template-rows: auto 1fr auto;
+    gap: 12px 24px;
+    pointer-events: none;
+  }
+  .hud > * { pointer-events: auto; }
+  .status { grid-column: 1 / -1; display: flex; gap: 18px; flex-wrap: wrap; justify-content: flex-end; }
+  .status b { color: var(--holo); font-weight: 500; }
+  .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--holo);
+    margin-right: 6px;
+    box-shadow: 0 0 8px var(--holo);
+    animation: blink 2.4s infinite;
+  }
+  @keyframes blink { 50% { opacity: 0.25; } }
+
+  .index { grid-column: 1; grid-row: 2; align-self: center; }
+  .index .label { margin-bottom: 10px; }
+  .index ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .index a {
+    display: grid;
+    grid-template-columns: 10px 1fr;
+    gap: 2px 12px;
+    align-items: center;
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 160ms, background 160ms;
+  }
+  .tick { width: 10px; height: 1px; background: var(--holo-dim); }
+  .name { font-family: var(--display); font-weight: 500; font-size: 1.05rem; letter-spacing: 0.04em; }
+  .sub { grid-column: 2; font-size: 0.8rem; color: var(--ink-soft); }
+  .index a:hover, .index a:global(.is-hot) { border-color: var(--holo-line); background: rgba(116, 241, 255, 0.05); }
+  .index a:global(.is-hot) .tick { background: var(--holo); }
+  .index a[aria-current='true'] { border-color: rgba(255, 196, 107, 0.45); background: rgba(255, 196, 107, 0.06); }
+  .index a[aria-current='true'] .tick { background: var(--flare); box-shadow: 0 0 6px var(--flare); }
+  .index a[aria-current='true'] .name { color: var(--flare); }
+
+  .panel {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: center;
+    min-width: 0;
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 20px;
+    border: 1px solid var(--holo-line);
+    background: linear-gradient(180deg, rgba(7, 16, 25, 0.86), rgba(3, 7, 12, 0.76));
+    backdrop-filter: blur(6px);
+  }
+  .panel h2 { font-size: 1.55rem; font-weight: 700; margin: 6px 0 8px; color: var(--holo); }
+  .panel:global(.is-zone) h2 { color: var(--flare); }
+  .panel :global(.lede) { margin: 0 0 16px; line-height: 1.55; }
+  .panel :global(.head) { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+  .panel :global(.close) {
+    background: none;
+    border: 1px solid var(--holo-line);
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  .panel :global(.cols) { display: grid; gap: 14px; margin-bottom: 18px; }
+  .panel :global(h3) {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--holo);
+    margin: 0 0 6px;
+  }
+  .panel :global(ul) { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .readout { grid-column: 1 / -1; grid-row: 3; text-align: right; font-variant-numeric: tabular-nums; }
+
+  .tip {
+    position: fixed;
+    z-index: 30;
+    pointer-events: none;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--void);
+    background: var(--holo);
+    padding: 3px 8px;
+    transform: translate(14px, -50%);
+    opacity: 0;
+    transition: opacity 120ms;
+    white-space: nowrap;
+  }
+  .tip:global(.on) { opacity: 1; }
+
+  @media (max-width: 960px) {
+    .stage { height: auto; min-height: 0; overflow: visible; }
+    .stage::after { display: none; }
+    .canvas { position: relative; height: 56svh; min-height: 360px; }
+    .fallback { position: relative; left: auto; top: auto; transform: none; display: block; margin: 0 auto; height: 52svh; }
+    .hud { grid-template-columns: 1fr; grid-template-rows: none; height: auto; padding-top: 0; }
+    .status { display: none; }
+    .index, .panel, .readout { grid-column: 1; grid-row: auto; }
+    .index ul { flex-direction: row; flex-wrap: wrap; }
+    .index li { flex: 1 1 150px; }
+    .index a { border-color: var(--holo-line); }
+    .index .sub { display: none; }
+    .readout { display: none; }
+    .panel { max-height: none; }
+  }
+</style>

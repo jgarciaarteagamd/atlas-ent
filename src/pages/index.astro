@@ -1,0 +1,20 @@
+---
+// Netlify redirects "/" by browser language (see netlify.toml). This page is
+// the fallback for other hosts and for previews.
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Atlas ORL · Atlas ENT</title>
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content="0; url=/es/" />
+    <link rel="canonical" href="https://jgarciaarteaga.pro/es/" />
+    <script is:inline>
+      location.replace((navigator.language || '').toLowerCase().startsWith('es') ? '/es/' : (navigator.language || '').toLowerCase().startsWith('en') ? '/en/' : '/es/');
+    </script>
+  </head>
+  <body style="background:#03070c;color:#e2f5f8;font-family:system-ui">
+    <p><a href="/es/" style="color:#74f1ff">Español</a> · <a href="/en/" style="color:#74f1ff">English</a></p>
+  </body>
+</html>

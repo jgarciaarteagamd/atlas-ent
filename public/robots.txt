@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jgarciaarteaga.pro/sitemap-index.xml

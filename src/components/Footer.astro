@@ -1,0 +1,43 @@
+---
+import { ui, paths, BIO_URL } from '../i18n/ui';
+import type { Lang } from '../data/zones';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+const year = new Date().getFullYear();
+---
+
+<footer class="site">
+  <div class="wrap grid">
+    <p class="warn">{t.disclaimerShort}</p>
+    <nav aria-label={lang === 'es' ? 'Legal' : 'Legal'}>
+      <a href={paths.legal(lang)}>{t.legalNotice}</a>
+      <a href={paths.privacy(lang)}>{t.privacy}</a>
+      <a href={paths.cookies(lang)}>{t.cookies}</a>
+      <a href={BIO_URL}>{t.navAbout}</a>
+    </nav>
+    <p class="copy">© {year} {t.doctor} · {t.brand}</p>
+  </div>
+</footer>
+
+<style>
+  footer.site {
+    margin-top: 96px;
+    border-top: 1px solid var(--holo-line);
+    padding-block: 28px 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .grid { display: grid; gap: 14px; }
+  .warn { margin: 0; max-width: 70ch; color: var(--ink); }
+  nav { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+  nav a {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .copy { margin: 0; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; }
+</style>

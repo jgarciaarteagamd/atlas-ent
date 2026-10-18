@@ -1,0 +1,145 @@
+/* Atlas: a single dark "projection room" look shared with the Bio.
+   Cyan is the hologram light, amber marks what the visitor has selected. */
+:root {
+  --void: #03070c;
+  --void-2: #071019;
+  --panel: rgba(7, 16, 25, 0.82);
+  --holo: #74f1ff;
+  --holo-dim: rgba(116, 241, 255, 0.6);
+  --holo-line: rgba(116, 241, 255, 0.16);
+  --flare: #ffc46b;
+  --ink: #e2f5f8;
+  --ink-soft: #94b6be;
+
+  --display: 'Oxanium', 'Eurostile', 'Segoe UI', system-ui, sans-serif;
+  --body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.1875rem;
+  --step-2: 1.5rem;
+  --step-3: clamp(1.75rem, 3.2vw, 2.4rem);
+  --step-4: clamp(2.1rem, 5vw, 3.4rem);
+
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  --measure: 68ch;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--void);
+  background-image: radial-gradient(120% 70% at 50% 0%, var(--void-2) 0%, var(--void) 70%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+}
+
+a { color: var(--holo); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--flare); }
+:focus-visible { outline: 1px solid var(--flare); outline-offset: 3px; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: 0.02em; }
+h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: 0.02em; }
+h3 { font-size: var(--step-1); font-weight: 500; }
+
+.wrap {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter-r);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--holo-dim);
+  margin: 0;
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 8px;
+  z-index: 50;
+  background: var(--flare);
+  color: var(--void);
+  padding: 6px 12px;
+}
+.skip:focus { left: 16px; }
+
+.cut {
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: var(--void);
+  background: var(--holo);
+  border: 0;
+  padding: 11px 18px;
+  text-decoration: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+.button:hover { background: var(--flare); color: var(--void); }
+
+.chip {
+  display: inline-block;
+  font-size: var(--step--1);
+  padding: 4px 9px;
+  border: 1px solid var(--holo-line);
+  border-radius: 2px;
+  color: var(--ink);
+}
+
+/* Long-form reading (fichas and legal pages) */
+.prose { max-width: var(--measure); font-size: 1.0625rem; line-height: 1.7; }
+.prose h2 { font-size: var(--step-2); margin: 2.2em 0 0.6em; color: var(--holo); }
+.prose h3 { margin: 1.8em 0 0.5em; }
+.prose p, .prose ul, .prose ol { margin: 0 0 1em; }
+.prose li { margin-bottom: 0.35em; }
+.prose strong { color: #fff; font-weight: 600; }
+.prose table { border-collapse: collapse; width: 100%; font-size: 0.95rem; margin: 0 0 1.4em; }
+.prose th { font-family: var(--mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--holo-dim); }
+.prose th, .prose td { border: 1px solid var(--holo-line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.prose blockquote {
+  margin: 1.4em 0;
+  padding: 12px 16px;
+  border-left: 2px solid var(--flare);
+  background: rgba(255, 196, 107, 0.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  header.site, footer.site, .no-print { display: none !important; }
+  a { color: #000; }
+  .prose h2 { color: #000; }
+}

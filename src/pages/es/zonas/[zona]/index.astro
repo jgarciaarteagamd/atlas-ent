@@ -1,0 +1,10 @@
+---
+import ZonePage from '../../../../components/ZonePage.astro';
+import { zones } from '../../../../data/zones';
+
+export function getStaticPaths() {
+  return zones.map((zone) => ({ params: { zona: zone.slug.es }, props: { zone } }));
+}
+const { zone } = Astro.props;
+---
+<ZonePage lang="es" zone={zone} />

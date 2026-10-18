@@ -1,0 +1,97 @@
+---
+import { ui, paths, BIO_URL } from '../i18n/ui';
+import type { Lang } from '../data/zones';
+
+interface Props { lang: Lang; alt: string }
+const { lang, alt } = Astro.props;
+const t = ui[lang];
+---
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href={paths.home(lang)} aria-label={`${t.brand} · ${t.doctor}`}>
+      <span class="mark" aria-hidden="true"></span>
+      <span class="name">{t.brand}</span>
+      <span class="who">{t.doctor} · {t.specialty}</span>
+    </a>
+    <nav aria-label={lang === 'es' ? 'Principal' : 'Main'}>
+      <a href={`${paths.home(lang)}#zonas`}>{t.navZones}</a>
+      <a href={BIO_URL} rel="author">{t.navAbout}</a>
+      <a class="lang" href={alt} hreflang={lang === 'es' ? 'en' : 'es'} lang={lang === 'es' ? 'en' : 'es'}>
+        <span aria-hidden="true">{t.langShort}</span><span class="sr">{t.langName}</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  header.site {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 20;
+    background: rgba(3, 7, 12, 0.78);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--holo-line);
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding-block: 12px;
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    text-decoration: none;
+    color: var(--ink);
+    min-width: 0;
+  }
+  .mark {
+    align-self: center;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--holo);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(116, 241, 255, 0.5), inset 0 0 6px rgba(116, 241, 255, 0.6);
+  }
+  .name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--holo);
+    text-shadow: 0 0 16px rgba(116, 241, 255, 0.4);
+  }
+  .who { color: var(--ink-soft); font-size: 0.9rem; }
+  nav { display: flex; gap: 6px 20px; flex-wrap: wrap; align-items: center; }
+  nav a {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  nav a:hover { color: var(--flare); }
+  .lang {
+    border: 1px solid var(--holo-line);
+    padding: 3px 8px;
+    color: var(--holo) !important;
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .who { display: none; }
+  }
+</style>
