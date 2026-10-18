@@ -17,7 +17,7 @@ En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad 
 | **Titular** | Juan Pablo García Arteaga (nombre profesional: Dr. Juan García Arteaga) |
 | **NIE** | Z0868950S |
 | **Domicilio profesional** | C/ Punta Umbría, 8, 21002 Huelva (España) |
-| **Correo electrónico** | jgarciaarteaga.md@gmail.com |
+| **Correo electrónico** | jgarciaarteaga.pro@gmail.com |
 | **Profesión** | Médico especialista en Otorrinolaringología (profesión sanitaria regulada) |
 | **Colegio profesional** | Ilustre Colegio de Médicos de Huelva |
 | **Número de colegiado** | 212105263 |

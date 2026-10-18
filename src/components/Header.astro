@@ -1,5 +1,5 @@
 ---
-import { ui, paths, BIO_URL } from '../i18n/ui';
+import { ui, paths, bioUrl } from '../i18n/ui';
 import type { Lang } from '../data/zones';
 
 interface Props { lang: Lang; alt: string }
@@ -16,7 +16,7 @@ const t = ui[lang];
     </a>
     <nav aria-label={lang === 'es' ? 'Principal' : 'Main'}>
       <a href={`${paths.home(lang)}#zonas`}>{t.navZones}</a>
-      <a href={BIO_URL} rel="author">{t.navAbout}</a>
+      <a href={bioUrl(lang)} rel="author">{t.navAbout}</a>
       <a class="lang" href={alt} hreflang={lang === 'es' ? 'en' : 'es'} lang={lang === 'es' ? 'en' : 'es'}>
         <span aria-hidden="true">{t.langShort}</span><span class="sr">{t.langName}</span>
       </a>

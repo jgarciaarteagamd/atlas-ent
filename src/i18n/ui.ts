@@ -1,7 +1,9 @@
 import type { Kind, Lang, Zone } from '../data/zones';
 
 export const BIO_URL = 'https://bio.jgarciaarteaga.pro/';
-export const CONTACT_EMAIL = 'jgarciaarteaga.md@gmail.com';
+/** The Bio opens in Spanish unless the visitor comes from the English site. */
+export const bioUrl = (lang: 'es' | 'en') => (lang === 'en' ? `${BIO_URL}?lang=en` : BIO_URL);
+export const CONTACT_EMAIL = 'jgarciaarteaga.pro@gmail.com';
 
 export const ui = {
   es: {

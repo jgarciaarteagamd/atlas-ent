@@ -19,7 +19,7 @@ In accordance with Article 10 of Spanish Law 34/2002 on Information Society Serv
 | **Owner** | Juan Pablo García Arteaga (professional name: Dr. Juan García Arteaga) |
 | **Tax ID (NIE)** | Z0868950S |
 | **Professional address** | C/ Punta Umbría, 8, 21002 Huelva (Spain) |
-| **Email** | jgarciaarteaga.md@gmail.com |
+| **Email** | jgarciaarteaga.pro@gmail.com |
 | **Profession** | Medical doctor, specialist in Otorhinolaryngology (ENT), a regulated health profession |
 | **Professional body** | Ilustre Colegio de Médicos de Huelva (Huelva Medical Association) |
 | **Registration number** | 212105263 |

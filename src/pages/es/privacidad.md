@@ -16,7 +16,7 @@ updated: 2026-10-18
 
 ## Responsable del tratamiento
 
-Juan Pablo García Arteaga (Dr. Juan García Arteaga), NIE Z0868950S, C/ Punta Umbría, 8, 21002 Huelva (España). Correo: jgarciaarteaga.md@gmail.com.
+Juan Pablo García Arteaga (Dr. Juan García Arteaga), NIE Z0868950S, C/ Punta Umbría, 8, 21002 Huelva (España). Correo: jgarciaarteaga.pro@gmail.com.
 
 ## Qué datos se tratan y para qué
 
@@ -42,7 +42,7 @@ No se ceden datos a terceros salvo obligación legal. No se toman decisiones aut
 
 ## Tus derechos
 
-Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad escribiendo a jgarciaarteaga.md@gmail.com. Si consideras que tus datos no se han tratado correctamente, puedes presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es).
+Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad escribiendo a jgarciaarteaga.pro@gmail.com. Si consideras que tus datos no se han tratado correctamente, puedes presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es).
 
 ## Cambios en esta política
 

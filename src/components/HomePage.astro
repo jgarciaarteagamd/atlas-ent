@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import HoloHead from './HoloHead.astro';
 import { zones, type Lang } from '../data/zones';
-import { ui, paths, otherLang, BIO_URL } from '../i18n/ui';
+import { ui, paths, otherLang, bioUrl } from '../i18n/ui';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -41,7 +41,7 @@ const t = ui[lang];
       <p class="label">{t.aboutTitle}</p>
       <h2>{t.doctor}</h2>
       <p>{t.aboutText}</p>
-      <a class="button" href={BIO_URL} rel="author">{t.aboutCta} <span aria-hidden="true">→</span></a>
+      <a class="button" href={bioUrl(lang)} rel="author">{t.aboutCta} <span aria-hidden="true">→</span></a>
     </div>
   </section>
 </Base>
