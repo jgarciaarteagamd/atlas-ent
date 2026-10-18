@@ -14,10 +14,15 @@ const text = lang === 'es'
       replay: 'Volver a empezar',
       vertigo: 'Señal falsa de giro: vértigo',
       gravity: 'gravedad',
-      back: 'Inclinar la cabeza hacia atrás',
-      forward: 'Inclinar la cabeza hacia delante',
-      free: 'Modo libre: mantén pulsadas las flechas (o usa ← →) para inclinar la cabeza y observa cómo caen los cristales y se dobla la cúpula. «Volver a empezar» retoma la explicación.',
+      arrows: {
+        up: 'Tumbar la cabeza hacia atrás',
+        down: 'Incorporar la cabeza hacia delante',
+        left: 'Girar la cabeza a la izquierda',
+        right: 'Girar la cabeza a la derecha',
+      },
+      free: 'Modo libre: mantén pulsadas las flechas (o usa las del teclado). ↑ ↓ tumban o incorporan la cabeza; ← → la giran a la izquierda o a la derecha. Prueba la maniobra de Epley para este oído izquierdo, esperando unos segundos en cada postura: ← gira 45°, ↑ túmbate hasta unos 110° (la cabeza algo colgando), → gira 90°, → gira otros 90° hasta mirar al suelo y ↓ siéntate. «Volver a empezar» retoma la explicación.',
       hint: 'Prueba a mover la cabeza',
+      readout: { back: 'atrás', forward: 'adelante', left: 'izq.', right: 'der.', home: 'Cristales en el utrículo' },
       labels: { utricle: 'Utrículo', canal: 'Conducto posterior', cupula: 'Cúpula', cochlea: 'Cóclea' },
       captions: [
         'En el utrículo, unos cristales de calcio (otoconias) están pegados a una membrana. Ahí no causan síntomas.',
@@ -28,7 +33,7 @@ const text = lang === 'es'
         'La maniobra de Epley encadena varias posturas para que los cristales recorran el conducto hasta su salida.',
         'Los cristales vuelven al utrículo, donde ya no molestan.',
       ],
-      note: 'Esquema simplificado del oído interno derecho, visto desde un lado.',
+      note: 'Esquema simplificado del oído interno izquierdo, visto desde el lado izquierdo.',
     }
   : {
       open: 'Watch the animation: how the crystals move',
@@ -37,10 +42,15 @@ const text = lang === 'es'
       replay: 'Start again',
       vertigo: 'False spinning signal: vertigo',
       gravity: 'gravity',
-      back: 'Tip the head back',
-      forward: 'Tip the head forward',
-      free: 'Free mode: hold the arrows (or use ← →) to tip the head and watch the crystals fall and the cupula bend. “Start again” resumes the explanation.',
+      arrows: {
+        up: 'Lay the head back',
+        down: 'Bring the head forward',
+        left: 'Turn the head left',
+        right: 'Turn the head right',
+      },
+      free: 'Free mode: hold the arrows (or use the arrow keys). ↑ ↓ lay the head back or bring it up; ← → turn it left or right. Try the Epley manoeuvre for this left ear, waiting a few seconds in each position: ← turn 45°, ↑ lie back to about 110° (head slightly hanging), → turn 90°, → turn another 90° until facing the floor, then ↓ sit up. “Start again” resumes the explanation.',
       hint: 'Try moving the head',
+      readout: { back: 'back', forward: 'forward', left: 'left', right: 'right', home: 'Crystals in the utricle' },
       labels: { utricle: 'Utricle', canal: 'Posterior canal', cupula: 'Cupula', cochlea: 'Cochlea' },
       captions: [
         'In the utricle, calcium crystals (otoconia) are attached to a membrane. There they cause no symptoms.',
@@ -51,7 +61,7 @@ const text = lang === 'es'
         'The Epley manoeuvre links several positions so that the crystals travel along the canal to its exit.',
         'The crystals are back in the utricle, where they no longer cause trouble.',
       ],
-      note: 'Simplified diagram of the right inner ear, seen from the side.',
+      note: 'Simplified diagram of the left inner ear, seen from the left side.',
     };
 ---
 
@@ -76,12 +86,15 @@ const text = lang === 'es'
         <span class="oto-label" data-k="cochlea">{text.labels.cochlea}</span>
         <div class="oto-vertigo" aria-hidden="true">{text.vertigo}</div>
         <div class="oto-posture">
-          <div class="oto-inset" aria-hidden="true"></div>
-          <div class="oto-arrows">
-            <button type="button" class="oto-arrow" data-dir="1" aria-label={text.back} title={text.back}>↶</button>
-            <span class="oto-hint">{text.hint}</span>
-            <button type="button" class="oto-arrow" data-dir="-1" aria-label={text.forward} title={text.forward}>↷</button>
+          <div class="oto-pad">
+            <div class="oto-inset" aria-hidden="true"></div>
+            <button type="button" class="oto-arrow" data-k="up" data-axis="pitch" data-dir="1" aria-label={text.arrows.up} title={text.arrows.up}>↑</button>
+            <button type="button" class="oto-arrow" data-k="left" data-axis="turn" data-dir="1" aria-label={text.arrows.left} title={text.arrows.left}>←</button>
+            <button type="button" class="oto-arrow" data-k="right" data-axis="turn" data-dir="-1" aria-label={text.arrows.right} title={text.arrows.right}>→</button>
+            <button type="button" class="oto-arrow" data-k="down" data-axis="pitch" data-dir="-1" aria-label={text.arrows.down} title={text.arrows.down}>↓</button>
           </div>
+          <span class="oto-hint">{text.hint}</span>
+          <span class="oto-readout" aria-live="off" hidden></span>
           <span class="oto-gravity" aria-hidden="true">↓ {text.gravity}</span>
         </div>
       </div>
@@ -94,7 +107,7 @@ const text = lang === 'es'
       </footer>
     </div>
   </dialog>
-  <script type="application/json" class="oto-data" set:html={JSON.stringify({ captions: text.captions })} />
+  <script type="application/json" class="oto-data" set:html={JSON.stringify({ captions: text.captions, readout: text.readout })} />
 </div>
 
 <script>
@@ -109,7 +122,10 @@ const text = lang === 'es'
     const inset = root.querySelector<HTMLElement>('.oto-inset')!;
     const freeNote = root.querySelector<HTMLElement>('.oto-free')!;
     const stepList = root.querySelector<HTMLElement>('.oto-steps')!;
-    const { captions } = JSON.parse(root.querySelector('.oto-data')!.textContent!);
+    const hint = root.querySelector<HTMLElement>('.oto-hint')!;
+    const readout = root.querySelector<HTMLElement>('.oto-readout')!;
+    const { captions, readout: words } = JSON.parse(root.querySelector('.oto-data')!.textContent!);
+    let manual = false, shown = '';
     let anim: any = null;
 
     root.querySelector('.oto-open')!.addEventListener('click', async () => {
@@ -127,7 +143,10 @@ const text = lang === 'es'
               steps[i]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
             },
             onManual(on: boolean) {
+              manual = on;
               freeNote.hidden = !on;
+              readout.hidden = !on;
+              hint.hidden = on;
               stepList.classList.toggle('dim', on);
               if (on) steps.forEach((li) => li.classList.remove('on'));
             },
@@ -137,6 +156,13 @@ const text = lang === 'es'
                 labelEls[k].style.top = `${p.y}%`;
               }
               vertigo.classList.toggle('on', spinning);
+              if (manual && anim) {
+                // live angles and how many crystals are back home
+                const s = anim.state();
+                const p = Math.round(s.pitch), r = Math.round(s.turn);
+                const line = `↕ ${Math.abs(p)}° ${p < 0 ? words.forward : words.back} · ↔ ${Math.abs(r)}° ${r < 0 ? words.right : words.left} · ${words.home}: ${s.settled}/${s.total}`;
+                if (line !== shown) readout.textContent = shown = line;
+              }
             },
           });
         } catch (err) {
@@ -149,21 +175,24 @@ const text = lang === 'es'
       anim.play();
     });
     root.querySelector('.oto-replay')!.addEventListener('click', () => anim?.restart());
-    // hold an arrow to keep tilting
+    // hold an arrow to keep moving the head
     for (const btn of root.querySelectorAll<HTMLButtonElement>('.oto-arrow')) {
-      const dir = Number(btn.dataset.dir);
-      const stop = () => anim?.tilt(0);
-      btn.addEventListener('pointerdown', (e) => { e.preventDefault(); btn.setPointerCapture(e.pointerId); anim?.tilt(dir); });
+      const axis = btn.dataset.axis!, dir = Number(btn.dataset.dir);
+      const stop = () => anim?.move(axis, 0);
+      btn.addEventListener('pointerdown', (e) => { e.preventDefault(); btn.setPointerCapture(e.pointerId); anim?.move(axis, dir); });
       btn.addEventListener('pointerup', stop);
       btn.addEventListener('pointercancel', stop);
-      btn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); anim?.tilt(dir); } });
+      btn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); anim?.move(axis, dir); } });
       btn.addEventListener('keyup', stop);
     }
+    const keys: Record<string, [string, number]> = {
+      ArrowUp: ['pitch', 1], ArrowDown: ['pitch', -1], ArrowLeft: ['turn', 1], ArrowRight: ['turn', -1],
+    };
     dialog.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') { e.preventDefault(); anim?.tilt(1); }
-      if (e.key === 'ArrowRight') { e.preventDefault(); anim?.tilt(-1); }
+      const k = keys[e.key];
+      if (k) { e.preventDefault(); anim?.move(k[0], k[1]); }
     });
-    dialog.addEventListener('keyup', (e) => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') anim?.tilt(0); });
+    dialog.addEventListener('keyup', (e) => { const k = keys[e.key]; if (k) anim?.move(k[0], 0); });
     root.querySelector('.oto-close')!.addEventListener('click', () => dialog.close());
     dialog.addEventListener('close', () => anim?.pause());
     dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
@@ -252,6 +281,19 @@ const text = lang === 'es'
     justify-items: center;
     gap: 6px;
   }
+  .oto-pad {
+    display: grid;
+    grid-template-columns: 38px 150px 38px;
+    grid-template-rows: 38px 150px 38px;
+    grid-template-areas: '. up .' 'left head right' '. down .';
+    gap: 2px;
+    place-items: center;
+  }
+  .oto-pad .oto-inset { grid-area: head; }
+  .oto-arrow[data-k='up'] { grid-area: up; }
+  .oto-arrow[data-k='down'] { grid-area: down; }
+  .oto-arrow[data-k='left'] { grid-area: left; }
+  .oto-arrow[data-k='right'] { grid-area: right; }
   .oto-inset {
     width: 150px;
     height: 150px;
@@ -259,7 +301,6 @@ const text = lang === 'es'
     border-radius: 50%;
     background: radial-gradient(circle, rgba(116, 241, 255, 0.07), rgba(3, 7, 12, 0.6) 70%);
   }
-  .oto-arrows { display: flex; align-items: center; gap: 8px; }
   .oto-arrow {
     width: 38px;
     height: 38px;
@@ -274,7 +315,8 @@ const text = lang === 'es'
     user-select: none;
   }
   .oto-arrow:hover, .oto-arrow:active { border-color: var(--flare); color: var(--flare); }
-  .oto-hint { font-family: var(--label); font-size: 0.68rem; letter-spacing: 0.04em; color: var(--ink-soft); max-width: 70px; text-align: center; line-height: 1.2; }
+  .oto-hint { font-family: var(--label); font-size: 0.68rem; letter-spacing: 0.04em; color: var(--ink-soft); text-align: center; line-height: 1.2; }
+  .oto-readout { font-family: var(--label); font-size: 0.7rem; color: var(--flare); text-align: center; line-height: 1.3; max-width: 240px; font-variant-numeric: tabular-nums; }
   .oto-gravity { font-family: var(--label); font-size: 0.64rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
   .oto-free { margin: 0 0 8px; color: var(--flare); font-size: 0.92rem; }
   .oto-steps:global(.dim) { opacity: 0.45; }
@@ -286,8 +328,11 @@ const text = lang === 'es'
   .oto-note { margin: 8px 0 0; font-family: var(--label); font-size: 0.68rem; color: var(--ink-soft); }
   @media (max-width: 640px) {
     .oto-frame { height: calc(100dvh - 26px); }
-    .oto-inset { width: 110px; height: 110px; }
+    .oto-pad { grid-template-columns: 34px 100px 34px; grid-template-rows: 34px 100px 34px; }
+    .oto-inset { width: 100px; height: 100px; }
+    .oto-arrow { width: 34px; height: 34px; font-size: 1.1rem; }
     .oto-hint { display: none; }
+    .oto-readout { font-size: 0.62rem; max-width: 172px; }
     .oto-label { font-size: 0.6rem; }
     .oto-steps { font-size: 0.85rem; }
   }
