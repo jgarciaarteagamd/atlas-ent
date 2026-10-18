@@ -1,9 +1,9 @@
 ---
 layout: ../../layouts/Legal.astro
 lang: en
-title: Privacy policy · Atlas ENT
+title: Privacy policy · Juan Garcia Arteaga, ENT
 heading: Privacy policy
-description: How Atlas ENT handles personal data. The site has no forms, needs no sign-up and uses no cookies.
+description: How this website handles personal data. The site has no forms, needs no sign-up and uses no cookies.
 alt: /es/privacidad/
 updated: 2026-10-18
 ---

@@ -1,9 +1,9 @@
 ---
 layout: ../../layouts/Legal.astro
 lang: es
-title: Aviso legal · Atlas ORL
+title: Aviso legal · Juan García Arteaga, ORL
 heading: Aviso legal y aviso médico
-description: Datos del titular, condiciones de uso y aviso médico de Atlas ORL, el sitio de información para pacientes del Dr. Juan García Arteaga.
+description: Datos del titular, condiciones de uso y aviso médico de jgarciaarteaga.pro, el sitio de información para pacientes del Dr. Juan García Arteaga.
 alt: /en/legal-notice/
 updated: 2026-10-18
 ---
@@ -28,7 +28,7 @@ Este sitio web es un proyecto personal de divulgación sanitaria del Dr. García
 
 ## 2. Aviso médico
 
-La información de Atlas ORL es **divulgativa y general**. Está pensada para ayudar a pacientes y familias a entender las enfermedades, pruebas y tratamientos de la otorrinolaringología.
+La información de este sitio web es **divulgativa y general**. Está pensada para ayudar a pacientes y familias a entender las enfermedades, pruebas y tratamientos de la otorrinolaringología.
 
 - **No sustituye a la consulta médica.** Cada persona es distinta y solo un profesional que te examine puede hacer un diagnóstico y recomendarte un tratamiento.
 - **No es un servicio de consulta en línea.** Leer este sitio o escribir al correo de contacto no crea una relación médico-paciente. No se responden consultas sobre casos personales por esta vía.

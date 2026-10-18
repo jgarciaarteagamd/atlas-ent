@@ -1,9 +1,9 @@
 ---
 layout: ../../layouts/Legal.astro
 lang: es
-title: Política de privacidad · Atlas ORL
+title: Política de privacidad · Juan García Arteaga, ORL
 heading: Política de privacidad
-description: Cómo trata Atlas ORL los datos personales. El sitio no tiene formularios, no requiere registro y no usa cookies.
+description: Cómo trata este sitio web los datos personales. El sitio no tiene formularios, no requiere registro y no usa cookies.
 alt: /en/privacy/
 updated: 2026-10-18
 ---

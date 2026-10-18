@@ -1,4 +1,4 @@
-# Atlas ORL / Atlas ENT — jgarciaarteaga.pro
+# Juan García Arteaga, ORL — patient site at jgarciaarteaga.pro
 [build]
   command = "npm run build"
   publish = "dist"

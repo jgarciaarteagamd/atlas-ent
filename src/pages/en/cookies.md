@@ -1,9 +1,9 @@
 ---
 layout: ../../layouts/Legal.astro
 lang: en
-title: Cookie policy · Atlas ENT
+title: Cookie policy · Juan Garcia Arteaga, ENT
 heading: Cookie policy
-description: Atlas ENT does not use any cookies.
+description: This website does not use any cookies.
 alt: /es/cookies/
 updated: 2026-10-18
 ---
@@ -12,7 +12,7 @@ This is an English translation provided for convenience. If there is any discrep
 
 ## This site uses no cookies
 
-Atlas ENT **does not use cookies**, its own or third-party, or other tracking technologies such as pixels, local storage for analytics or browser fingerprinting.
+This website **does not use cookies**, its own or third-party, or other tracking technologies such as pixels, local storage for analytics or browser fingerprinting.
 
 It also does not load resources from external services (fonts, videos, maps or social networks) that could place cookies in your browser. That is why no cookie banner is shown.
 
