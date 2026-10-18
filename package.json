@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "bake": "node scripts/bake-head.mjs assets/head.glb src/assets/head.bin"
+    "bake": "node scripts/bake-head.mjs assets/head.glb src/assets/head.bin && node scripts/bake-anatomy.mjs src/assets/anatomy.bin"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

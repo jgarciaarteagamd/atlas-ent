@@ -61,88 +61,46 @@ async function loadHead(url) {
   return { seg, segN, segKind, segF, pts, ptsN, ptsF };
 }
 
-// ---------- inner anatomy (stylised, in the mesh frame) ----------
-function ring(out, cx, cy, cz, rx, rz, n = 40, plane = 'xz') {
-  for (let i = 0; i < n; i++) {
-    for (const t of [(i / n) * Math.PI * 2, ((i + 1) / n) * Math.PI * 2]) {
-      if (plane === 'xz') out.push(cx + Math.cos(t) * rx, cy, cz + Math.sin(t) * rz);
-      else if (plane === 'xy') out.push(cx + Math.cos(t) * rx, cy + Math.sin(t) * rz, cz);
-      else out.push(cx, cy + Math.cos(t) * rx, cz + Math.sin(t) * rz);
+// ---------- inner anatomy ----------
+// Baked by scripts/bake-anatomy.mjs; group order must match GROUPS there.
+const GROUPS = ['ear', 'sinus', 'mouth', 'pharynx', 'larynx', 'neck', 'gland'];
+
+async function loadAnatomy(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`anatomy data ${res.status}`);
+  const buf = await res.arrayBuffer();
+  const dv = new DataView(buf);
+  const magic = String.fromCharCode(dv.getUint8(0), dv.getUint8(1), dv.getUint8(2), dv.getUint8(3));
+  if (magic !== 'ATA1') throw new Error('bad anatomy data');
+  const nL = dv.getUint32(4, true), nLP = dv.getUint32(8, true), nP = dv.getUint32(12, true);
+  let o = 16;
+  const counts = new Uint32Array(buf.slice(o, o + nL * 4)); o += nL * 4;
+  const lineGroups = new Uint8Array(buf, o, nL); o += nL + (nL % 2);
+  const pos = (n) => { const q = new Int16Array(buf.slice(o, o + n * 6)); o += n * 6; return Float32Array.from(q, (v) => v * (2 / 32767)); };
+  const nrm = (n) => { const q = new Int8Array(buf.slice(o, o + n * 3)); o += n * 3; return Float32Array.from(q, (v) => v / 127); };
+  const lp = pos(nLP), pp = pos(nP), ln = nrm(nLP), pn = nrm(nP);
+  const pg = Float32Array.from(new Uint8Array(buf, o, nP));
+
+  let nSeg = 0;
+  for (const c of counts) nSeg += c - 1;
+  const seg = new Float32Array(nSeg * 6), segN = new Float32Array(nSeg * 6), segG = new Float32Array(nSeg * 2);
+  let p = 0, s = 0;
+  for (let l = 0; l < nL; l++) {
+    for (let i = 0; i < counts[l] - 1; i++) {
+      seg.set(lp.subarray((p + i) * 3, (p + i) * 3 + 6), s * 6);
+      segN.set(ln.subarray((p + i) * 3, (p + i) * 3 + 6), s * 6);
+      segG[s * 2] = segG[s * 2 + 1] = lineGroups[l];
+      s++;
     }
+    p += counts[l];
   }
-}
-function ellWire(out, cx, cy, cz, rx, ry, rz, lat = 6) {
-  for (let k = 1; k < lat; k++) {
-    const phi = -Math.PI / 2 + (k * Math.PI) / lat;
-    ring(out, cx, cy + Math.sin(phi) * ry, cz, Math.cos(phi) * rx, Math.cos(phi) * rz, 28);
-  }
-  ring(out, cx, cy, cz, rx, ry, 28, 'xy');
-}
-function path(out, pts) {
-  for (let i = 0; i < pts.length - 1; i++) out.push(...pts[i], ...pts[i + 1]);
+  return { seg, segN, segG, pts: pp, ptsN: pn, ptsG: pg };
 }
 
-function buildAnatomy() {
-  const a = { ear: [], sinus: [], mouth: [], pharynx: [], larynx: [], neck: [], gland: [] };
-  for (const s of [1, -1]) {
-    // ear canal, cochlea and semicircular canals
-    path(a.ear, Array.from({ length: 11 }, (_, i) => [s * (0.86 - 0.2 * (i / 10)), 0.03 - 0.01 * (i / 10), -0.24 + 0.04 * (i / 10)]));
-    const spiral = [];
-    for (let i = 0; i <= 90; i++) {
-      const t = (i / 90) * Math.PI * 5, r = 0.06 * (1 - i / 105);
-      spiral.push([s * (0.6 - (i / 90) * 0.04), Math.sin(t) * r, -0.12 + Math.cos(t) * r]);
-    }
-    path(a.ear, spiral);
-    ring(a.ear, s * 0.63, 0.11, -0.24, 0.045, 0.045, 24, 'xz');
-    ring(a.ear, s * 0.63, 0.11, -0.24, 0.045, 0.045, 24, 'xy');
-    ring(a.ear, s * 0.63, 0.11, -0.24, 0.045, 0.045, 24, 'yz');
-    // maxillary and frontal sinuses
-    ellWire(a.sinus, s * 0.28, -0.12, 0.6, 0.12, 0.13, 0.14, 5);
-    ellWire(a.sinus, s * 0.11, 0.36, 0.64, 0.05, 0.09, 0.06, 4);
-    // salivary glands: parotid, submandibular, sublingual
-    ellWire(a.gland, s * 0.66, -0.28, -0.02, 0.09, 0.22, 0.17, 6);
-    ellWire(a.gland, s * 0.38, -0.95, 0.28, 0.12, 0.07, 0.13, 5);
-    ellWire(a.gland, s * 0.14, -0.78, 0.55, 0.05, 0.03, 0.12, 3);
-    // thyroid lobes and the lymph node chain along the side of the neck
-    ellWire(a.neck, s * 0.14, -1.48, 0.16, 0.07, 0.13, 0.07, 5);
-    for (let k = 0; k < 6; k++) {
-      const t = k / 5;
-      ellWire(a.neck, s * (0.55 - 0.13 * t), -0.72 - 0.85 * t, -0.2 + 0.2 * t, 0.03, 0.04, 0.03, 3);
-    }
-    // palatine tonsils
-    ellWire(a.pharynx, s * 0.11, -0.55, 0.32, 0.04, 0.07, 0.04, 4);
+function ring(out, cx, cy, cz, rx, rz, n = 40) {
+  for (let i = 0; i < n; i++) {
+    for (const t of [(i / n) * Math.PI * 2, ((i + 1) / n) * Math.PI * 2]) out.push(cx + Math.cos(t) * rx, cy, cz + Math.sin(t) * rz);
   }
-  for (let k = 0; k < 4; k++) ring(a.neck, 0, -1.48, 0.22, 0.04 * (1 - k / 4), 0.02, 16, 'xy');
-  // nasal septum
-  for (let k = 0; k < 7; k++) ring(a.sinus, 0, 0.08 - k * 0.05, 0.72, 0.01, 0.2, 20, 'yz');
-  // tongue and dental arch
-  ellWire(a.mouth, 0, -0.56, 0.52, 0.17, 0.07, 0.27, 5);
-  const arch = [];
-  for (let i = 0; i <= 40; i++) {
-    const t = Math.PI * (i / 40);
-    arch.push([Math.cos(t) * 0.24, -0.47, 0.5 + Math.sin(t) * 0.33]);
-  }
-  path(a.mouth, arch);
-  path(a.mouth, arch.map(([x, y, z]) => [x, y - 0.1, z - 0.01]));
-  // pharynx: from the nasopharynx down behind the tongue to the hypopharynx
-  for (let k = 0; k <= 16; k++) {
-    const t = k / 16;
-    ring(a.pharynx, 0, -0.1 - t * 0.95, 0.16 - t * 0.1 + Math.sin(t * Math.PI) * 0.05, 0.15 - 0.04 * t, 0.09, 30);
-  }
-  // larynx: thyroid cartilage shield, vocal folds and trachea
-  for (let k = 0; k <= 8; k++) {
-    const y = -1.04 - k * 0.04, w = 0.17 - k * 0.006;
-    const pts = [];
-    for (let i = 0; i <= 24; i++) {
-      const ang = Math.PI * (0.05 + (0.9 * i) / 24);
-      const sharp = Math.pow(Math.abs(Math.cos(ang)), 0.7) * Math.sign(Math.cos(ang));
-      pts.push([sharp * w, y, 0.1 + Math.sin(ang) * (0.17 - k * 0.004) + (1 - Math.abs(Math.cos(ang))) * 0.03]);
-    }
-    path(a.larynx, pts);
-  }
-  a.larynx.push(0, -1.2, 0.28, 0.07, -1.2, 0.02, 0, -1.2, 0.28, -0.07, -1.2, 0.02);
-  for (let k = 0; k < 7; k++) ring(a.larynx, 0, -1.42 - k * 0.05, 0.08, 0.1, 0.1, 30);
-  return a;
 }
 
 // ---------- shaders ----------
@@ -191,7 +149,8 @@ const lineFS = `${common}
     col = mix(col, vec3(0.85, 1.0, 1.0), vHot * 0.8);
     col = mix(col, flare, vSel);
     float strength = mix(0.55, 0.2, vKind);
-    float a = strength * vLight + (vScan * 0.3 * (1.0 - vKind * 0.6) + vHot * 0.45 + vSel * 0.55) * (0.3 + 0.7 * vFront);
+    float xray = 1.0 - 0.6 * max(uHotK, uSelK);
+    float a = strength * vLight * xray + (vScan * 0.3 * (1.0 - vKind * 0.6) * xray + vHot * 0.3 + vSel * 0.35) * (0.3 + 0.7 * vFront);
     gl_FragColor = vec4(col, a);
   }`;
 const pointVS = `${common}${lighting}
@@ -206,7 +165,8 @@ const pointVS = `${common}${lighting}
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
     float front;
     float light = (shade(normal, front) + feature * 1.3 * front) * base(position);
-    vA = light * (0.55 + 0.45 * tw) + (scan * 0.5 + hot * 0.5 + vSel * 0.5) * front;
+    float xray = 1.0 - 0.6 * max(uHotK, uSelK);
+    vA = (light * (0.55 + 0.45 * tw) + scan * 0.5 * front) * xray + (hot * 0.35 + vSel * 0.35) * front;
     gl_PointSize = (1.1 + feature * 0.6 * front + scan * 1.2 + (hot + vSel) * 0.9) * uPx;
     gl_Position = projectionMatrix * mv;
   }`;
@@ -219,15 +179,39 @@ const pointFS = `
     gl_FragColor = vec4(col, vA * (1.0 - d * 2.0));
   }`;
 
+const anatomyVS = (points) => `${lighting}
+  uniform float uGO[${GROUPS.length}], uGS[${GROUPS.length}];
+  uniform float uPx;
+  attribute float group;
+  varying float vA, vSel;
+  void main() {
+    int g = int(group + 0.5);
+    float on = uGO[g];
+    vSel = uGS[g];
+    float front;
+    float light = shade(normal, front);
+    vA = on * (0.38 + 1.05 * light) * ${points ? '1.0' : '0.75'};
+    vec4 mv = modelViewMatrix * vec4(position, 1.0);
+    ${points ? 'gl_PointSize = (1.2 + on * 1.0) * uPx;' : ''}
+    gl_Position = projectionMatrix * mv;
+  }`;
+const anatomyFS = (points) => `
+  varying float vA, vSel;
+  void main() {
+    ${points ? 'float d = length(gl_PointCoord - 0.5); if (d > 0.5) discard; float fall = 1.0 - d * 2.0;' : 'float fall = 1.0;'}
+    vec3 col = mix(vec3(0.62, 0.98, 1.0), vec3(1.0, 0.8, 0.5), vSel);
+    gl_FragColor = vec4(col, vA * fall);
+  }`;
+
 // ---------- engine ----------
-export async function createHologram({ host, zones, headUrl, onHover, onSelect }) {
+export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover, onSelect }) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover: hover)').matches;
   const byId = Object.fromEntries(zones.map((z) => [z.id, z]));
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  const head = await loadHead(headUrl);
+  const [head, anatomy] = await Promise.all([loadHead(headUrl), loadAnatomy(anatomyUrl)]);
   host.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
@@ -263,19 +247,21 @@ export async function createHologram({ host, zones, headUrl, onHover, onSelect }
   pointGeo.setAttribute('seed', new THREE.BufferAttribute(Float32Array.from({ length: head.pts.length / 3 }, Math.random), 1));
   holo.add(new THREE.Points(pointGeo, new THREE.ShaderMaterial({ uniforms, vertexShader: pointVS, fragmentShader: pointFS, ...additive })));
 
-  const innerObjs = {};
-  for (const [key, arr] of Object.entries(buildAnatomy())) {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.Float32BufferAttribute(arr, 3));
-    const mat = new THREE.ShaderMaterial({
-      uniforms: { uO: { value: 0 }, uSelected: { value: 0 } },
-      vertexShader: 'void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
-      fragmentShader: 'uniform float uO, uSelected; void main() { gl_FragColor = vec4(mix(vec3(0.7, 1.0, 1.0), vec3(1.0, 0.8, 0.5), uSelected), uO); }',
-      ...additive,
-    });
-    innerObjs[key] = new THREE.LineSegments(g, mat);
-    holo.add(innerObjs[key]);
-  }
+  const groupUniforms = {
+    uGO: { value: new Array(GROUPS.length).fill(0) },
+    uGS: { value: new Array(GROUPS.length).fill(0) },
+    uPx: uniforms.uPx,
+  };
+  const anatomyLines = new THREE.BufferGeometry();
+  anatomyLines.setAttribute('position', new THREE.BufferAttribute(anatomy.seg, 3));
+  anatomyLines.setAttribute('normal', new THREE.BufferAttribute(anatomy.segN, 3));
+  anatomyLines.setAttribute('group', new THREE.BufferAttribute(anatomy.segG, 1));
+  holo.add(new THREE.LineSegments(anatomyLines, new THREE.ShaderMaterial({ uniforms: groupUniforms, vertexShader: anatomyVS(false), fragmentShader: anatomyFS(false), ...additive })));
+  const anatomyPoints = new THREE.BufferGeometry();
+  anatomyPoints.setAttribute('position', new THREE.BufferAttribute(anatomy.pts, 3));
+  anatomyPoints.setAttribute('normal', new THREE.BufferAttribute(anatomy.ptsN, 3));
+  anatomyPoints.setAttribute('group', new THREE.BufferAttribute(anatomy.ptsG, 1));
+  holo.add(new THREE.Points(anatomyPoints, new THREE.ShaderMaterial({ uniforms: groupUniforms, vertexShader: anatomyVS(true), fragmentShader: anatomyFS(true), ...additive })));
 
   const floor = [];
   ring(floor, 0, -1.8, 0, 0.9, 0.9, 90);
@@ -383,13 +369,12 @@ export async function createHologram({ host, zones, headUrl, onHover, onSelect }
     uniforms.uHotK.value += ((hot ? 1 : 0) - uniforms.uHotK.value) * 0.2;
     uniforms.uSelK.value += ((selected ? 1 : 0) - uniforms.uSelK.value) * 0.2;
 
-    for (const [key, obj] of Object.entries(innerObjs)) {
+    GROUPS.forEach((key, i) => {
       const owner = zones.find((z) => z.inner === key);
       const on = owner && (owner.id === hovered || owner.id === selected);
-      const u = obj.material.uniforms;
-      u.uO.value += ((on ? 0.85 : 0.06) - u.uO.value) * 0.15;
-      u.uSelected.value = owner && owner.id === selected ? 1 : 0;
-    }
+      groupUniforms.uGO.value[i] += ((on ? 1 : 0.09) - groupUniforms.uGO.value[i]) * 0.15;
+      groupUniforms.uGS.value[i] = owner && owner.id === selected ? 1 : 0;
+    });
     floorObj.rotation.y = -rotY + t * 0.1;
 
     renderer.render(scene, camera);

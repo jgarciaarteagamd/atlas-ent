@@ -73,6 +73,7 @@ const data = {
   // Imported as a URL so the file name carries a content hash and browsers
   // never pair new code with a cached copy of older head data.
   import headUrl from '../assets/head.bin?url';
+  import anatomyUrl from '../assets/anatomy.bin?url';
 
   const root = document.querySelector<HTMLElement>('[data-holo]')!;
   const data = JSON.parse(document.getElementById('holo-data')!.textContent!);
@@ -148,6 +149,7 @@ const data = {
       host: canvasHost,
       zones: data.zones,
       headUrl,
+      anatomyUrl,
       onHover(id: string | null, p: { cx: number; cy: number }) {
         if (id !== headHover) { headHover = id; render(); }
         if (id) {
