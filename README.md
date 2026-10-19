@@ -14,6 +14,7 @@ src/content/fichas/en/<zona>/<tema>.md
 
 `<zona>` y `<tema>` son los identificadores definidos en `src/data/zones.ts`.
 La plantilla con los campos y apartados está en `src/content/fichas/_plantilla.md`.
+Para redactar fichas fuera de la web (en otro chat), las plantillas por tipo y la guía de redacción y SEO están en [`docs/fichas/`](docs/fichas/README.md).
 Cuando existe la ficha, la página de la zona enlaza el tema; si no, aparece como «En preparación».
 
 ## Desarrollo

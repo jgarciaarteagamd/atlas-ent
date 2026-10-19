@@ -2,6 +2,7 @@
 # Plantilla de ficha. Copiar a src/content/fichas/<es|en>/<zona>/<tema>.md
 # (sin el guion bajo inicial) y rellenar. "zone" es el id de la zona y
 # "topic" la clave del tema, ambos definidos en src/data/zones.ts.
+# Plantillas por tipo y guía de redacción y SEO: docs/fichas/README.md
 lang: es
 zone: oido
 topic: vppb
