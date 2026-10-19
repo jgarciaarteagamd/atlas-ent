@@ -58,17 +58,25 @@ zone: `oido` · URL: `/es/zonas/oido/<slug>/` y `/en/areas/ear/<slug>/`
 | `tapon-cerumen` | Patología | Tapón de cerumen | Earwax blockage |
 | `hipoacusia` | Patología | Hipoacusia | Hearing loss |
 | `acufenos` | Patología | Acúfenos | Tinnitus |
+| `disfuncion-tubarica` | Patología | Disfunción de la trompa de Eustaquio | Eustachian tube dysfunction |
 | `vppb` | Patología | Vértigo posicional paroxístico benigno | Benign paroxysmal positional vertigo |
 | `meniere` | Patología | Enfermedad de Ménière | Ménière’s disease |
+| `migrana-vestibular` | Patología | Migraña vestibular | Vestibular migraine |
+| `trastornos-temporomandibulares` | Patología | Trastorno de la ATM (síndrome de Costen) | TMJ disorder |
 | `otoscopia` | Prueba | Otoscopia | Otoscopy |
 | `audiometria` | Prueba | Audiometría tonal | Pure-tone audiometry |
-| `timpanometria` | Prueba | Timpanometría | Tympanometry |
+| `timpanometria` | Prueba | Timpanometría (impedanciometría) | Tympanometry |
 | `videonistagmografia` | Prueba | Videonistagmografía y vHIT | Videonystagmography and vHIT |
 | `drenajes` | Cirugía | Drenajes transtimpánicos | Ear tubes (grommets) |
 | `miringoplastia` | Cirugía | Miringoplastia | Myringoplasty |
 | `timpanoplastia` | Cirugía | Timpanoplastia | Tympanoplasty |
 | `implante-coclear` | Cirugía | Implante coclear | Cochlear implant |
 | `brandt-daroff` | Cuidados | Ejercicios de Brandt-Daroff | Brandt-Daroff exercises |
+| `prevencion-migrana` | Cuidados | Prevención de las crisis de migraña vestibular | Preventing vestibular migraine attacks |
+| `cuidados-oidos-secos` | Cuidados | Cuidados de oídos secos | Dry ear care |
+| `ejercicios-tubaricos` | Cuidados | Ejercicios para destapar los oídos | Exercises to unblock your ears |
+| `cuidados-atm` | Cuidados | Cuidados de la ATM | TMJ self-care |
+| `desarrollo-lenguaje` | Cuidados | Audición y lenguaje del niño | Child hearing and speech |
 | `higiene-oido` | Cuidados | Higiene del oído y bastoncillos | Ear hygiene and cotton buds |
 | `proteccion-ruido` | Cuidados | Protección frente al ruido | Protecting your hearing from noise |
 
@@ -84,7 +92,6 @@ zone: `nariz` · URL: `/es/zonas/nariz/<slug>/` y `/en/areas/nose/<slug>/`
 | `poliposis-nasal` | Patología | Pólipos nasales | Nasal polyps |
 | `epistaxis` | Patología | Sangrado nasal (epistaxis) | Nosebleeds (epistaxis) |
 | `anosmia` | Patología | Pérdida del olfato | Loss of smell |
-| `endoscopia-nasal` | Prueba | Endoscopia nasal | Nasal endoscopy |
 | `tc-senos` | Prueba | TC de senos paranasales | Sinus CT scan |
 | `olfatometria` | Prueba | Pruebas de olfato | Smell tests |
 | `septoplastia` | Cirugía | Septoplastia | Septoplasty |
@@ -119,12 +126,13 @@ zone: `garganta` · URL: `/es/zonas/garganta/<slug>/` y `/en/areas/throat/<slug>
 | `faringitis` | Patología | Faringitis | Sore throat (pharyngitis) |
 | `saos` | Patología | Ronquido y apnea del sueño | Snoring and sleep apnoea |
 | `reflujo-faringolaringeo` | Patología | Reflujo faringolaríngeo | Laryngopharyngeal reflux |
-| `nasofibrolaringoscopia` | Prueba | Nasofibrolaringoscopia | Flexible nasendoscopy |
+| `nasofibrolaringoscopia` | Prueba | Fibroscopia (nasofibrolaringoscopia) | Flexible nasendoscopy |
 | `poligrafia` | Prueba | Poligrafía del sueño | Home sleep study |
 | `dise` | Prueba | Somnoscopia (DISE) | Drug-induced sleep endoscopy (DISE) |
 | `amigdalectomia` | Cirugía | Amigdalectomía | Tonsillectomy |
 | `adenoidectomia` | Cirugía | Adenoidectomía | Adenoidectomy |
 | `cirugia-ronquido` | Cirugía | Cirugía del ronquido | Snoring surgery |
+| `cuidados-reflujo` | Cuidados | Dieta y cuidados para el reflujo | Reflux diet and lifestyle |
 | `postoperatorio-amigdalas` | Cuidados | Cuidados tras quitar las amígdalas | Recovery after tonsillectomy |
 
 ### Laringe · Larynx
@@ -134,10 +142,10 @@ zone: `laringe` · URL: `/es/zonas/laringe/<slug>/` y `/en/areas/larynx/<slug>/`
 | topic | Tipo | Español | English |
 |---|---|---|---|
 | `disfonia` | Patología | Disfonía (ronquera) | Hoarseness (dysphonia) |
+| `disfonia-funcional` | Patología | Disfonía funcional | Functional dysphonia |
 | `nodulos-polipos` | Patología | Nódulos y pólipos vocales | Vocal nodules and polyps |
 | `laringitis` | Patología | Laringitis | Laryngitis |
 | `paralisis-cuerda-vocal` | Patología | Parálisis de cuerda vocal | Vocal cord paralysis |
-| `laringoscopia` | Prueba | Laringoscopia | Laryngoscopy |
 | `videoestroboscopia` | Prueba | Videoestroboscopia | Videostroboscopy |
 | `microcirugia-laringea` | Cirugía | Microcirugía laríngea | Laryngeal microsurgery |
 | `higiene-vocal` | Cuidados | Higiene vocal | Looking after your voice |
@@ -176,4 +184,5 @@ zone: `salivales` · URL: `/es/zonas/glandulas-salivales/<slug>/` y `/en/areas/s
 | `sialendoscopia` | Cirugía | Sialendoscopia | Sialendoscopy |
 | `parotidectomia` | Cirugía | Parotidectomía | Parotidectomy |
 | `submaxilectomia` | Cirugía | Submaxilectomía | Submandibular gland removal |
+| `cuidados-sialolitiasis` | Cuidados | Cuidados de las piedras salivales | Salivary stones self-care |
 | `boca-seca-consejos` | Cuidados | Consejos para la boca seca | Tips for dry mouth |

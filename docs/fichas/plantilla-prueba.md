@@ -1,6 +1,6 @@
 # Plantilla · Prueba diagnóstica
 
-Para exploraciones y pruebas: audiometría, endoscopia nasal, laringoscopia, ecografía, PAAF, poligrafía…
+Para exploraciones y pruebas: audiometría, fibroscopia, ecografía, PAAF, poligrafía…
 El objetivo es que el paciente **llegue tranquilo y preparado** a la prueba y entienda el resultado.
 
 Sigue la [guía de redacción y SEO](guia-redaccion-seo.md). Las líneas que empiezan por `> ✎` son instrucciones: **bórralas** en la ficha final.

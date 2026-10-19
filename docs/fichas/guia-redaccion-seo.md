@@ -19,7 +19,7 @@ Esta guía vale para todas las fichas de **jgarciaarteaga.pro**: patologías, pr
 | Frases | Cortas: **una idea por frase**, 15-20 palabras de media. Párrafos de 2-4 frases. |
 | Términos técnicos | Se dicen **una vez en negrita y se explican** al momento: «unos cristales microscópicos de calcio llamados **otoconias**». Después, se usa la palabra sencilla. |
 | Tono | Tranquilizador y honesto. Ni alarmista ni triunfalista. Si algo es raro, se dice que es raro; si es grave, se dice con claridad. |
-| Cifras | Concretas y redondeadas: «en unos 10 o 15 minutos», «la mayoría de las personas», «más de tres semanas». Evitar porcentajes sueltos si no aportan. |
+| Cifras | Concretas y redondeadas: «en unos 10 o 15 minutos», «la mayoría de las personas», «más de cuatro semanas». Evitar porcentajes sueltos si no aportan. |
 | Negrita | Solo para lo que el paciente debe retener (síntomas clave, plazos, prohibiciones). Como máximo 2-3 por párrafo o elemento de lista. |
 | Listas | Para síntomas, causas, pasos y recomendaciones. Cada elemento empieza en minúscula si continúa una frase («Es más frecuente: - a partir de los 50 años;»), o en mayúscula con la idea clave en negrita si es independiente. |
 | Tablas | Solo para pautas o comparaciones (dosis, horarios, «qué es normal / qué no»). |
