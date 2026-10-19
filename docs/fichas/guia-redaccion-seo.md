@@ -86,7 +86,7 @@ Mejor corto y completo que largo y repetido. La longitud no posiciona; resolver 
     url: https://doi.org/10.xxxx/xxxxx
   ```
 - **Toda referencia debe existir y estar comprobada.** Si el chat no puede verificar un DOI, que lo deje sin `url` y lo marque con `# VERIFICAR`. Yo las compruebo en PubMed antes de publicar.
-- Lo que sea práctica personal del Dr. (y no consenso) se dice como tal: «En mi consulta suelo…».
+- Lo que sea práctica personal del Dr. (y no consenso) se dice como tal: «En mi consulta suelo…». Si el chat no la conoce, la marca con `[[CONFIRMAR: …]]` y la pregunta; nunca la inventa.
 - La versión inglesa usa las mismas referencias; si una guía española tiene título oficial en inglés, se usa ese.
 
 ## 5. Formato técnico (para que se pueda publicar sin retoques)

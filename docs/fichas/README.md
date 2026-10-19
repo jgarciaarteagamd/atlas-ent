@@ -5,6 +5,7 @@ Esta carpeta contiene todo lo que ese chat necesita para entregarlas en el forma
 
 | Archivo | Para qué |
 |---|---|
+| [`instrucciones-proyecto.md`](instrucciones-proyecto.md) | Texto para las instrucciones del Proyecto de Claude donde se redactan las fichas. |
 | [`guia-redaccion-seo.md`](guia-redaccion-seo.md) | Normas comunes: público, estilo, SEO, referencias, formato y qué entregar. **Siempre.** |
 | [`plantilla-patologia.md`](plantilla-patologia.md) | Enfermedades y problemas (otitis, sinusitis, ronquera…). |
 | [`plantilla-prueba.md`](plantilla-prueba.md) | Pruebas diagnósticas (audiometría, endoscopia, PAAF…). |
@@ -13,8 +14,8 @@ Esta carpeta contiene todo lo que ese chat necesita para entregarlas en el forma
 
 ## Flujo de trabajo
 
-1. **Abre un chat nuevo** (puede ser un Proyecto de Claude con la guía y las cuatro plantillas como conocimiento del proyecto, así no hay que adjuntarlas cada vez).
-2. **Adjunta o pega** `guia-redaccion-seo.md` y la plantilla del tipo de ficha.
+1. **Abre un chat nuevo**, mejor dentro de un Proyecto de Claude configurado con [`instrucciones-proyecto.md`](instrucciones-proyecto.md) y con la guía, las plantillas y este README como conocimiento del proyecto. Así basta con decir el tema y no hay que adjuntar nada.
+2. Si no usas el Proyecto, **adjunta o pega** `guia-redaccion-seo.md` y la plantilla del tipo de ficha.
 3. **Pega el mensaje inicial** de abajo, cambiando los datos del tema.
 4. **Revisa** el borrador como médico: datos, práctica personal, tono. Pide los cambios en ese mismo chat.
 5. Cuando tengas varias fichas listas, **tráelas aquí juntas** (ficha SEO + ES + EN de cada una). Yo compruebo referencias y enlaces, preparo ilustraciones, las encajo en la web y publico todo en un solo despliegue.
