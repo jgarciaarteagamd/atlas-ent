@@ -101,7 +101,8 @@ const steps = [
     .bd-steps li { grid-template-columns: 1fr; }
   }
   @media print {
-    .bd-steps li { background: none; border-color: #999; break-inside: avoid; grid-template-columns: 1.2fr 1fr; }
+    .bd-steps { gap: 4px; }
+    .bd-steps li { background: none; border-color: #999; break-inside: avoid; grid-template-columns: 0.9fr 1fr; gap: 10px; padding: 4px 6px; }
     .bd-steps h3 { color: #000; }
     .then { color: #000; }
   }

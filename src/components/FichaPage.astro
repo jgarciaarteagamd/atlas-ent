@@ -4,6 +4,7 @@ import { Image, getImage } from 'astro:assets';
 import QRCode from 'qrcode';
 import Base from '../layouts/Base.astro';
 import { zoneById, type Lang } from '../data/zones';
+import { markSvg, markWidth, markHeight, palettes } from '../data/mark.js';
 import { ui, paths, otherLang, BIO_URL } from '../i18n/ui';
 
 interface Props { entry: CollectionEntry<'fichas'> }
@@ -69,6 +70,10 @@ const jsonLd = {
 <Base lang={lang} title={`${entry.data.title} · ${t.brand}`} description={entry.data.summary} alt={alt} image={ogImage}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <article class="wrap">
+    <div class="print-only brandhead">
+      <svg class="mark" viewBox={`0 0 ${markWidth} ${markHeight}`} aria-hidden="true" set:html={markSvg(palettes.light, 'jga-print')} />
+      <span>{t.doctor} · {t.specialty}</span>
+    </div>
     <nav class="crumbs label" aria-label={lang === 'es' ? 'Ruta' : 'Breadcrumb'}>
       <a href={paths.home(lang)}>{t.brand}</a> <span aria-hidden="true">/</span>
       <a href={paths.zone(lang, zone)}>{zone.name[lang]}</a>
@@ -149,7 +154,7 @@ const jsonLd = {
   .crumbs a { color: var(--holo-dim); text-decoration: none; }
   .head { padding-block: 32px 28px; display: grid; gap: 12px; max-width: var(--measure); }
   .lede { margin: 0; font-size: 1.1rem; line-height: 1.55; }
-  .meta { color: var(--ink-soft); }
+  .meta { color: var(--ink-soft); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.06em; opacity: 0.75; }
   .cover { margin: 0 0 40px; border: 1px solid var(--holo-line); overflow: hidden; max-width: 1100px; }
   .cover :global(img) { display: block; width: 100%; height: auto; aspect-ratio: 16 / 7; object-fit: cover; }
   .refs ol { font-size: 0.92rem; color: var(--ink-soft); }
@@ -165,10 +170,12 @@ const jsonLd = {
   }
   :global(html) { scroll-padding-top: 90px; scroll-behavior: smooth; }
   @media print {
-    .crumbs { padding-top: 0; }
+    .crumbs { display: none; }
     .head { padding: 0 0 6px; gap: 3px; max-width: none; }
     .lede { font-size: 1.05rem; line-height: 1.35; }
-    .meta { font-size: 0.85rem; }
+    .meta { font-size: 0.68rem; }
+    .brandhead { align-items: center; gap: 10px; margin-bottom: 6px; padding-bottom: 5px; border-bottom: 1px solid #000; font-size: 0.85rem; }
+    .brandhead .mark { height: 22px; width: auto; flex: none; }
     .refs ol { font-size: 0.85rem; }
     .print-only { display: flex; }
     .handout { gap: 12px; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #000; font-size: 0.85rem; break-inside: avoid; }
