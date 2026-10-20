@@ -6,7 +6,8 @@ slug: eustachian-tube-dysfunction
 title: "Eustachian tube dysfunction (blocked ears)"
 summary: "Eustachian tube dysfunction makes your ears feel blocked, full or popping. Learn the causes, how it is treated and when to seek help."
 updated: 2026-10-20
-coverAlt: "Diagram of the ear showing the Eustachian tube linking the middle ear to the back of the nose"
+cover: ../../../../assets/fichas/disfuncion-tubarica-cabecera.jpg
+coverAlt: "A man in an aeroplane seat at night with his hand to his ear; a line of light joins his nose and ear."
 references:
   - label: "Llewellyn A, Norman G, Harden M, et al. Interventions for adult Eustachian tube dysfunction: a systematic review. Health Technol Assess. 2014;18(46):1-180."
     url: https://doi.org/10.3310/hta18460

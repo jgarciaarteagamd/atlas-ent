@@ -6,7 +6,8 @@ slug: trastorno-atm-sindrome-costen
 title: "Trastorno de la ATM (síndrome de Costen)"
 summary: "El trastorno de la ATM causa dolor de mandíbula, chasquidos y, a veces, dolor de oído o acúfenos sin infección. Te explicamos causas, tratamiento y cuándo consultar."
 updated: 2026-10-20
-coverAlt: "Esquema de la mandíbula con la articulación temporomandibular situada delante del oído"
+cover: ../../../../assets/fichas/trastorno-atm-cabecera.jpg
+coverAlt: "Hombre que se masajea la articulación de la mandíbula, delante de la oreja, marcada con un contorno de luz."
 references:
   - label: "Busse JW, Casassus R, Carrasco-Labra A, et al. Management of chronic pain associated with temporomandibular disorders: a clinical practice guideline. BMJ. 2023;383:e076227."
     url: https://doi.org/10.1136/bmj-2023-076227

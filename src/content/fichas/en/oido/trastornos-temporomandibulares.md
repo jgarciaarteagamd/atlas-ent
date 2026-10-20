@@ -6,7 +6,8 @@ slug: tmj-disorder-costen-syndrome
 title: "TMJ disorder (temporomandibular disorder)"
 summary: "A TMJ disorder causes jaw pain, clicking and, often, ear pain or tinnitus without infection. Learn the causes, treatment and when to seek advice."
 updated: 2026-10-20
-coverAlt: "Diagram of the jaw showing the temporomandibular joint just in front of the ear"
+cover: ../../../../assets/fichas/trastorno-atm-cabecera.jpg
+coverAlt: "A man massaging his jaw joint in front of his ear, outlined in light."
 references:
   - label: "Busse JW, Casassus R, Carrasco-Labra A, et al. Management of chronic pain associated with temporomandibular disorders: a clinical practice guideline. BMJ. 2023;383:e076227."
     url: https://doi.org/10.1136/bmj-2023-076227

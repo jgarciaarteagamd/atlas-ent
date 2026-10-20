@@ -6,7 +6,8 @@ slug: vestibular-migraine-dizziness
 title: "Vestibular migraine: dizziness and migraine"
 summary: "Vestibular migraine causes attacks of dizziness or vertigo in people with migraine, with or without headache. Learn how it is diagnosed and treated."
 updated: 2026-10-19
-coverAlt: "Person with a hand on their temple feeling dizzy, with a diagram of the inner ear and brain"
+cover: ../../../../assets/fichas/migrana-vestibular-cabecera.jpg
+coverAlt: "A woman sitting on a sofa with her eyes closed and her hand on her temple, surrounded by soft arcs of light."
 references:
   - label: "Lempert T, Olesen J, Furman J, et al. Vestibular migraine: diagnostic criteria. J Vestib Res. 2022;32(1):1-6."
     url: https://doi.org/10.3233/VES-201644

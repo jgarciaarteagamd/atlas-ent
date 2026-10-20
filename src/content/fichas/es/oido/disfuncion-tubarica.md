@@ -6,7 +6,8 @@ slug: disfuncion-trompa-eustaquio
 title: Disfunción de la trompa de Eustaquio
 summary: "La disfunción de la trompa de Eustaquio causa oído tapado, chasquidos y presión. Te explicamos sus causas, el tratamiento y cuándo debes consultar."
 updated: 2026-10-20
-coverAlt: "Esquema del oído que muestra la trompa de Eustaquio entre el oído medio y la nariz"
+cover: ../../../../assets/fichas/disfuncion-tubarica-cabecera.jpg
+coverAlt: "Hombre en el asiento de un avión de noche que se lleva la mano al oído; una línea de luz une la nariz con el oído."
 references:
   - label: "Llewellyn A, Norman G, Harden M, et al. Interventions for adult Eustachian tube dysfunction: a systematic review. Health Technol Assess. 2014;18(46):1-180."
     url: https://doi.org/10.3310/hta18460

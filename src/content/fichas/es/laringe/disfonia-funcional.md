@@ -6,7 +6,8 @@ slug: disfonia-funcional-ronquera
 title: "Disfonía funcional: ronquera por tensión"
 summary: "La disfonía funcional es una ronquera o voz cansada sin lesión grave, por tensión al hablar. Te explicamos sus causas, la terapia de voz y cuándo consultar."
 updated: 2026-10-20
-coverAlt: "Persona que se lleva la mano al cuello mientras habla, con las cuerdas vocales dibujadas al lado"
+cover: ../../../../assets/fichas/disfonia-funcional-cabecera.jpg
+coverAlt: "Profesora en un aula vacía al atardecer, con la mano en el cuello y una onda de luz a la altura de la garganta."
 references:
   - label: "Stachler RJ, Francis DO, Schwartz SR, et al. Clinical practice guideline: hoarseness (dysphonia) (update). Otolaryngol Head Neck Surg. 2018;158(1 Suppl):S1-S42."
     url: https://doi.org/10.1177/0194599817751030

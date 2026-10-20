@@ -6,7 +6,8 @@ slug: muscle-tension-dysphonia
 title: "Functional dysphonia (muscle tension voice)"
 summary: "Functional dysphonia is a hoarse or tired voice without serious damage, caused by tension when speaking. Learn the causes, voice therapy and when to seek advice."
 updated: 2026-10-20
-coverAlt: "Person holding their neck while speaking, with a drawing of the vocal cords beside them"
+cover: ../../../../assets/fichas/disfonia-funcional-cabecera.jpg
+coverAlt: "A teacher in an empty classroom at dusk, with her hand on her neck and a wave of light at her throat."
 references:
   - label: "Stachler RJ, Francis DO, Schwartz SR, et al. Clinical practice guideline: hoarseness (dysphonia) (update). Otolaryngol Head Neck Surg. 2018;158(1 Suppl):S1-S42."
     url: https://doi.org/10.1177/0194599817751030

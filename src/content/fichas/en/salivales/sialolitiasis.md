@@ -6,7 +6,8 @@ slug: salivary-stones-sialolithiasis
 title: "Salivary stones (sialolithiasis)"
 summary: "Salivary stones block a salivary gland and cause swelling and pain when eating. Learn the symptoms, diagnosis, treatment and when to seek advice."
 updated: 2026-10-20
-coverAlt: "Diagram of the salivary gland under the jaw with a stone in its duct"
+cover: ../../../../assets/fichas/sialolitiasis-cabecera.jpg
+coverAlt: "An older man at the table touching under his jaw while eating; a point of light marks the gland."
 references:
   - label: "Badash I, Raskin J, Pei M, Soldatova L, Rassekh C. Contemporary review of submandibular gland sialolithiasis and surgical management options. Cureus. 2022;14(8):e28147."
     url: https://doi.org/10.7759/cureus.28147

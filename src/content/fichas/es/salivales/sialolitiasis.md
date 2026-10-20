@@ -6,7 +6,8 @@ slug: piedras-salivales-sialolitiasis
 title: "Piedras salivales (sialolitiasis)"
 summary: "Las piedras salivales obstruyen la glándula y causan hinchazón y dolor al comer. Te explicamos síntomas, diagnóstico, tratamiento y cuándo consultar."
 updated: 2026-10-20
-coverAlt: "Esquema de la glándula salival bajo la mandíbula con una piedra en su conducto"
+cover: ../../../../assets/fichas/sialolitiasis-cabecera.jpg
+coverAlt: "Hombre mayor sentado a la mesa que se toca bajo la mandíbula mientras come; un punto de luz marca la glándula."
 references:
   - label: "Badash I, Raskin J, Pei M, Soldatova L, Rassekh C. Contemporary review of submandibular gland sialolithiasis and surgical management options. Cureus. 2022;14(8):e28147."
     url: https://doi.org/10.7759/cureus.28147

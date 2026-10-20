@@ -6,7 +6,8 @@ slug: migrana-vestibular-mareo-vertigo
 title: "Migraña vestibular: vértigo y migraña"
 summary: "La migraña vestibular causa crisis de mareo o vértigo en personas con migraña, con o sin dolor de cabeza. Te explicamos cómo se diagnostica y se trata."
 updated: 2026-10-19
-coverAlt: "Persona con la mano en la sien y mareo, con un esquema del oído interno y el cerebro"
+cover: ../../../../assets/fichas/migrana-vestibular-cabecera.jpg
+coverAlt: "Mujer sentada en un sofá con los ojos cerrados y la mano en la sien, rodeada de suaves arcos de luz."
 references:
   - label: "Lempert T, Olesen J, Furman J, et al. Vestibular migraine: diagnostic criteria. J Vestib Res. 2022;32(1):1-6."
     url: https://doi.org/10.3233/VES-201644

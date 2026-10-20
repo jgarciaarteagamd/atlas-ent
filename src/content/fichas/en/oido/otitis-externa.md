@@ -6,7 +6,8 @@ slug: swimmers-ear
 title: "Swimmer's ear: symptoms and treatment"
 summary: "Swimmer's ear (otitis externa) is an infection of the skin lining the ear canal. Learn the symptoms, how it is treated and when to seek urgent help."
 updated: 2026-10-20
-coverAlt: "Diagram of the ear showing an inflamed ear canal"
+cover: ../../../../assets/fichas/otitis-externa-cabecera.jpg
+coverAlt: "A woman with wet hair and a towel, sitting by a pool at night with her hand at her ear and a line of light at the ear canal entrance."
 references:
   - label: "Rosenfeld RM, Schwartz SR, Cannon CR, et al. Clinical practice guideline: acute otitis externa. Otolaryngol Head Neck Surg. 2014;150(1 Suppl):S1-S24."
     url: https://doi.org/10.1177/0194599813517083

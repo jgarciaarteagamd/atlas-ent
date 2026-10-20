@@ -6,7 +6,8 @@ slug: otitis-externa
 title: "Otitis externa: síntomas y tratamiento"
 summary: "La otitis externa es una infección de la piel del conducto del oído. Te explicamos sus síntomas, cómo se trata y cuándo debes consultar de forma urgente."
 updated: 2026-10-20
-coverAlt: "Esquema del oído con el conducto auditivo externo inflamado"
+cover: ../../../../assets/fichas/otitis-externa-cabecera.jpg
+coverAlt: "Mujer con el pelo mojado y una toalla, sentada junto a una piscina de noche, con la mano en la oreja y una línea de luz en la entrada del oído."
 references:
   - label: "Rosenfeld RM, Schwartz SR, Cannon CR, et al. Clinical practice guideline: acute otitis externa. Otolaryngol Head Neck Surg. 2014;150(1 Suppl):S1-S24."
     url: https://doi.org/10.1177/0194599813517083

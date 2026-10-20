@@ -72,7 +72,7 @@ const jsonLd = {
   <article class="wrap">
     <div class="print-only brandhead">
       <svg class="mark" viewBox={`0 0 ${markWidth} ${markHeight}`} aria-hidden="true" set:html={markSvg(palettes.light, 'jga-print')} />
-      <span>{t.doctor} · {t.specialty}</span>
+      <span class="who"><strong>{t.doctor}</strong><br />{lang === 'es' ? 'Otorrinolaringólogo' : 'ENT specialist'}</span>
     </div>
     <nav class="crumbs label" aria-label={lang === 'es' ? 'Ruta' : 'Breadcrumb'}>
       <a href={paths.home(lang)}>{t.brand}</a> <span aria-hidden="true">/</span>
@@ -175,7 +175,8 @@ const jsonLd = {
     .lede { font-size: 1.05rem; line-height: 1.35; }
     .meta { font-size: 0.68rem; }
     .brandhead { align-items: center; gap: 10px; margin-bottom: 6px; padding-bottom: 5px; border-bottom: 1px solid #000; font-size: 0.85rem; }
-    .brandhead .mark { height: 22px; width: auto; flex: none; }
+    .brandhead .mark { height: 26px; width: auto; flex: none; }
+    .brandhead .who { line-height: 1.25; }
     .refs ol { font-size: 0.85rem; }
     .print-only { display: flex; }
     .handout { gap: 12px; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #000; font-size: 0.85rem; break-inside: avoid; }
