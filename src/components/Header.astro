@@ -1,5 +1,6 @@
 ---
 import { ui, paths, bioUrl } from '../i18n/ui';
+import { markSvg, markWidth, markHeight, palettes } from '../data/mark.js';
 import type { Lang } from '../data/zones';
 
 interface Props { lang: Lang; alt: string }
@@ -10,7 +11,7 @@ const t = ui[lang];
 <header class="site">
   <div class="wrap bar">
     <a class="brand" href={paths.home(lang)} aria-label={`${t.brand} · ${t.forPatients}`}>
-      <svg class="mark" viewBox="0 0 259.13 100" aria-hidden="true"><path d="M0 75.7V56.5H20.9V76.8Q20.9 81.2 25.2 81.2H44.9Q49.3 81.2 49.3 76.8V18.8H22V0H70.1V75.7Q70.1 100 45.8 100H24.3Q0 100 0 75.7ZM77.4 75.7V24.3Q77.4 0 101.7 0H143.6L153.3 7.5V18.8H102.6Q98.3 18.8 98.3 23.2V76.8Q98.3 81.2 102.6 81.2H135.4V58H116.2V39.1H156.2V100H101.7Q77.4 100 77.4 75.7ZM163.5 100L206.2 0L216.4 0L259.1 100L236.7 100L211.3 42.7L185.9 100Z" /></svg>
+      <svg class="mark" viewBox={`0 0 ${markWidth} ${markHeight}`} aria-hidden="true" set:html={markSvg(palettes.dark, 'jga-header')} />
       <span class="name">{t.brand}</span>
       <span class="who">{t.forPatients}</span>
     </a>
@@ -50,12 +51,11 @@ const t = ui[lang];
     color: var(--ink);
     min-width: 0;
   }
-  /* JGA monogram from the logo */
+  /* JGA isotipo from the logo */
   .mark {
     align-self: center;
-    height: 1.1rem;
+    height: 1.35rem;
     width: auto;
-    fill: var(--holo);
   }
   .name {
     font-family: var(--display);
