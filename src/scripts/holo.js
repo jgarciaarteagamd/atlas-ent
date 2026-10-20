@@ -359,7 +359,7 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
     pointerZone = canHover ? pick() : null;
     if (pointerZone !== lastPicked) { lastPicked = pointerZone; onHover(pointerZone, pointer); }
     else if (pointerZone) onHover(pointerZone, pointer);
-    canvas.style.cursor = pointerZone ? 'pointer' : 'crosshair';
+    canvas.style.cursor = pointerZone ? 'var(--cursor-link)' : 'crosshair';
 
     const hot = hovered && hovered !== selected ? hovered : null;
     uniforms.uTime.value = t;

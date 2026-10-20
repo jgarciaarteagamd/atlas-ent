@@ -46,6 +46,70 @@ body {
   line-height: 1.6;
 }
 
+/* Cursor: a folded-ribbon arrow (scripts/build-cursor.mjs), amber over links.
+   Text fields keep the text cursor. The halo is drawn by cursor.js. */
+:root {
+  --cursor: url('/cursor.svg') 5 5, auto;
+  --cursor-link: url('/cursor-link.svg') 5 5, pointer;
+}
+html { cursor: var(--cursor); }
+a[href],
+button:not(:disabled),
+[role='button'],
+summary,
+label[for],
+select,
+.cursor-pointer { cursor: var(--cursor-link); }
+input:not([type='button'], [type='submit'], [type='reset'], [type='checkbox'], [type='radio'], [type='range'], [type='color'], [type='file']),
+textarea,
+[contenteditable='true'] { cursor: text; }
+
+.cursor-halo,
+.cursor-ripple {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  z-index: 2147483647;
+}
+/* Centred on the arrow's body rather than its tip. */
+.cursor-halo { margin: -11px 0 0 -11px; opacity: 0; transition: opacity 0.25s; }
+.cursor-halo.on { opacity: 1; }
+.cursor-halo::before,
+.cursor-ripple::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+.cursor-halo::before {
+  border: 1px solid rgba(116, 241, 255, 0.4);
+  box-shadow: 0 0 14px rgba(116, 241, 255, 0.22), inset 0 0 10px rgba(116, 241, 255, 0.1);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s, box-shadow 0.3s;
+}
+.cursor-halo.link::before {
+  transform: scale(1.35);
+  border-color: rgba(255, 196, 107, 0.75);
+  box-shadow: 0 0 16px rgba(255, 196, 107, 0.3), inset 0 0 10px rgba(255, 196, 107, 0.12);
+}
+.cursor-halo.press::before { transform: scale(0.8); }
+.cursor-ripple { margin: -18px 0 0 -18px; }
+.cursor-ripple::before {
+  border: 1.5px solid var(--holo);
+  animation: cursor-ripple 0.55s ease-out forwards;
+}
+.cursor-ripple.link::before { border-color: var(--flare); }
+@keyframes cursor-ripple {
+  from { transform: scale(0.3); opacity: 0.9; }
+  to { transform: scale(1.9); opacity: 0; }
+}
+@media print {
+  .cursor-halo,
+  .cursor-ripple { display: none; }
+}
+
 a { color: var(--holo); text-underline-offset: 3px; text-decoration-thickness: 1px; }
 a:hover { color: var(--flare); }
 :focus-visible { outline: 1px solid var(--flare); outline-offset: 3px; }
@@ -104,7 +168,7 @@ h3 { font-size: var(--step-1); font-weight: 500; }
   border: 0;
   padding: 11px 18px;
   text-decoration: none;
-  cursor: pointer;
+  cursor: var(--cursor-link);
   clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
 }
 .button:hover { background: var(--flare); color: var(--void); }

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+<defs>
+<linearGradient id="kl" x1="6" y1="5" x2="21" y2="14" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d2fcff"/><stop offset="1" stop-color="#46dcf5"/></linearGradient>
+<linearGradient id="kd" x1="6" y1="8" x2="12" y2="23" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffd890"/><stop offset="1" stop-color="#e0a03a"/></linearGradient>
+<clipPath id="kc"><path d="M5.37 7.45A1.6 1.6 0 0 1 7.45 5.37L16.94 9.14A2.4 2.4 0 0 1 16.54 13.72L14.97 14.04A1.2 1.2 0 0 0 14.04 14.97L13.72 16.54A2.4 2.4 0 0 1 9.14 16.94Z"/></clipPath>
+</defs>
+<path d="M5.37 7.45A1.6 1.6 0 0 1 7.45 5.37L16.94 9.14A2.4 2.4 0 0 1 16.54 13.72L14.97 14.04A1.2 1.2 0 0 0 14.04 14.97L13.72 16.54A2.4 2.4 0 0 1 9.14 16.94Z" fill="none" stroke="#03070c" stroke-width="3" stroke-linejoin="round" stroke-opacity="0.9"/>
+<g clip-path="url(#kc)">
+<path d="M0 0L32 6.1L32 32L14.2 14.2Z" fill="url(#kl)"/>
+<path d="M0 0L14.2 14.2L32 32L6.1 32Z" fill="url(#kd)"/>
+<path d="M4 4L14.2 14.2" stroke="#ffffff" stroke-opacity="0.55" stroke-width="0.8"/>
+</g>
+</svg>
