@@ -29,18 +29,39 @@ const rad = (deg) => (deg * Math.PI) / 180;
 const on = (c, radius, deg) => [c.cx + radius * Math.cos(rad(deg)), c.cy + radius * Math.sin(rad(deg))];
 const unit = (p, q) => { const v = [q[0] - p[0], q[1] - p[1]]; const l = Math.hypot(...v); return [v[0] / l, v[1] / l]; };
 
+/** Arc rounding corner `p` between its neighbours: where it starts and ends, and its circle. */
+function corner(p, prev, next, r) {
+  const u1 = unit(p, prev);
+  const u2 = unit(p, next);
+  const half = Math.acos(u1[0] * u2[0] + u1[1] * u2[1]) / 2;
+  const t = r / Math.tan(half);
+  const bis = unit([0, 0], [u1[0] + u2[0], u1[1] + u2[1]]);
+  return {
+    a: [p[0] + u1[0] * t, p[1] + u1[1] * t],
+    b: [p[0] + u2[0] * t, p[1] + u2[1] * t],
+    c: [p[0] + (bis[0] * r) / Math.sin(half), p[1] + (bis[1] * r) / Math.sin(half)],
+    r,
+    sweep: u1[0] * u2[1] - u1[1] * u2[0] < 0 ? 1 : 0,
+  };
+}
+
 /** Polygon with some corners rounded: points are [x, y] or [x, y, radius]. */
 function rounded(points) {
   const n = points.length;
   return points.map((p, i) => {
-    const r = p[2];
-    if (!r) return `${i ? 'L' : 'M'}${pt(p)}`;
-    const u1 = unit(p, points[(i + n - 1) % n]);
-    const u2 = unit(p, points[(i + 1) % n]);
-    const t = r / Math.tan(Math.acos(u1[0] * u2[0] + u1[1] * u2[1]) / 2);
-    const sweep = u1[0] * u2[1] - u1[1] * u2[0] < 0 ? 1 : 0;
-    return `${i ? 'L' : 'M'}${pt([p[0] + u1[0] * t, p[1] + u1[1] * t])}A${r} ${r} 0 0 ${sweep} ${pt([p[0] + u2[0] * t, p[1] + u2[1] * t])}`;
+    if (!p[2]) return `${i ? 'L' : 'M'}${pt(p)}`;
+    const { a, b, r, sweep } = corner(p, points[(i + n - 1) % n], points[(i + 1) % n], p[2]);
+    return `${i ? 'L' : 'M'}${pt(a)}A${r} ${r} 0 0 ${sweep} ${pt(b)}`;
   }).join('') + 'Z';
+}
+
+/** First point where the ray from `p` towards `q` meets the circle (c, r). */
+function meet(p, q, c, r) {
+  const d = unit(p, q);
+  const w = [p[0] - c[0], p[1] - c[1]];
+  const b = d[0] * w[0] + d[1] * w[1];
+  const s = -b - Math.sqrt(b * b - (w[0] ** 2 + w[1] ** 2 - r * r));
+  return [p[0] + d[0] * s, p[1] + d[1] * s];
 }
 
 function shapes() {
@@ -61,12 +82,19 @@ function shapes() {
   const gBowl = `M${pt(gEndOut)}A${G.R} ${G.R} 0 1 0 ${pt(outerAtRight)}L${pt(innerAtSpur)}A${G.r} ${G.r} 0 1 1 ${pt(gEndIn)}Z`;
   const gSpur = `M${G.spurLeft} ${G.barBottom}H${G.right}V${f(outerAtRight[1])}A${G.R} ${G.R} 0 0 1 ${pt(gTurn)}Q845 540 ${pt(innerAtSpur)}Z`;
   const gBar = `M${G.barLeft} ${G.barTop}H${G.right}V${G.barBottom}H${G.barLeft}Z`;
-  const gCurl = `M${G.spurLeft} ${G.barBottom}H${G.right}V385Q890 384 ${G.spurLeft} ${G.barBottom}Z`;
+  // The fold's lower edge is concave: the paper hugs the crossbar, then turns down at its end.
+  const gCurl = `M${G.spurLeft} ${G.barBottom}H${G.right}V385Q935 350 ${G.spurLeft} ${G.barBottom}Z`;
 
-  // A. Back leg first, front leg over it; the fold at the top is rounded once
-  // for both, so its edge reads as one ribbon turning over.
+  // A. Back leg first, front leg over it. Both legs share the fold's top-left
+  // curve: the front leg starts where its edge meets the back leg's rounding.
   const aBack = rounded([A.back[0], A.back[1], [...A.back[2], 30], [...A.back[3], 34]]);
-  const aFront = rounded([[...A.front[0], 20], [...A.front[1], 30], A.front[2], A.front[3]]);
+  const fold = corner(A.back[3], A.back[0], A.back[2], 34);
+  const aStart = meet(A.front[0], A.front[3], fold.c, fold.r);
+  const aTop = corner(A.front[1], A.front[0], A.front[2], 30);
+  const aFront =
+    `M${pt(aStart)}A${fold.r} ${fold.r} 0 0 ${fold.sweep} ${pt(fold.b)}` +
+    `L${pt(aTop.a)}A${aTop.r} ${aTop.r} 0 0 ${aTop.sweep} ${pt(aTop.b)}` +
+    `L${pt(A.front[2])}L${pt(A.front[3])}Z`;
 
   return [
     ['jBowl', jBowl, [[300, 470], [40, 420]], [[0, 'deep'], [1, 'teal']]],
