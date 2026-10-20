@@ -5,7 +5,7 @@ topic: trastornos-temporomandibulares
 slug: trastorno-atm-sindrome-costen
 title: "Trastorno de la ATM (síndrome de Costen)"
 summary: "El trastorno de la ATM causa dolor de mandíbula, chasquidos y, a veces, dolor de oído o acúfenos sin infección. Te explicamos causas, tratamiento y cuándo consultar."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Esquema de la mandíbula con la articulación temporomandibular situada delante del oído"
 references:
   - label: "Busse JW, Casassus R, Carrasco-Labra A, et al. Management of chronic pain associated with temporomandibular disorders: a clinical practice guideline. BMJ. 2023;383:e076227."
@@ -43,7 +43,7 @@ Los síntomas del oído son frecuentes: en una revisión de estudios, **más de 
 
 La ATM está **pegada al conducto del oído**. Comparten nervios cercanos: el **nervio auriculotemporal**, una rama del nervio trigémino, da sensibilidad a la articulación y a una parte del conducto auditivo y del tímpano. Por eso el dolor de la mandíbula puede **notarse en el oído**. Los músculos que mueven la mandíbula también influyen en la sensación de oído tapado.
 
-Se ha pensado que la articulación podría «apretar» o irritar esos nervios. **Eso no está demostrado.** Lo más aceptado es que se trata de un **dolor referido**: el cerebro interpreta como oído lo que viene de la articulación y los músculos.
+Es lo que llamamos **dolor referido**: el cerebro interpreta como oído lo que viene de la articulación y los músculos.
 
 Por eso es importante que **un otorrinolaringólogo revise el oído** y la garganta antes de atribuir los síntomas a la ATM, porque otras causas pueden dar también dolor de oído.
 
@@ -65,7 +65,7 @@ El diagnóstico se basa en tu historia y en una **exploración**:
 1. **Preguntas** sobre dolor, ruidos, hábitos y estrés.
 2. **Palpación** de los músculos y la articulación, y medición de **cuánto abres la boca**.
 3. **Exploración del oído, la nariz y la garganta**, para descartar otras causas de dolor o plenitud.
-4. **Audiometría** si notas que oyes peor o tienes acúfenos.
+4. **[Timpanometría](/es/zonas/oido/timpanometria-impedanciometria/)** o **[audiometría](/es/zonas/oido/audiometria-tonal/)** si notas que oyes peor o tienes acúfenos.
 
 Se usan criterios internacionales de diagnóstico (**DC/TMD**). Las **pruebas de imagen** (resonancia o TC) solo se piden si hay dudas o si el cuadro no es típico. No hacen falta para empezar el tratamiento.
 
@@ -80,7 +80,7 @@ La mayoría de las personas mejora con **tratamientos sencillos y reversibles**.
 
 Los analgésicos pueden usarse un tiempo corto, según te indique tu médico.
 
-La misma guía **no recomienda** otras opciones: las **férulas de descarga**, la **toxina botulínica**, las inyecciones, la **artrocentesis** y la cirugía de la articulación. Desaconseja con fuerza las **férulas irreversibles** y la cirugía del disco. Son decisiones que se toman con un **odontólogo**. Te derivamos a un odontólogo con experiencia en dolor orofacial.
+La misma guía **no recomienda** otras opciones: las **férulas de descarga**, las inyecciones, la **artrocentesis** y la cirugía de la articulación. Desaconseja con fuerza las **férulas irreversibles** y la cirugía del disco. Son decisiones que se toman con un **odontólogo**. Te derivamos a un odontólogo con experiencia en dolor orofacial y, si hace falta una valoración más especializada, a un **cirujano maxilofacial**.
 
 ## Recomendaciones
 

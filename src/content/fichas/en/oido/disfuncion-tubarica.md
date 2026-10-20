@@ -5,7 +5,7 @@ topic: disfuncion-tubarica
 slug: eustachian-tube-dysfunction
 title: "Eustachian tube dysfunction (blocked ears)"
 summary: "Eustachian tube dysfunction makes your ears feel blocked, full or popping. Learn the causes, how it is treated and when to seek help."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Diagram of the ear showing the Eustachian tube linking the middle ear to the back of the nose"
 references:
   - label: "Llewellyn A, Norman G, Harden M, et al. Interventions for adult Eustachian tube dysfunction: a systematic review. Health Technol Assess. 2014;18(46):1-180."
@@ -49,7 +49,7 @@ The most common cause is swelling or blockage of the tube. It is more likely wit
 - Fast pressure changes: flying, diving, mountains.
 - Cigarette smoke.
 
-Sometimes the opposite happens and the tube stays **too open** (**patulous Eustachian tube**). You then hear your own voice or breathing inside your ear. This is different, and blowing exercises can make it worse, so tell us if it applies to you.
+Sometimes the opposite happens and the tube stays **too open** (**patulous Eustachian tube**). You then hear your breathing inside your ear. This is different, and blowing exercises can make it worse, so tell us if it applies to you.
 
 ## How is it diagnosed?
 
@@ -70,7 +70,7 @@ Treating allergy, congestion or sinus problems often helps the ear. Saline nasal
 
 ### Exercises to open the tube
 
-Swallowing, yawning, chewing gum and, gently, **blowing against a pinched nose** can help. In children with fluid behind the eardrum, autoinflation with a nasal balloon may slightly shorten the time with fluid. In adults the evidence is much weaker, so it **can be tried** if there is no reason not to. We explain it step by step in [exercises to unblock your ears](/en/areas/ear/unblock-ears-exercises/).
+Swallowing, yawning and chewing gum can help. In children with fluid behind the eardrum, autoinflation with a nasal balloon may slightly shorten the time with fluid. In adults the evidence is much weaker, so it **can be tried** if there is no reason not to. We explain it step by step in [exercises to unblock your ears](/en/areas/ear/unblock-ears-exercises/).
 
 ### Persistent fluid in children
 
@@ -121,5 +121,5 @@ No. There is no infection in Eustachian tube dysfunction. Sometimes fluid collec
 **Does it go away?**
 Often, yes, once the cause is dealt with. If it is long-standing, it can be managed with simple measures and check-ups.
 
-**What if I hear my own voice inside my ear?**
+**What if I hear my breathing inside my ear?**
 Tell us. It may be a patulous tube, and blowing exercises are not suitable.

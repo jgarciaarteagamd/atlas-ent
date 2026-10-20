@@ -5,7 +5,7 @@ topic: otitis-externa
 slug: swimmers-ear
 title: "Swimmer's ear: symptoms and treatment"
 summary: "Swimmer's ear (otitis externa) is an infection of the skin lining the ear canal. Learn the symptoms, how it is treated and when to seek urgent help."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Diagram of the ear showing an inflamed ear canal"
 references:
   - label: "Rosenfeld RM, Schwartz SR, Cannon CR, et al. Clinical practice guideline: acute otitis externa. Otolaryngol Head Neck Surg. 2014;150(1 Suppl):S1-S24."
@@ -52,7 +52,7 @@ We ask about your symptoms and look into the canal with an otoscope or a microsc
 
 Finish the course even if you feel better. Keep the ear dry while you are being treated ([dry ear care](/en/areas/ear/dry-ear-care/)).
 
-You should feel better within 2-3 days. If you are not better within 48-72 hours, come back to see us.
+If you use the treatment and keep up this care, you should feel better within 2-3 days. If you are not better within 48-72 hours, come back to see us.
 
 ## Advice
 
@@ -78,7 +78,7 @@ Seek help the same day, or call 112 (in Spain) or your local emergency number, i
 Very mild cases sometimes do, but most need drops.
 
 **How long does it last?**
-With drops, the pain improves in 2-3 days. Treatment usually lasts 5 to 7 days and most people are better within a week.
+With the drops and keeping the ear dry, the pain usually improves in 2-3 days. Treatment usually lasts 5 to 7 days and most people are better within a week.
 
 **Can I shower?**
 Yes, if you protect the ear as shown in our [dry ear care](/en/areas/ear/dry-ear-care/) guide.

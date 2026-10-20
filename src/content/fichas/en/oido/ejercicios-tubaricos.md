@@ -4,9 +4,9 @@ zone: oido
 topic: ejercicios-tubaricos
 slug: unblock-ears-exercises
 title: "How to unblock your ears: simple exercises"
-summary: "How to unblock your ears with simple exercises: swallowing, yawning, chewing gum and gentle autoinflation. Routine, common mistakes and when to stop."
-updated: 2026-10-19
-coverAlt: "Person sitting and gently pinching their nose to unblock their ears"
+summary: "How to unblock your ears with simple exercises: swallowing, yawning, chewing gum and nasal balloon autoinflation. Routine, common mistakes and when to stop."
+updated: 2026-10-20
+coverAlt: "Person sitting and inflating a balloon through their nose to unblock their ears"
 references:
   - label: "Webster KE, Mulvaney CA, Galbraith K, et al. Autoinflation for otitis media with effusion (OME) in children. Cochrane Database Syst Rev. 2023;9:CD015253."
     url: https://doi.org/10.1002/14651858.CD015253.pub2
@@ -16,19 +16,19 @@ references:
     url: https://doi.org/10.1177/0194599815623467
 ---
 
-To **unblock your ears** you can do simple exercises that help open the Eustachian tube: swallowing, yawning, chewing gum and blowing gently against a pinched nose. This page shows you how to do them safely at home, how often, and when to stop.
+To **unblock your ears** you can do simple exercises that help open the Eustachian tube: swallowing, yawning, chewing gum and inflating a special balloon through your nose. This page shows you how to do them safely at home, how often, and when to stop.
 
 ## What are these exercises for?
 
 They open the **Eustachian tube**, the channel between your ear and nose, so that air can get into the ear and the pressure evens out. They are used when your ear feels blocked because of a cold, after flying, or when there is fluid behind the eardrum.
 
-They are a **supporting measure**, not the main treatment. In children with fluid in the ear, autoinflation can help a little. In adults there are fewer studies, so it **can be tried**. More in [Eustachian tube dysfunction](/en/areas/ear/eustachian-tube-dysfunction/).
+They are a **supporting measure**, not the main treatment. In children with fluid in the ear, autoinflation with a nasal balloon can help a little. In adults there are fewer studies, so it **can be tried**. More in [Eustachian tube dysfunction](/en/areas/ear/eustachian-tube-dysfunction/).
 
 ## Before you start
 
 - If your nose is full of mucus, clear it gently first or use saline nasal rinses.
 - Sit comfortably and stay relaxed.
-- **Do not do them** if you hear your own voice or breathing inside your ear (patulous tube), or if you have a temperature or severe ear pain.
+- **Do not do them** if you hear your breathing inside your ear (patulous tube), or if you have a temperature or severe ear pain.
 - Children: from about 4 years old and **always with an adult**.
 - It is normal for the ear to "pop" or feel slightly uncomfortable. Mild ear pain in the first few days happens in some people.
 
@@ -41,14 +41,6 @@ They are a **supporting measure**, not the main treatment. In children with flui
 3. **Chew gum** for a few minutes, swallowing now and then. It may help, although studies have not proved it.
 4. **Swallow with a pinched nose:** pinch your nose, take a sip of water and swallow it.
 
-### Gentle autoinflation (blowing against a pinched nose)
-
-1. Sit down and relax.
-2. **Pinch** both nostrils and **close your mouth**.
-3. **Blow gently** through your nose, as if to blow it, for 2-3 seconds. You should feel air nudge the ear, or a small pop.
-4. **Let go** of your nose and breathe normally.
-5. Repeat 5 times.
-
 ### Autoinflation with a nasal balloon
 
 1. Place the balloon nozzle in **one nostril** and block the other with a finger.
@@ -58,7 +50,7 @@ They are a **supporting measure**, not the main treatment. In children with flui
 
 Inflate the balloon **with your nose, not your mouth**. This is the technique that has been studied.
 
-<!-- ILUSTRACIÓN: three steps: pinch the nose, blow gently with the mouth closed, inflate the balloon through one nostril -->
+<!-- ILUSTRACIÓN: three steps: balloon nozzle in one nostril, block the other nostril, inflate the balloon with the mouth closed -->
 
 ## Routine
 
@@ -72,7 +64,7 @@ Always follow the routine your doctor gave you, which may be different.
 
 ## Common mistakes
 
-- **Blowing too hard:** it is not needed and can damage the ear. A gentle puff is enough.
+- **Blowing too hard into the balloon:** it is not needed and can damage the ear. A gentle, steady puff is enough.
 - **Inflating the balloon with your mouth:** that does not act on the tube.
 - **Doing it with a heavy cold or fever:** wait until you feel better.
 - **Carrying on when it hurts:** pain is a signal to stop.
@@ -101,7 +93,7 @@ If you have sudden hearing loss together with severe dizziness, **call 112 (in S
 Yes, from about 4 years old and with an adult. This is the age range where most studies exist, mainly in children with fluid in the ear.
 
 **How do I unblock my ears on a plane?**
-Swallow, yawn or chew gum during take-off and landing. If that is not enough, try gentle autoinflation. Do not blow hard.
+Swallow, yawn or chew gum during take-off and landing. Do not blow hard against a pinched nose.
 
 **What if I miss a day?**
 Nothing happens. Pick it up the next day and try to stay consistent.

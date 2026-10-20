@@ -5,7 +5,7 @@ topic: otitis-media
 slug: middle-ear-infection
 title: "Middle ear infection (otitis media)"
 summary: "A middle ear infection is inflammation behind the eardrum, very common in children. Learn about acute infection and glue ear, treatment and when to seek urgent help."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Eardrum bulging with fluid in a middle ear infection"
 references:
   - label: "Lieberthal AS, Carroll AE, Chonmaitree T, et al. The diagnosis and management of acute otitis media. Pediatrics. 2013;131(3):e964-e999."
@@ -18,7 +18,7 @@ references:
     url: https://doi.org/10.1002/14651858.CD015253.pub2
 ---
 
-A **middle ear infection**, or **otitis media**, is inflammation of the **middle ear**, the air-filled space behind the eardrum. It is very common in young children. There are two main types: **acute otitis media**, with pain and infection, and **otitis media with effusion**, also called **glue ear**, in which fluid is left behind without infection.
+A **middle ear infection**, or **otitis media**, is inflammation of the **middle ear**, the air-filled space behind the eardrum. It is very common in young children. There are two main types: **acute otitis media**, with pain and infection, and **glue ear**, also called **serous otitis** or **otitis media with effusion**, in which fluid is left behind without infection.
 
 <!-- ILUSTRACIÓN: healthy middle ear versus middle ear with fluid behind the eardrum -->
 
@@ -68,7 +68,7 @@ We look at the eardrum with an otoscope. Sometimes we measure how it moves with 
 **Glue ear:**
 
 - The fluid often clears by itself, so we **watch it for about 3 months**.
-- Cough and cold syrups, antihistamines, antibiotics and steroids have not been shown to help.
+- Cough and cold syrups, antihistamines and antibiotics have not been shown to help.
 - **Autoinflation**, which means blowing up a special balloon with your nose, may help some children a little while we wait. We explain it in [exercises to unblock your ears](/en/areas/ear/unblock-ears-exercises/).
 - If the fluid persists and your child hears poorly or has speech problems, we consider **grommets** (ventilation tubes) and, sometimes, removing the adenoids.
 
@@ -79,6 +79,7 @@ We look at the eardrum with an otoscope. Sometimes we measure how it moves with 
 - Do not allow smoking at home or in the car.
 - Breastfeeding and the routine vaccinations help prevent ear infections.
 - Do not bottle-feed a baby lying completely flat.
+- To clear the nose, we prefer **continuous-mist seawater sprays**. Avoid **syringe rinses**: in clinic we have seen them bring on middle ear infections, probably because they inflame the opening of the Eustachian tube at the back of the nose.
 - If your child has fluid in the ears, talk close to them, facing them and without background noise.
 - If they have grommets, follow [dry ear care](/en/areas/ear/dry-ear-care/) only if we advise it.
 

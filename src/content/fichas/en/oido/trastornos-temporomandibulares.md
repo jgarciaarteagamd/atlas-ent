@@ -5,7 +5,7 @@ topic: trastornos-temporomandibulares
 slug: tmj-disorder-costen-syndrome
 title: "TMJ disorder (temporomandibular disorder)"
 summary: "A TMJ disorder causes jaw pain, clicking and, often, ear pain or tinnitus without infection. Learn the causes, treatment and when to seek advice."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Diagram of the jaw showing the temporomandibular joint just in front of the ear"
 references:
   - label: "Busse JW, Casassus R, Carrasco-Labra A, et al. Management of chronic pain associated with temporomandibular disorders: a clinical practice guideline. BMJ. 2023;383:e076227."
@@ -43,7 +43,7 @@ Ear symptoms are common: in one review of studies, **more than half** of the adu
 
 The TMJ lies **next to the ear canal**. They share nearby nerves: the **auriculotemporal nerve**, a branch of the trigeminal nerve, supplies the joint and part of the ear canal and eardrum. That is why jaw pain can be **felt in the ear**. The muscles that move the jaw also influence the blocked-ear feeling.
 
-It has been suggested that the joint might "squeeze" or irritate these nerves. **This has not been proved.** The most accepted view is that it is **referred pain**: the brain reads as ear pain what comes from the joint and muscles.
+This is what we call **referred pain**: the brain reads as ear pain what comes from the joint and muscles.
 
 That is why it is important for **an ENT specialist to check your ear** and throat before putting the symptoms down to the TMJ, because other causes can also give ear pain.
 
@@ -65,7 +65,7 @@ Diagnosis is based on your history and an **examination**:
 1. **Questions** about pain, noises, habits and stress.
 2. **Feeling** the muscles and the joint, and measuring **how far you can open your mouth**.
 3. **Examination of the ear, nose and throat**, to rule out other causes of pain or fullness.
-4. A **hearing test** if you notice poorer hearing or have tinnitus.
+4. **[Tympanometry](/en/areas/ear/tympanometry-middle-ear-test/)** or a **[hearing test](/en/areas/ear/pure-tone-audiometry-hearing-test/)** if you notice poorer hearing or have tinnitus.
 
 International diagnostic criteria (**DC/TMD**) are used. **Scans** (MRI or CT) are requested only if there are doubts or the picture is not typical. They are not needed to start treatment.
 
@@ -80,7 +80,7 @@ Most people improve with **simple, reversible treatments**. The latest internati
 
 Painkillers can be used for a short time, as your doctor advises.
 
-The same guideline **does not recommend** other options: **occlusal splints**, **botulinum toxin**, injections, **arthrocentesis** and joint surgery. It strongly advises against **irreversible splints** and disc surgery. These are decisions taken with a **dentist**. We refer you to a dentist with experience in orofacial pain.
+The same guideline **does not recommend** other options: **occlusal splints**, injections, **arthrocentesis** and joint surgery. It strongly advises against **irreversible splints** and disc surgery. These are decisions taken with a **dentist**. We refer you to a dentist with experience in orofacial pain and, if a more specialised assessment is needed, to a **maxillofacial surgeon**.
 
 ## Advice
 

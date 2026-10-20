@@ -5,7 +5,7 @@ topic: otitis-media
 slug: otitis-media
 title: "Otitis media: aguda y serosa en niños"
 summary: "La otitis media es una inflamación detrás del tímpano, muy común en niños. Te explicamos la otitis aguda y la serosa, su tratamiento y cuándo consultar urgente."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Tímpano abombado por líquido en una otitis media"
 references:
   - label: "Lieberthal AS, Carroll AE, Chonmaitree T, et al. The diagnosis and management of acute otitis media. Pediatrics. 2013;131(3):e964-e999."
@@ -18,7 +18,7 @@ references:
     url: https://doi.org/10.1002/14651858.CD015253.pub2
 ---
 
-La **otitis media** es una inflamación del **oído medio**, el espacio con aire que hay detrás del tímpano. Es muy frecuente en niños pequeños. Hay dos formas principales: la **otitis media aguda**, con dolor e infección, y la **otitis media con derrame** u **otitis serosa**, en la que queda líquido sin infección.
+La **otitis media** es una inflamación del **oído medio**, el espacio con aire que hay detrás del tímpano. Es muy frecuente en niños pequeños. Hay dos formas principales: la **otitis media aguda**, con dolor e infección, y la **otitis seromucosa**, también llamada **otitis serosa** u **otitis media con derrame**, en la que queda líquido sin infección.
 
 <!-- ILUSTRACIÓN: oído medio sano frente a oído medio con líquido detrás del tímpano -->
 
@@ -68,7 +68,7 @@ Miramos el tímpano con el otoscopio. A veces medimos cómo se mueve con una **t
 **Otitis serosa:**
 
 - El líquido suele desaparecer solo, por eso la **vigilamos unos 3 meses**.
-- No han demostrado utilidad los jarabes para los mocos, los antihistamínicos, los antibióticos ni los corticoides.
+- No han demostrado utilidad los jarabes para los mocos, los antihistamínicos ni los antibióticos.
 - La **autoinsuflación**, que consiste en inflar un globo especial con la nariz, puede ayudar un poco a algunos niños mientras esperamos. Lo explicamos en [ejercicios para destapar los oídos](/es/zonas/oido/ejercicios-trompa-eustaquio/).
 - Si el líquido persiste y el niño oye mal o tiene problemas de lenguaje, valoramos colocar **drenajes** (tubos de ventilación) y, a veces, quitar las vegetaciones.
 
@@ -79,6 +79,7 @@ Miramos el tímpano con el otoscopio. A veces medimos cómo se mueve con una **t
 - Que no se fume en casa ni en el coche.
 - La lactancia materna y las vacunas del calendario ayudan a prevenir las otitis.
 - No des el biberón al bebé tumbado del todo.
+- Para limpiar la nariz, preferimos los **sprays de agua de mar de chorro continuo**. Evita los **lavados con jeringa**: en la consulta hemos visto que pueden favorecer la otitis media, probablemente porque inflaman la entrada de la trompa de Eustaquio, en la parte de atrás de la nariz.
 - Si tu hijo tiene líquido en los oídos, háblale cerca, mirándole a la cara y sin ruido de fondo.
 - Si lleva drenajes, sigue los [cuidados de oídos secos](/es/zonas/oido/cuidados-oidos-secos/) solo si te los indicamos.
 

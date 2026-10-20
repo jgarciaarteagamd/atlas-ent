@@ -5,7 +5,7 @@ topic: otitis-externa
 slug: otitis-externa
 title: "Otitis externa: síntomas y tratamiento"
 summary: "La otitis externa es una infección de la piel del conducto del oído. Te explicamos sus síntomas, cómo se trata y cuándo debes consultar de forma urgente."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Esquema del oído con el conducto auditivo externo inflamado"
 references:
   - label: "Rosenfeld RM, Schwartz SR, Cannon CR, et al. Clinical practice guideline: acute otitis externa. Otolaryngol Head Neck Surg. 2014;150(1 Suppl):S1-S24."
@@ -52,7 +52,7 @@ En consulta te preguntamos por tus síntomas y miramos el conducto con un **otos
 
 Termina el tratamiento aunque te encuentres mejor. Mantén el oído seco mientras dure; te lo explicamos en [cuidados de oídos secos](/es/zonas/oido/cuidados-oidos-secos/).
 
-Lo normal es mejorar en 2-3 días. Si no mejoras en 48-72 horas, vuelve a consulta.
+Si haces el tratamiento y mantienes estos cuidados, lo normal es mejorar en 2-3 días. Si no mejoras en 48-72 horas, vuelve a consulta.
 
 ## Recomendaciones
 
@@ -78,7 +78,7 @@ Consulta en el mismo día o acude a urgencias si:
 Las formas muy leves a veces sí, pero lo habitual es que necesite gotas.
 
 **¿Cuánto dura?**
-Con gotas, el dolor mejora en 2-3 días. El tratamiento dura habitualmente de 5 a 7 días y la mayoría cura en una semana.
+Con las gotas y manteniendo el oído seco, el dolor suele mejorar en 2-3 días. El tratamiento dura habitualmente de 5 a 7 días y la mayoría cura en una semana.
 
 **¿Puedo ducharme?**
 Sí, protegiendo el oído como te explicamos en [cuidados de oídos secos](/es/zonas/oido/cuidados-oidos-secos/).

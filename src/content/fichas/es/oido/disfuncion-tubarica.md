@@ -5,7 +5,7 @@ topic: disfuncion-tubarica
 slug: disfuncion-trompa-eustaquio
 title: Disfunción de la trompa de Eustaquio
 summary: "La disfunción de la trompa de Eustaquio causa oído tapado, chasquidos y presión. Te explicamos sus causas, el tratamiento y cuándo debes consultar."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Esquema del oído que muestra la trompa de Eustaquio entre el oído medio y la nariz"
 references:
   - label: "Llewellyn A, Norman G, Harden M, et al. Interventions for adult Eustachian tube dysfunction: a systematic review. Health Technol Assess. 2014;18(46):1-180."
@@ -49,7 +49,7 @@ La causa más común es que la trompa se **hinche o se obstruya**. Lo favorecen:
 - Los cambios rápidos de presión: viajes en avión, buceo, montaña.
 - El humo del tabaco.
 
-En algunos casos el problema es el contrario: la trompa se queda **demasiado abierta** (**trompa patulosa**). Entonces oyes tu propia voz o tu respiración dentro del oído. Es distinto, y los ejercicios de soplar pueden empeorarlo, así que cuéntanoslo si te ocurre.
+En algunos casos el problema es el contrario: la trompa se queda **demasiado abierta** (**trompa patulosa**). Entonces oyes tu respiración dentro del oído. Es distinto, y los ejercicios de soplar pueden empeorarlo, así que cuéntanoslo si te ocurre.
 
 ## ¿Cómo se diagnostica?
 
@@ -70,7 +70,7 @@ Si hay alergia, congestión o sinusitis, tratarlas suele aliviar el oído. Los l
 
 ### Ejercicios para abrir la trompa
 
-Tragar, bostezar, masticar chicle y, con suavidad, **soplar contra la nariz cerrada** pueden ayudar a abrirla. En niños con líquido en el oído, la autoinsuflación con un globo nasal puede reducir un poco el tiempo con líquido. En adultos la evidencia es mucho menor, así que **puede probarse** si no hay contraindicaciones. Te lo explicamos paso a paso en [ejercicios para destapar los oídos](/es/zonas/oido/ejercicios-trompa-eustaquio/).
+Tragar, bostezar y masticar chicle pueden ayudar a abrirla. En niños con líquido en el oído, la autoinsuflación con un globo nasal puede reducir un poco el tiempo con líquido. En adultos la evidencia es mucho menor, así que **puede probarse** si no hay contraindicaciones. Te lo explicamos paso a paso en [ejercicios para destapar los oídos](/es/zonas/oido/ejercicios-trompa-eustaquio/).
 
 ### Cuando hay líquido persistente en niños
 
@@ -121,5 +121,5 @@ No. En la disfunción tubárica no hay infección. A veces queda líquido detrá
 **¿Se cura?**
 Muchas veces sí, al resolver la causa. Si es crónica, se controla con medidas y revisiones.
 
-**¿Qué hago si oigo mi propia voz dentro del oído?**
+**¿Qué hago si oigo mi respiración dentro del oído?**
 Consúltalo. Puede ser una trompa patulosa y los ejercicios de soplar no están indicados.
