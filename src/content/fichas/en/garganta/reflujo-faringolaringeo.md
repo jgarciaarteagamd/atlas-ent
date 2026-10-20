@@ -5,7 +5,7 @@ topic: reflujo-faringolaringeo
 slug: silent-reflux-laryngopharyngeal
 title: "Silent reflux (laryngopharyngeal reflux)"
 summary: "Laryngopharyngeal reflux is when stomach contents reach the throat. It can cause throat clearing, cough and hoarseness. Learn what you can do."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Diagram of throat and oesophagus with an arrow showing stomach contents rising to the voice box"
 references:
   - label: "Katz PO, Dunbar KB, Schnoll-Sussman FH, et al. ACG clinical guideline for the diagnosis and management of gastroesophageal reflux disease. Am J Gastroenterol. 2022;117(1):27-56."
@@ -20,11 +20,11 @@ references:
 
 **Laryngopharyngeal reflux** happens when some of the stomach contents rise up the oesophagus to the **throat and voice box**. It is also called **silent reflux** because many people have **no heartburn**. It can cause throat clearing, cough, mucus and hoarseness, and it often improves with changes in habits.
 
-<!-- ILUSTRACIÓN: diagram of stomach, oesophagus, throat and voice box; arrow showing stomach contents rising, and the valves (sphincters) that should close -->
+<!-- ILUSTRACIÓN: diagram of stomach, oesophagus, throat and voice box; arrow showing stomach contents rising, and the valve (sphincter) that should close -->
 
 ## What is laryngopharyngeal reflux?
 
-There is a valve between the stomach and the oesophagus, the **lower oesophageal sphincter**, and another at the top of the oesophagus. If they do not close well, some stomach contents come up. When they reach the **throat (pharynx)** and the **voice box (larynx)**, which are more sensitive than the oesophagus, even a small amount can irritate them.
+There is a valve between the stomach and the oesophagus, the **lower oesophageal sphincter**. If it does not close well, some stomach contents come up. When they reach the **throat (pharynx)** and the **voice box (larynx)**, which are more sensitive than the oesophagus, even a small amount can irritate them.
 
 It is not the same as classic acid reflux, which causes heartburn. Here the symptoms are in the throat, although you can have both together.
 
@@ -53,8 +53,8 @@ You may or may not have **heartburn**. Many people with laryngopharyngeal reflux
 There is no single test. Diagnosis is based on:
 
 1. **Your symptoms** and habits.
-2. **Laryngoscopy:** a thin camera lets us see the voice box. It is mainly used to **rule out other causes** of hoarseness or cough. The signs of reflux that can be seen (such as redness) are **not specific**: they also occur in other conditions.
-3. **Digestive tests** (gastroscopy or acid monitoring), only in some cases: if you have frequent heartburn, warning signs or do not improve with treatment.
+2. **[Flexible nasendoscopy](/en/areas/throat/flexible-nasendoscopy/):** a thin tube passed through the nose lets us see the voice box. It is mainly used to **rule out other causes** of hoarseness or cough.
+3. **Digestive tests** (gastroscopy or acid monitoring). If you have frequent heartburn, warning signs or do not improve with treatment, we refer you to a gastroenterologist, who decides whether they are needed and carries them out.
 
 A trial of treatment with changes in habits and, sometimes, medication also helps confirm the diagnosis.
 

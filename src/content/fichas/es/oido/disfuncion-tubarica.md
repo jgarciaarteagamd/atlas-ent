@@ -66,7 +66,7 @@ Muchas veces mejora sola al curar el catarro o la alergia. Si no, estas son las 
 
 ### Tratar la causa
 
-Si hay alergia, congestión o sinusitis, tratarlas suele aliviar el oído. Los lavados nasales ayudan a despejar la nariz.
+Si hay alergia, congestión o sinusitis, tratarlas suele aliviar el oído. Para despejar la nariz, preferimos los **sprays de agua de mar de chorro continuo** a los lavados con jeringa, que en la consulta hemos visto que pueden favorecer la otitis media.
 
 ### Ejercicios para abrir la trompa
 

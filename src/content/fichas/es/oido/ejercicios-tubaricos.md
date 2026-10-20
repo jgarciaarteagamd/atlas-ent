@@ -26,7 +26,7 @@ Son un **complemento**, no el tratamiento principal. En niños con líquido en e
 
 ## Antes de empezar
 
-- Si tienes la nariz llena de mocos, límpiala antes con suavidad o con lavados nasales.
+- Si tienes la nariz llena de mocos, límpiala antes con suavidad o con un **spray de agua de mar de chorro continuo** (mejor que los lavados con jeringa).
 - Hazlos sentado y tranquilo.
 - **No los hagas** si oyes tu respiración dentro del oído (trompa patulosa), ni si tienes fiebre o dolor de oído intenso.
 - En niños, a partir de unos 4 años y **siempre con un adulto**.

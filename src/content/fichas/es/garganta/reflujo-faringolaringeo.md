@@ -5,7 +5,7 @@ topic: reflujo-faringolaringeo
 slug: reflujo-faringolaringeo-silencioso
 title: "Reflujo faringolaríngeo (reflujo silencioso)"
 summary: "El reflujo faringolaríngeo ocurre cuando el contenido del estómago sube hasta la garganta. Causa carraspeo, tos y ronquera. Te explicamos qué hacer."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Esquema de garganta y esófago con una flecha que muestra el contenido del estómago subiendo hasta la laringe"
 references:
   - label: "Katz PO, Dunbar KB, Schnoll-Sussman FH, et al. ACG clinical guideline for the diagnosis and management of gastroesophageal reflux disease. Am J Gastroenterol. 2022;117(1):27-56."
@@ -20,11 +20,11 @@ references:
 
 El **reflujo faringolaríngeo** ocurre cuando parte del contenido del estómago sube por el esófago hasta la **garganta y la laringe**, donde está la voz. Se le llama también **reflujo silencioso** porque muchas personas **no tienen ardor ni acidez**. Produce carraspeo, tos, mucosidad y ronquera, y suele mejorar con cambios de hábitos.
 
-<!-- ILUSTRACIÓN: esquema de estómago, esófago, faringe y laringe; flecha de subida del contenido del estómago y válvulas (esfínteres) que deberían cerrar -->
+<!-- ILUSTRACIÓN: esquema de estómago, esófago, faringe y laringe; flecha de subida del contenido del estómago y la válvula (esfínter) que debería cerrar -->
 
 ## ¿Qué es el reflujo faringolaríngeo?
 
-Entre el estómago y el esófago hay una válvula, el **esfínter esofágico inferior**, y otra en la parte alta del esófago. Si no cierran bien, algo del contenido del estómago sube. Cuando llega a la **garganta (faringe)** y a la **laringe**, que son más sensibles que el esófago, aunque suba poco, puede irritarlas.
+Entre el estómago y el esófago hay una válvula, el **esfínter esofágico inferior**. Si no cierra bien, algo del contenido del estómago sube. Cuando llega a la **garganta (faringe)** y a la **laringe**, que son más sensibles que el esófago, aunque suba poco, puede irritarlas.
 
 No es lo mismo que el reflujo gastroesofágico clásico, que causa ardor de estómago. Aquí los síntomas están en la garganta, y puede haber ambos a la vez.
 
@@ -53,8 +53,8 @@ Puede haber o no **acidez**. Muchas personas con reflujo faringolaríngeo no la 
 No hay una prueba única. El diagnóstico se basa en:
 
 1. **Tus síntomas** y tus hábitos.
-2. **Laringoscopia:** con una cámara fina vemos la laringe. Sirve sobre todo para **descartar otras causas** de la ronquera o la tos. Los signos de reflujo que se ven (como el enrojecimiento) **no son específicos**: también aparecen en otras situaciones.
-3. **Pruebas digestivas** (gastroscopia o monitorización de la acidez), solo en algunos casos: si tienes acidez frecuente, síntomas de alarma o no mejoras con el tratamiento.
+2. **[Fibroscopia](/es/zonas/garganta/fibroscopia-nasal-nasofibrolaringoscopia/):** con un tubo fino que pasa por la nariz vemos la laringe. Sirve sobre todo para **descartar otras causas** de la ronquera o la tos.
+3. **Pruebas digestivas** (gastroscopia o monitorización de la acidez). Si tienes acidez frecuente, síntomas de alarma o no mejoras con el tratamiento, te derivamos al especialista de aparato digestivo, que es quien valora si hacen falta y las realiza.
 
 Una prueba de tratamiento con cambios de hábitos y, a veces, medicación, ayuda también a confirmar el diagnóstico.
 

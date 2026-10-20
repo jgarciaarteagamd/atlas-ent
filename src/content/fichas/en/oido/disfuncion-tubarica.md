@@ -66,7 +66,7 @@ It often settles by itself once a cold or allergy clears. If not, these are the 
 
 ### Treat the cause
 
-Treating allergy, congestion or sinus problems often helps the ear. Saline nasal rinses can help clear the nose.
+Treating allergy, congestion or sinus problems often helps the ear. To clear the nose, we prefer **continuous-mist seawater sprays** to syringe rinses, which in clinic we have seen bring on middle ear infections.
 
 ### Exercises to open the tube
 

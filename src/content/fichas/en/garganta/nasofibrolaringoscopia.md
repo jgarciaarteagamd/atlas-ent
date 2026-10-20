@@ -5,8 +5,8 @@ topic: nasofibrolaringoscopia
 slug: flexible-nasendoscopy
 title: Flexible nasendoscopy (camera down the nose)
 summary: "Flexible nasendoscopy uses a thin camera passed through the nose to see your nose, throat and vocal cords. It takes about 5 minutes and is done in clinic."
-updated: 2026-10-19
-coverAlt: "A thin flexible endoscope beside a screen showing the vocal cords."
+updated: 2026-10-20
+coverAlt: "A thin flexible endoscope, the tube used to examine the nose, throat and vocal cords."
 references:
   - label: "Stachler RJ, Francis DO, Schwartz SR, et al. Clinical Practice Guideline: Hoarseness (Dysphonia) (Update). Otolaryngol Head Neck Surg. 2018;158(1_suppl):S1-S42."
     url: https://doi.org/10.1177/0194599817751030
@@ -20,9 +20,9 @@ references:
 
 ## What is flexible nasendoscopy?
 
-**Flexible nasendoscopy**, also called **nasoendoscopy** or **nasopharyngolaryngoscopy**, is an examination in which we pass a very thin, flexible tube with a tiny camera on the tip through your nose. It lets us see inside your nose, the upper part of your throat and your **vocal cords**. It is done in the clinic and you do not need to stay in hospital.
+**Flexible nasendoscopy**, also called **nasoendoscopy** or **nasopharyngolaryngoscopy**, is an examination in which we pass a very thin, flexible tube with a light and a lens on the tip through your nose. It lets us see inside your nose, the upper part of your throat and your **vocal cords**. It is done in the clinic and you do not need to stay in hospital.
 
-The picture appears live on a screen, so you can watch it too while we explain what we see. You may also hear it called a nasal endoscopy or flexible laryngoscopy: it is the same test.
+We usually look directly through the endoscope, without connecting it to a screen. At the end we explain what we have seen.
 
 <!-- ILUSTRACIÓN: side view of the head showing the route of the endoscope from the nostril to the larynx, labelling what can be seen: nose, adenoids, throat and vocal cords -->
 
@@ -56,7 +56,7 @@ You hardly need to prepare:
 4. **We look at your throat and vocal cords.** We will ask you to breathe, say sounds such as "eee" or "aaa" and swallow, so we can see how everything moves.
 5. **We remove it.** The whole test usually takes **about 5 minutes**.
 
-If you gag a lot, we can also put a little anaesthetic in your throat. For children we use a **paediatric endoscope**, sized for them. For patients who need follow-up we often record the examination on video so we can compare pictures between visits.
+If you gag a lot, we can also put a little anaesthetic in your throat. For children we use a **paediatric endoscope**, sized for them. For patients who need follow-up we connect a camera and often record the examination on video so we can compare pictures between visits.
 
 ## Does it hurt? Are there any risks?
 
@@ -95,9 +95,6 @@ It does not usually hurt. It can be uncomfortable for a few seconds, mainly from
 
 **How long does it take?**
 About 5 minutes in total. The camera is in your throat for only a few moments.
-
-**Is it the same as a nasal endoscopy or a laryngoscopy?**
-Yes. They are different names for the same test: a thin tube with a camera passed through the nose so we can see the nose, throat and vocal cords.
 
 **Can children have it?**
 Yes. We use a thinner paediatric endoscope. With a good explanation and a trusted adult beside them, most children cope well.

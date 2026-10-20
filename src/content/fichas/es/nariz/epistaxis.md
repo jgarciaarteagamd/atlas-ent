@@ -5,7 +5,7 @@ topic: epistaxis
 slug: sangrado-nariz-primeros-auxilios
 title: "Sangrado de nariz: qué hacer y prevenirlo"
 summary: "Qué hacer si te sangra la nariz: postura correcta, cómo y cuánto tiempo apretar, cómo prevenir nuevos sangrados y cuándo acudir a urgencias. Pasos claros y seguros."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Persona sentada inclinada hacia delante apretando la parte blanda de la nariz"
 references:
   - label: "Tunkel DE, Anne S, Payne SC, et al. Clinical practice guideline: nosebleed (epistaxis). Otolaryngol Head Neck Surg. 2020;162(1 Suppl):S1-S38."
@@ -31,8 +31,7 @@ Apretar bien la nariz comprime los vasos que sangran y deja que se forme un coá
 3. **Aprieta con firmeza la parte blanda de la nariz,** justo debajo del hueso, cerrando las dos fosas.
 4. **Respira por la boca** y escupe la sangre; no la tragues.
 5. **Mantén la presión al menos 5 minutos seguidos,** mirando el reloj. No sueltes para comprobar.
-6. Si quieres, pon algo frío envuelto en un paño sobre la frente o la nuca. Es un complemento, no sustituye a la presión.
-7. Suelta despacio. Si sigue sangrando, vuelve a apretar otros 5 minutos o más.
+6. Suelta despacio. Si sigue sangrando, vuelve a apretar otros 5 minutos o más.
 
 <!-- ILUSTRACIÓN: postura correcta (sentado, cabeza adelante, pinza en la parte blanda) frente a incorrecta (cabeza atrás) -->
 
@@ -78,7 +77,7 @@ En los días siguientes es normal ver restos de sangre o pequeñas costras.
 
 - Lleva las uñas cortas y evita rascarte la nariz.
 - Suénate con suavidad, de una fosa cada vez.
-- Si el ambiente es seco, usa un humidificador o haz lavados nasales.
+- Si el ambiente es seco, usa un humidificador o un **spray de agua de mar de chorro continuo**. Evita los lavados con jeringa.
 - Si se te forman costras, aplica un poco de vaselina en la entrada de la nariz.
 - Evita el humo del tabaco y los irritantes fuertes.
 

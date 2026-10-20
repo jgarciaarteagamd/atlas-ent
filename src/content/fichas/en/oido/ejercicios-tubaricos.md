@@ -26,7 +26,7 @@ They are a **supporting measure**, not the main treatment. In children with flui
 
 ## Before you start
 
-- If your nose is full of mucus, clear it gently first or use saline nasal rinses.
+- If your nose is full of mucus, clear it gently first or use a **continuous-mist seawater spray** (better than syringe rinses).
 - Sit comfortably and stay relaxed.
 - **Do not do them** if you hear your breathing inside your ear (patulous tube), or if you have a temperature or severe ear pain.
 - Children: from about 4 years old and **always with an adult**.

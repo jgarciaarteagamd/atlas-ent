@@ -4,9 +4,9 @@ zone: garganta
 topic: nasofibrolaringoscopia
 slug: fibroscopia-nasal-nasofibrolaringoscopia
 title: Fibroscopia (nasofibrolaringoscopia)
-summary: "La fibroscopia (nasofibrolaringoscopia) permite ver nariz, garganta y cuerdas vocales con una cámara fina. Dura unos 5 minutos y se hace en consulta."
-updated: 2026-10-19
-coverAlt: "Endoscopio flexible y fino junto a una pantalla que muestra las cuerdas vocales."
+summary: "La fibroscopia (nasofibrolaringoscopia) permite ver nariz, garganta y cuerdas vocales con un tubo fino y flexible. Dura unos 5 minutos y se hace en consulta."
+updated: 2026-10-20
+coverAlt: "Fibroscopio flexible y fino, el tubo con el que se exploran la nariz, la garganta y las cuerdas vocales."
 references:
   - label: "Stachler RJ, Francis DO, Schwartz SR, et al. Clinical Practice Guideline: Hoarseness (Dysphonia) (Update). Otolaryngol Head Neck Surg. 2018;158(1_suppl):S1-S42."
     url: https://doi.org/10.1177/0194599817751030
@@ -20,9 +20,9 @@ references:
 
 ## ¿Qué es la fibroscopia?
 
-La **fibroscopia**, también llamada **nasofibrolaringoscopia**, es una exploración en la que pasamos por la nariz un tubo flexible y muy fino con una cámara en la punta. Nos permite ver por dentro la nariz, la parte alta de la garganta y las **cuerdas vocales**. Se hace en la propia consulta y no necesita ingreso.
+La **fibroscopia**, también llamada **nasofibrolaringoscopia**, es una exploración en la que pasamos por la nariz un tubo flexible y muy fino, con luz y una lente en la punta. Nos permite ver por dentro la nariz, la parte alta de la garganta y las **cuerdas vocales**. Se hace en la propia consulta y no necesita ingreso.
 
-La imagen aparece en una pantalla en tiempo real, así que tú también puedes verla mientras te la explicamos. Es la misma técnica que a veces se conoce como endoscopia nasal o laringoscopia flexible.
+Normalmente miramos directamente a través del fibroscopio, sin conectarlo a una pantalla. Al terminar te explicamos lo que hemos visto.
 
 <!-- ILUSTRACIÓN: corte lateral de la cabeza con el recorrido del endoscopio desde la fosa nasal hasta la laringe, señalando las zonas que se ven: nariz, adenoides, garganta y cuerdas vocales -->
 
@@ -56,7 +56,7 @@ Casi no necesitas prepararte:
 4. **Vemos la garganta y las cuerdas vocales.** Te pediremos que respires, que digas sonidos como «iii» o «aaa» y que tragues saliva, para ver cómo se mueven.
 5. **Lo retiramos.** Todo suele durar **unos 5 minutos**.
 
-Si tienes muchas náuseas, podemos aplicar también un poco de anestésico en la garganta. En niños utilizamos un **fibroscopio infantil**, adaptado a su tamaño. En los pacientes que necesitan seguimiento solemos grabar la exploración en vídeo para comparar las imágenes entre una visita y otra.
+Si tienes muchas náuseas, podemos aplicar también un poco de anestésico en la garganta. En niños utilizamos un **fibroscopio infantil**, adaptado a su tamaño. En los pacientes que necesitan seguimiento conectamos una cámara y solemos grabar la exploración en vídeo para comparar las imágenes entre una visita y otra.
 
 ## ¿Duele? ¿Tiene riesgos?
 
@@ -95,9 +95,6 @@ No suele doler. Puede ser molesta unos segundos, sobre todo por la presión en l
 
 **¿Cuánto dura?**
 Unos 5 minutos en total. La cámara está en tu garganta solo unos instantes.
-
-**¿Es lo mismo que una endoscopia nasal o una laringoscopia?**
-Sí. Son nombres distintos para la misma técnica: un tubo fino con cámara que pasa por la nariz y nos permite ver la nariz, la garganta y las cuerdas vocales.
 
 **¿Se puede hacer a niños?**
 Sí. Utilizamos un fibroscopio infantil, más fino. Con una buena explicación y un adulto de confianza al lado, la mayoría de los niños la toleran bien.

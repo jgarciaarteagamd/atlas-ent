@@ -5,7 +5,7 @@ topic: epistaxis
 slug: how-to-stop-a-nosebleed
 title: "Nosebleed: what to do and how to prevent it"
 summary: "What to do if your nose bleeds: the right position, how and how long to pinch, how to prevent more nosebleeds and when to go to A&E. Clear, safe steps."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Person leaning forward pinching the soft part of the nose"
 references:
   - label: "Tunkel DE, Anne S, Payne SC, et al. Clinical practice guideline: nosebleed (epistaxis). Otolaryngol Head Neck Surg. 2020;162(1 Suppl):S1-S38."
@@ -31,8 +31,7 @@ Pinching the nose firmly presses on the bleeding vessels and lets a clot form. L
 3. **Pinch the soft part of your nose firmly,** just below the bone, closing both nostrils.
 4. **Breathe through your mouth** and spit out any blood; do not swallow it.
 5. **Keep up the pressure for at least 5 minutes without letting go,** watching the clock. Do not release to check.
-6. If you wish, hold something cold wrapped in a cloth on your forehead or the back of your neck. It is a supporting measure and does not replace pressure.
-7. Let go slowly. If it is still bleeding, pinch again for another 5 minutes or more.
+6. Let go slowly. If it is still bleeding, pinch again for another 5 minutes or more.
 
 <!-- ILUSTRACIÓN: correct position (sitting, head forward, pinching the soft part) versus incorrect (head back) -->
 
@@ -78,7 +77,7 @@ In the following days it is normal to see traces of blood or small scabs.
 
 - Keep your nails short and avoid picking your nose.
 - Blow your nose gently, one nostril at a time.
-- If the air is dry, use a humidifier or do saline nasal rinses.
+- If the air is dry, use a humidifier or a **continuous-mist seawater spray**. Avoid syringe rinses.
 - If you get crusts, apply a little petroleum jelly just inside the nostrils.
 - Avoid tobacco smoke and strong irritants.
 

@@ -5,7 +5,7 @@ topic: disfonia-funcional
 slug: disfonia-funcional-ronquera
 title: "Disfonía funcional: ronquera por tensión"
 summary: "La disfonía funcional es una ronquera o voz cansada sin lesión grave, por tensión al hablar. Te explicamos sus causas, la terapia de voz y cuándo consultar."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Persona que se lleva la mano al cuello mientras habla, con las cuerdas vocales dibujadas al lado"
 references:
   - label: "Stachler RJ, Francis DO, Schwartz SR, et al. Clinical practice guideline: hoarseness (dysphonia) (update). Otolaryngol Head Neck Surg. 2018;158(1 Suppl):S1-S42."
@@ -40,14 +40,14 @@ Casi siempre hay varios factores a la vez:
 
 - **Uso intenso o incorrecto de la voz:** profesores, teleoperadores, cantantes, hablar siempre en sitios ruidosos o a gritos.
 - **Estrés y tensión muscular** en cuello y hombros.
-- Una **infección** (catarro, laringitis) tras la que se sigue forzando la voz.
+- Una **infección** (por ejemplo, después de un catarro) tras la que se sigue forzando la voz.
 - El **reflujo** y la sequedad pueden contribuir, pero rara vez son la causa única.
 - El **tabaco** irrita las cuerdas vocales.
 
 ## ¿Cómo se diagnostica?
 
 1. **Historia clínica:** cuándo empezó, cómo usas la voz, qué empeora o mejora.
-2. **Laringoscopia:** con una cámara fina vemos las cuerdas vocales. Es **imprescindible** para descartar nódulos, pólipos, parálisis u otras lesiones, y antes de empezar la terapia de voz.
+2. **[Nasofibrolaringoscopia](/es/zonas/garganta/fibroscopia-nasal-nasofibrolaringoscopia/):** con un tubo fino que pasa por la nariz vemos las cuerdas vocales. Es **imprescindible** para descartar nódulos, pólipos, parálisis u otras lesiones, y antes de empezar la terapia de voz.
 3. **Exploración del cuello:** buscamos tensión muscular.
 4. **Valoración con el logopeda,** que analiza cómo respiras, hablas y proyectas la voz.
 
@@ -107,10 +107,10 @@ No suele serlo. Aun así, una ronquera que dura más de 4 semanas siempre debe v
 En la mayoría de los casos mejora mucho con la terapia de voz y los cambios de hábito. Si vuelves a forzar la voz, puede reaparecer.
 
 **¿Por qué me pasa si no tengo nódulos?**
-Porque el problema es la tensión con que usas la voz, no una lesión. La laringoscopia lo confirma.
+Porque el problema es la tensión con que usas la voz, no una lesión. La nasofibrolaringoscopia lo confirma.
 
 **¿Puedo seguir trabajando?**
-Normalmente sí, adaptando el uso de la voz. Te lo explicaremos tú y el logopeda.
+Normalmente sí, adaptando el uso de la voz. Te lo explicamos en la consulta y el logopeda te enseña cómo hacerlo.
 
 **¿Es por el reflujo?**
 Puede contribuir, pero no suele ser la única causa. No damos medicación para el reflujo sin ver antes la laringe.

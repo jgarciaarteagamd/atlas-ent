@@ -5,7 +5,7 @@ topic: sialolitiasis
 slug: salivary-stones-sialolithiasis
 title: "Salivary stones (sialolithiasis)"
 summary: "Salivary stones block a salivary gland and cause swelling and pain when eating. Learn the symptoms, diagnosis, treatment and when to seek advice."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Diagram of the salivary gland under the jaw with a stone in its duct"
 references:
   - label: "Badash I, Raskin J, Pei M, Soldatova L, Rassekh C. Contemporary review of submandibular gland sialolithiasis and surgical management options. Cureus. 2022;14(8):e28147."
@@ -64,10 +64,9 @@ For **small stones close to the opening of the duct**, conservative treatment of
 
 When the stone is not cleared by conservative treatment, there are other options:
 
-- **Sialendoscopy:** a very fine endoscope is passed along the duct. It allows the stone to be removed or broken up with a laser, preserving the gland. For mid-sized stones, studies show a **high success rate** in experienced hands.
-- **Extracorporeal lithotripsy:** shock waves from outside to break up the stone.
+- **Sialendoscopy:** a very fine endoscope is passed along the duct. It allows the stone to be removed or broken up with a laser, preserving the gland.
 - **Removal through the mouth:** if the stone is near the opening of the duct.
-- **Gland surgery:** removing the gland is reserved for selected cases, when the other options do not work or infections keep recurring.
+- **Other surgery** on the salivary ducts or glands, in specific cases.
 
 The most suitable option depends on the size and position of the stone.
 

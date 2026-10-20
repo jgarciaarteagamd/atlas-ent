@@ -165,9 +165,14 @@ const jsonLd = {
   }
   :global(html) { scroll-padding-top: 90px; scroll-behavior: smooth; }
   @media print {
+    .crumbs { padding-top: 0; }
+    .head { padding: 0 0 6px; gap: 3px; max-width: none; }
+    .lede { font-size: 1.05rem; line-height: 1.35; }
+    .meta { font-size: 0.85rem; }
+    .refs ol { font-size: 0.85rem; }
     .print-only { display: flex; }
-    .handout { gap: 16px; align-items: center; margin-top: 24px; padding-top: 12px; border-top: 1px solid #000; font-size: 0.85rem; break-inside: avoid; }
-    .qr { width: 90px; flex: none; }
+    .handout { gap: 12px; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #000; font-size: 0.85rem; break-inside: avoid; }
+    .qr { width: 70px; flex: none; }
     .qr :global(svg) { width: 100%; height: auto; }
     .layout { display: block; }
   }

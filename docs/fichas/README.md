@@ -92,6 +92,7 @@ zone: `nariz` · URL: `/es/zonas/nariz/<slug>/` y `/en/areas/nose/<slug>/`
 | `poliposis-nasal` | Patología | Pólipos nasales | Nasal polyps |
 | `epistaxis` | Patología | Sangrado nasal (epistaxis) | Nosebleeds (epistaxis) |
 | `anosmia` | Patología | Pérdida del olfato | Loss of smell |
+| `endoscopia-nasal` | Prueba | Endoscopia nasal | Nasal endoscopy |
 | `tc-senos` | Prueba | TC de senos paranasales | Sinus CT scan |
 | `olfatometria` | Prueba | Pruebas de olfato | Smell tests |
 | `septoplastia` | Cirugía | Septoplastia | Septoplasty |

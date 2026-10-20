@@ -85,6 +85,7 @@ export const zones: Zone[] = [
       { key: 'poliposis-nasal', kind: 'patologia', es: 'Pólipos nasales', en: 'Nasal polyps' },
       { key: 'epistaxis', kind: 'patologia', es: 'Sangrado nasal (epistaxis)', en: 'Nosebleeds (epistaxis)' },
       { key: 'anosmia', kind: 'patologia', es: 'Pérdida del olfato', en: 'Loss of smell' },
+      { key: 'endoscopia-nasal', kind: 'prueba', es: 'Endoscopia nasal', en: 'Nasal endoscopy' },
       { key: 'tc-senos', kind: 'prueba', es: 'TC de senos paranasales', en: 'Sinus CT scan' },
       { key: 'olfatometria', kind: 'prueba', es: 'Pruebas de olfato', en: 'Smell tests' },
       { key: 'septoplastia', kind: 'cirugia', es: 'Septoplastia', en: 'Septoplasty' },

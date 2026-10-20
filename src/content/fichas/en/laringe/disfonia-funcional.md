@@ -5,7 +5,7 @@ topic: disfonia-funcional
 slug: muscle-tension-dysphonia
 title: "Functional dysphonia (muscle tension voice)"
 summary: "Functional dysphonia is a hoarse or tired voice without serious damage, caused by tension when speaking. Learn the causes, voice therapy and when to seek advice."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Person holding their neck while speaking, with a drawing of the vocal cords beside them"
 references:
   - label: "Stachler RJ, Francis DO, Schwartz SR, et al. Clinical practice guideline: hoarseness (dysphonia) (update). Otolaryngol Head Neck Surg. 2018;158(1 Suppl):S1-S42."
@@ -40,14 +40,14 @@ Usually several things happen at the same time:
 
 - **Heavy or incorrect voice use:** teachers, call-centre staff, singers, or always talking in noisy places or by shouting.
 - **Stress and muscle tension** in the neck and shoulders.
-- An **infection** (cold, laryngitis) after which you keep pushing the voice.
+- An **infection** (for example, after a cold) after which you keep pushing the voice.
 - **Reflux** and dryness can contribute but are rarely the only cause.
 - **Smoking** irritates the vocal cords.
 
 ## How is it diagnosed?
 
 1. **History:** when it began, how you use your voice, what makes it better or worse.
-2. **Laryngoscopy:** a thin camera shows the vocal cords. It is **essential** to rule out nodules, polyps, paralysis or other lesions, and before starting voice therapy.
+2. **[Flexible nasendoscopy](/en/areas/throat/flexible-nasendoscopy/):** a thin tube passed through the nose shows the vocal cords. It is **essential** to rule out nodules, polyps, paralysis or other lesions, and before starting voice therapy.
 3. **Neck examination:** we look for muscle tension.
 4. **Assessment by a speech and language therapist,** who looks at how you breathe, speak and project your voice.
 
@@ -107,10 +107,10 @@ Usually not. Even so, hoarseness lasting more than 4 weeks should always be chec
 In most cases it improves a lot with voice therapy and changes in habits. If you strain your voice again, it can come back.
 
 **Why do I have it if I do not have nodules?**
-Because the problem is the tension with which you use your voice, not a lesion. Laryngoscopy confirms this.
+Because the problem is the tension with which you use your voice, not a lesion. Nasendoscopy confirms this.
 
 **Can I keep working?**
-Usually yes, adapting how you use your voice. We and your therapist will explain how.
+Usually yes, adapting how you use your voice. We explain how in clinic, and your therapist shows you how to do it.
 
 **Is it caused by reflux?**
 It may contribute but is usually not the only cause. We do not give reflux medicine without first looking at the larynx.

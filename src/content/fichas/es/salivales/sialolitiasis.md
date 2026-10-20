@@ -5,7 +5,7 @@ topic: sialolitiasis
 slug: piedras-salivales-sialolitiasis
 title: "Piedras salivales (sialolitiasis)"
 summary: "Las piedras salivales obstruyen la glándula y causan hinchazón y dolor al comer. Te explicamos síntomas, diagnóstico, tratamiento y cuándo consultar."
-updated: 2026-10-19
+updated: 2026-10-20
 coverAlt: "Esquema de la glándula salival bajo la mandíbula con una piedra en su conducto"
 references:
   - label: "Badash I, Raskin J, Pei M, Soldatova L, Rassekh C. Contemporary review of submandibular gland sialolithiasis and surgical management options. Cureus. 2022;14(8):e28147."
@@ -64,10 +64,9 @@ Los **analgésicos** ayudan con el dolor. Los **antibióticos** solo se usan si 
 
 Cuando la piedra no se elimina con el tratamiento conservador, existen otras opciones:
 
-- **Sialendoscopia:** se pasa un endoscopio muy fino por el conducto. Permite sacar la piedra o romperla con láser, conservando la glándula. En piedras de tamaño intermedio, los estudios muestran un **éxito alto** en manos expertas.
-- **Litotricia extracorpórea:** ondas de choque desde fuera, para romper la piedra.
+- **Sialendoscopia:** se pasa un endoscopio muy fino por el conducto. Permite sacar la piedra o romperla con láser, conservando la glándula.
 - **Extracción por la boca:** si la piedra está cerca de la salida del conducto.
-- **Cirugía de la glándula:** extirpar la glándula se reserva para casos seleccionados, cuando las demás opciones no sirven o hay infecciones repetidas.
+- **Otras cirugías** sobre los conductos o las glándulas salivales, en casos concretos.
 
 La opción más adecuada depende del tamaño y del lugar de la piedra.
 
