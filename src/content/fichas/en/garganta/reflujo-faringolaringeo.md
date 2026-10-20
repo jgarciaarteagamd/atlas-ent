@@ -6,7 +6,8 @@ slug: silent-reflux-laryngopharyngeal
 title: "Silent reflux (laryngopharyngeal reflux)"
 summary: "Laryngopharyngeal reflux is when stomach contents reach the throat. It can cause throat clearing, cough and hoarseness. Learn what you can do."
 updated: 2026-10-20
-coverAlt: "Diagram of throat and oesophagus with an arrow showing stomach contents rising to the voice box"
+cover: ../../../../assets/fichas/reflujo-faringolaringeo-cabecera.jpg
+coverAlt: "A man in a dim kitchen with his hand on his throat; a line of light rises from his chest to his throat."
 references:
   - label: "Katz PO, Dunbar KB, Schnoll-Sussman FH, et al. ACG clinical guideline for the diagnosis and management of gastroesophageal reflux disease. Am J Gastroenterol. 2022;117(1):27-56."
     url: https://doi.org/10.14309/ajg.0000000000001538

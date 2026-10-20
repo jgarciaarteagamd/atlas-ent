@@ -6,7 +6,8 @@ slug: middle-ear-infection
 title: "Middle ear infection (otitis media)"
 summary: "A middle ear infection is inflammation behind the eardrum, very common in children. Learn about acute infection and glue ear, treatment and when to seek urgent help."
 updated: 2026-10-20
-coverAlt: "Eardrum bulging with fluid in a middle ear infection"
+cover: ../../../../assets/fichas/otitis-media-cabecera.jpg
+coverAlt: "A mother sitting on a bed at night holding her small child, who covers one ear, circled by a soft ring of light."
 references:
   - label: "Lieberthal AS, Carroll AE, Chonmaitree T, et al. The diagnosis and management of acute otitis media. Pediatrics. 2013;131(3):e964-e999."
     url: https://doi.org/10.1542/peds.2012-3488

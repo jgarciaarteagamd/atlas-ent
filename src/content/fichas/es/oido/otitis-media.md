@@ -6,7 +6,8 @@ slug: otitis-media
 title: "Otitis media: aguda y serosa en niños"
 summary: "La otitis media es una inflamación detrás del tímpano, muy común en niños. Te explicamos la otitis aguda y la serosa, su tratamiento y cuándo consultar urgente."
 updated: 2026-10-20
-coverAlt: "Tímpano abombado por líquido en una otitis media"
+cover: ../../../../assets/fichas/otitis-media-cabecera.jpg
+coverAlt: "Madre sentada en la cama de noche con su hijo pequeño en brazos; el niño se tapa un oído, rodeado por un suave anillo de luz."
 references:
   - label: "Lieberthal AS, Carroll AE, Chonmaitree T, et al. The diagnosis and management of acute otitis media. Pediatrics. 2013;131(3):e964-e999."
     url: https://doi.org/10.1542/peds.2012-3488

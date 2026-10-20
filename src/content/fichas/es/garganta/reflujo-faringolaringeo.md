@@ -6,7 +6,8 @@ slug: reflujo-faringolaringeo-silencioso
 title: "Reflujo faringolaríngeo (reflujo silencioso)"
 summary: "El reflujo faringolaríngeo ocurre cuando el contenido del estómago sube hasta la garganta. Causa carraspeo, tos y ronquera. Te explicamos qué hacer."
 updated: 2026-10-20
-coverAlt: "Esquema de garganta y esófago con una flecha que muestra el contenido del estómago subiendo hasta la laringe"
+cover: ../../../../assets/fichas/reflujo-faringolaringeo-cabecera.jpg
+coverAlt: "Hombre en una cocina en penumbra con la mano en la garganta; una línea de luz sube desde el pecho hasta la garganta."
 references:
   - label: "Katz PO, Dunbar KB, Schnoll-Sussman FH, et al. ACG clinical guideline for the diagnosis and management of gastroesophageal reflux disease. Am J Gastroenterol. 2022;117(1):27-56."
     url: https://doi.org/10.14309/ajg.0000000000001538
