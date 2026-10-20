@@ -1,160 +1,99 @@
-// JGA isotipo: each letter is two rounded triangles that overlap (or fold) over
-// each other. The part where they overlap gets its own colour. Shared by the
+// JGA isotipo: each letter is a ribbon that folds over itself; the shading
+// shows which face of the ribbon is up and where it turns. Shared by the
 // header and scripts/build-brand.mjs so the logo has one source of geometry.
+//
+// Drawn in a 1500 x 570 box, then scaled to a height of 100.
 
-/** Letter box: taller than wide. */
-const W = 60;
-const H = 100;
-const GAP = 7;
-/** Corner radius of a right angle; sharper corners get proportionally less. */
-const RADIUS = 11;
+const BOX_W = 1500;
+const BOX_H = 570;
+const K = 100 / BOX_H;
 
-/** The G's two tips meet at its bottom-left corner, rounded on one circle. */
-const G_CORNER = 5;
-
-/**
- * Two triangles per letter, in letter-box units (y down); a vertex may carry a
- * third number, its own corner radius. Rounding pulls the tips inwards, so
- * each letter is then stretched back to fill its box.
- * The J and the G are built from the same pair, a tall triangle (40 x 100)
- * and a flat one (60 x 40); only the tall one points the other way.
- */
-const LETTERS = [
-  // J: tall stem along the right side, flat hook running out to the left.
-  [
-    [[60, 0], [60, 100], [20, 100]],
-    [[0, 100], [60, 100], [60, 60]],
-  ],
-  // G: top bar folded down the left side, bottom wedge rising on the right.
-  // Both tips are rounded on the same circle in the corner, so they overlap
-  // completely: each long side is the tangent from its far corner to it.
-  (() => {
-    const c = [G_CORNER, H - G_CORNER];
-    // Of the two tangents, take the one with the circle between it and the edge.
-    const top = tangent([40, 0], c, G_CORNER, 'left').sort((a, b) => b[1] - a[1])[0];
-    const base = tangent([60, 56], c, G_CORNER, 'bottom').sort((a, b) => a[0] - b[0])[0];
-    return [
-      [[0, 0], [40, 0], [...top, G_CORNER]],
-      [[...base, G_CORNER], [60, 100], [60, 56]],
-    ];
-  })(),
-  // A: two legs folded over each other at the top. Both run along the same two
-  // outer edges from the apex, so their tips overlap completely; each one's
-  // shoulder hides under the other leg.
-  [
-    [[30, 0], [0, 100], [42, 40]],
-    [[30, 0], [60, 100], [18, 40]],
-  ],
-];
-
-/**
- * Where the two lines from `p` tangent to the circle (c, r) cross the left
- * (x = 0) or bottom (y = H) edge of the letter box.
- */
-function tangent(p, c, r, edge) {
-  const d = Math.hypot(c[0] - p[0], c[1] - p[1]);
-  const base = Math.atan2(c[1] - p[1], c[0] - p[0]);
-  return [1, -1].map((side) => {
-    const a = base + side * Math.asin(r / d);
-    const dir = [Math.cos(a), Math.sin(a)];
-    const t = edge === 'left' ? -p[0] / dir[0] : (H - p[1]) / dir[1];
-    return [p[0] + dir[0] * t, p[1] + dir[1] * t];
-  });
-}
+export const markWidth = BOX_W * K;
+export const markHeight = 100;
 
 export const palettes = {
-  dark: { a: '#74f1ff', b: '#1fa9c0', fold: '#c8f9ff' },
-  light: { a: '#1593a6', b: '#0f5f70', fold: '#0f2a3a' },
+  dark: { hi: '#a4f7ff', cyan: '#46dcf5', aqua: '#18c0cc', teal: '#1d8ea2', deep: '#10697a', blue: '#1fa3c3' },
+  light: { hi: '#3ec3d4', cyan: '#1fb1c6', aqua: '#1597a8', teal: '#11707f', deep: '#0b4855', blue: '#137d97' },
 };
 
+// J: stem down the right, bottom bowl curving up into the hook.
+const J = { cx: 205, cy: 365, R: 205, r: 90 };
+// G: round bowl from a slanted top end, crossbar folding down into a spur.
+const G = { cx: 750, cy: 285, R: 285, r: 170, end: -56.5, right: 945, spurLeft: 830, barLeft: 690, barTop: 233, barBottom: 345 };
+// A: two legs folded over each other at a flat top.
+const A = { back: [[960, 570], [1095, 570], [1300, 0], [1165, 0]], front: [[1165, 0], [1300, 0], [1500, 570], [1365, 570]] };
+
 const f = (n) => +n.toFixed(2);
+const pt = (p) => `${f(p[0])} ${f(p[1])}`;
+const rad = (deg) => (deg * Math.PI) / 180;
+const on = (c, radius, deg) => [c.cx + radius * Math.cos(rad(deg)), c.cy + radius * Math.sin(rad(deg))];
+const unit = (p, q) => { const v = [q[0] - p[0], q[1] - p[1]]; const l = Math.hypot(...v); return [v[0] / l, v[1] / l]; };
 
-/** Rounded corners of a triangle: where each arc starts and ends, and its circle. */
-function corners(points) {
-  return points.map((p, i) => {
-    const prev = points[(i + 2) % 3];
-    const next = points[(i + 1) % 3];
-    const u1 = unit([prev[0] - p[0], prev[1] - p[1]]);
-    const u2 = unit([next[0] - p[0], next[1] - p[1]]);
-    const angle = Math.acos(u1[0] * u2[0] + u1[1] * u2[1]);
-    const half = angle / 2;
-    const r = p[2] ?? RADIUS * Math.min(1, angle / (Math.PI / 2));
-    const t = r / Math.tan(half);
-    const bis = unit([u1[0] + u2[0], u1[1] + u2[1]]);
-    return {
-      a: [p[0] + u1[0] * t, p[1] + u1[1] * t],
-      b: [p[0] + u2[0] * t, p[1] + u2[1] * t],
-      c: [p[0] + (bis[0] * r) / Math.sin(half), p[1] + (bis[1] * r) / Math.sin(half)],
-      r,
-      sweep: u1[0] * u2[1] - u1[1] * u2[0] < 0 ? 1 : 0,
-    };
-  });
-}
-
-function unit(v) {
-  const l = Math.hypot(...v);
-  return [v[0] / l, v[1] / l];
-}
-
-/** Bounding box of rounded triangles, sampling each arc. */
-function bounds(tris) {
-  const box = [Infinity, Infinity, -Infinity, -Infinity];
-  for (const tri of tris) {
-    for (const { a, b, c, r } of corners(tri)) {
-      const t0 = Math.atan2(a[1] - c[1], a[0] - c[0]);
-      let dt = Math.atan2(b[1] - c[1], b[0] - c[0]) - t0;
-      dt = Math.atan2(Math.sin(dt), Math.cos(dt));
-      for (let k = 0; k <= 32; k++) {
-        const x = c[0] + r * Math.cos(t0 + (dt * k) / 32);
-        const y = c[1] + r * Math.sin(t0 + (dt * k) / 32);
-        box[0] = Math.min(box[0], x); box[1] = Math.min(box[1], y);
-        box[2] = Math.max(box[2], x); box[3] = Math.max(box[3], y);
-      }
-    }
-  }
-  return box;
-}
-
-/** Stretch a letter's triangles until, once rounded, they fill the W x H box. */
-function fit(tris) {
-  for (let i = 0; i < 6; i++) {
-    const [x0, y0, x1, y1] = bounds(tris);
-    const sx = W / (x1 - x0);
-    const sy = H / (y1 - y0);
-    tris = tris.map((tri) => tri.map(([x, y, r]) => [(x - x0) * sx, (y - y0) * sy, r]));
-  }
-  return tris;
-}
-
-/** Closed path for a triangle with every corner rounded by an arc. */
+/** Polygon with some corners rounded: points are [x, y] or [x, y, radius]. */
 function rounded(points) {
-  return (
-    corners(points)
-      .map(({ a, b, r, sweep }, i) =>
-        `${i ? 'L' : 'M'}${f(a[0])} ${f(a[1])}A${f(r)} ${f(r)} 0 0 ${sweep} ${f(b[0])} ${f(b[1])}`,
-      )
-      .join('') + 'Z'
-  );
+  const n = points.length;
+  return points.map((p, i) => {
+    const r = p[2];
+    if (!r) return `${i ? 'L' : 'M'}${pt(p)}`;
+    const u1 = unit(p, points[(i + n - 1) % n]);
+    const u2 = unit(p, points[(i + 1) % n]);
+    const t = r / Math.tan(Math.acos(u1[0] * u2[0] + u1[1] * u2[1]) / 2);
+    const sweep = u1[0] * u2[1] - u1[1] * u2[0] < 0 ? 1 : 0;
+    return `${i ? 'L' : 'M'}${pt([p[0] + u1[0] * t, p[1] + u1[1] * t])}A${r} ${r} 0 0 ${sweep} ${pt([p[0] + u2[0] * t, p[1] + u2[1] * t])}`;
+  }).join('') + 'Z';
 }
 
-export const markWidth = W * 3 + GAP * 2;
-export const markHeight = H;
+function shapes() {
+  // J. The darker back of the ribbon fills the whole bowl; the lighter stem
+  // lies on top and curls round the bottom, ending in a crescent.
+  const jIn = on(J, J.r, 8);
+  const jOut = on(J, J.R, 94);
+  const jBowl = `M${pt(on(J, J.R, 0))}A${J.R} ${J.R} 0 0 1 ${pt(on(J, J.R, 180))}L${pt(on(J, J.r, 180))}A${J.r} ${J.r} 0 0 0 ${pt(on(J, J.r, 0))}Z`;
+  const jStem = `M295 0H410V${J.cy}A${J.R} ${J.R} 0 0 1 ${pt(jOut)}Q300 535 ${pt(jIn)}A${J.r} ${J.r} 0 0 0 295 ${J.cy}Z`;
+
+  // G. The bowl runs from its top end round to the spur; the spur comes down
+  // from the crossbar fold and turns into the bowl at the bottom.
+  const gEndOut = on(G, G.R, G.end);
+  const gEndIn = on(G, G.r, G.end);
+  const outerAtRight = [G.right, G.cy + Math.sqrt(G.R ** 2 - (G.right - G.cx) ** 2)];
+  const innerAtSpur = [G.spurLeft, G.cy + Math.sqrt(G.r ** 2 - (G.spurLeft - G.cx) ** 2)];
+  const gTurn = on(G, G.R, 84);
+  const gBowl = `M${pt(gEndOut)}A${G.R} ${G.R} 0 1 0 ${pt(outerAtRight)}L${pt(innerAtSpur)}A${G.r} ${G.r} 0 1 1 ${pt(gEndIn)}Z`;
+  const gSpur = `M${G.spurLeft} ${G.barBottom}H${G.right}V${f(outerAtRight[1])}A${G.R} ${G.R} 0 0 1 ${pt(gTurn)}Q845 540 ${pt(innerAtSpur)}Z`;
+  const gBar = `M${G.barLeft} ${G.barTop}H${G.right}V${G.barBottom}H${G.barLeft}Z`;
+  const gCurl = `M${G.spurLeft} ${G.barBottom}H${G.right}V385Q890 384 ${G.spurLeft} ${G.barBottom}Z`;
+
+  // A. Back leg first, front leg over it; the fold at the top is rounded once
+  // for both, so its edge reads as one ribbon turning over.
+  const aBack = rounded([A.back[0], A.back[1], [...A.back[2], 30], [...A.back[3], 34]]);
+  const aFront = rounded([[...A.front[0], 20], [...A.front[1], 30], A.front[2], A.front[3]]);
+
+  return [
+    ['jBowl', jBowl, [[300, 470], [40, 420]], [[0, 'deep'], [1, 'teal']]],
+    ['jStem', jStem, [[350, 0], [330, 570]], [[0, 'hi'], [1, 'cyan']]],
+    ['gBowl', gBowl, [[750, 0], [750, 570]], [[0, 'hi'], [0.55, 'aqua'], [1, 'teal']]],
+    ['gSpur', gSpur, [[880, 345], [880, 568]], [[0, 'deep'], [0.3, 'teal'], [1, 'aqua']]],
+    ['gBar', gBar, [[690, 290], [945, 290]], [[0, 'blue'], [0.75, 'aqua'], [1, 'hi']]],
+    ['gCurl', gCurl, [[830, 345], [945, 385]], [[0, 'cyan'], [1, 'hi']]],
+    ['aBack', aBack, [[1230, 0], [1030, 570]], [[0, 'deep'], [1, 'teal']]],
+    ['aFront', aFront, [[1260, 0], [1430, 570]], [[0, 'hi'], [0.4, 'aqua'], [1, 'blue']]],
+  ];
+}
 
 /**
  * SVG markup for the mark in a 0 0 markWidth markHeight box.
- * `id` keeps clip-path ids unique when several marks share a document.
+ * `id` keeps gradient ids unique when several marks share a document.
  */
 export function markSvg(palette = palettes.dark, id = 'jga') {
   let defs = '';
   let body = '';
-  LETTERS.forEach((tris, i) => {
-    const dx = i * (W + GAP);
-    const [p1, p2] = fit(tris).map((tri) => rounded(tri.map(([x, y, r]) => [x + dx, y, r])));
-    defs += `<clipPath id="${id}-${i}"><path d="${p1}"/></clipPath>`;
-    body +=
-      `<path fill="${palette.a}" d="${p1}"/>` +
-      `<path fill="${palette.b}" d="${p2}"/>` +
-      `<path fill="${palette.fold}" clip-path="url(#${id}-${i})" d="${p2}"/>`;
-  });
-  return `<defs>${defs}</defs>${body}`;
+  for (const [name, d, [p1, p2], stops] of shapes()) {
+    const gid = `${id}-${name}`;
+    defs +=
+      `<linearGradient id="${gid}" gradientUnits="userSpaceOnUse" x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}">` +
+      stops.map(([o, c]) => `<stop offset="${o}" stop-color="${palette[c]}"/>`).join('') +
+      `</linearGradient>`;
+    body += `<path fill="url(#${gid})" d="${d}"/>`;
+  }
+  return `<defs>${defs}</defs><g transform="scale(${+K.toFixed(6)})">${body}</g>`;
 }
