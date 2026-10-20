@@ -83,7 +83,8 @@ function shapes() {
   const gSpur = `M${G.spurLeft} ${G.barBottom}H${G.right}V${f(outerAtRight[1])}A${G.R} ${G.R} 0 0 1 ${pt(gTurn)}Q845 540 ${pt(innerAtSpur)}Z`;
   const gBar = `M${G.barLeft} ${G.barTop}H${G.right}V${G.barBottom}H${G.barLeft}Z`;
   // The fold's lower edge is concave: the paper hugs the crossbar, then turns down at its end.
-  const gCurl = `M${G.spurLeft} ${G.barBottom}H${G.right}V385Q935 350 ${G.spurLeft} ${G.barBottom}Z`;
+  // It starts a little inside the bar, so no seam shows between the two.
+  const gCurl = `M${G.spurLeft} ${G.barBottom - 6}H${G.right}V385Q935 350 ${G.spurLeft} ${G.barBottom}Z`;
 
   // A. Back leg first, front leg over it. Both legs share the fold's top-left
   // curve: the front leg starts where its edge meets the back leg's rounding.
@@ -102,7 +103,8 @@ function shapes() {
     ['gBowl', gBowl, [[750, 0], [750, 570]], [[0, 'hi'], [0.55, 'aqua'], [1, 'teal']]],
     ['gSpur', gSpur, [[880, 345], [880, 568]], [[0, 'deep'], [0.3, 'teal'], [1, 'aqua']]],
     ['gBar', gBar, [[690, 290], [945, 290]], [[0, 'blue'], [0.75, 'aqua'], [1, 'hi']]],
-    ['gCurl', gCurl, [[830, 345], [945, 385]], [[0, 'cyan'], [1, 'hi']]],
+    // Same gradient as the crossbar, so the fold reads as the bar turning down.
+    ['gCurl', gCurl, [[690, 290], [945, 290]], [[0, 'blue'], [0.75, 'aqua'], [1, 'hi']]],
     ['aBack', aBack, [[1230, 0], [1030, 570]], [[0, 'deep'], [1, 'teal']]],
     ['aFront', aFront, [[1260, 0], [1430, 570]], [[0, 'hi'], [0.4, 'aqua'], [1, 'blue']]],
   ];
