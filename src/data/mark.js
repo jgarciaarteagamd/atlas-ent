@@ -5,13 +5,17 @@
 /** Letter box: taller than wide. */
 const W = 60;
 const H = 100;
-const GAP = 13;
+const GAP = 7;
 /** Corner radius of a right angle; sharper corners get proportionally less. */
 const RADIUS = 11;
 
+/** The G's two tips meet at its bottom-left corner, rounded on one circle. */
+const G_CORNER = 5;
+
 /**
- * Two triangles per letter, in letter-box units (y down). Rounding pulls the
- * tips inwards, so each letter is then stretched back to fill its box.
+ * Two triangles per letter, in letter-box units (y down); a vertex may carry a
+ * third number, its own corner radius. Rounding pulls the tips inwards, so
+ * each letter is then stretched back to fill its box.
  * The J and the G are built from the same pair, a tall triangle (40 x 100)
  * and a flat one (60 x 40); only the tall one points the other way.
  */
@@ -22,18 +26,41 @@ const LETTERS = [
     [[0, 100], [60, 100], [60, 60]],
   ],
   // G: top bar folded down the left side, bottom wedge rising on the right.
-  // Their tips run a little past the corner so the two still meet, folded,
-  // at the bottom left once rounded.
+  // Both tips are rounded on the same circle in the corner, so they overlap
+  // completely: each long side is the tangent from its far corner to it.
+  (() => {
+    const c = [G_CORNER, H - G_CORNER];
+    // Of the two tangents, take the one with the circle between it and the edge.
+    const top = tangent([40, 0], c, G_CORNER, 'left').sort((a, b) => b[1] - a[1])[0];
+    const base = tangent([60, 56], c, G_CORNER, 'bottom').sort((a, b) => a[0] - b[0])[0];
+    return [
+      [[0, 0], [40, 0], [...top, G_CORNER]],
+      [[...base, G_CORNER], [60, 100], [60, 56]],
+    ];
+  })(),
+  // A: two legs folded over each other at the top. Both run along the same two
+  // outer edges from the apex, so their tips overlap completely; each one's
+  // shoulder hides under the other leg.
   [
-    [[0, 0], [40, 0], [0, 108]],
-    [[-10, 100], [60, 100], [60, 56]],
-  ],
-  // A: two legs that cross at the top, folded over each other.
-  [
-    [[0, 100], [30, 0], [50, 30]],
-    [[60, 100], [30, 0], [10, 30]],
+    [[30, 0], [0, 100], [42, 40]],
+    [[30, 0], [60, 100], [18, 40]],
   ],
 ];
+
+/**
+ * Where the two lines from `p` tangent to the circle (c, r) cross the left
+ * (x = 0) or bottom (y = H) edge of the letter box.
+ */
+function tangent(p, c, r, edge) {
+  const d = Math.hypot(c[0] - p[0], c[1] - p[1]);
+  const base = Math.atan2(c[1] - p[1], c[0] - p[0]);
+  return [1, -1].map((side) => {
+    const a = base + side * Math.asin(r / d);
+    const dir = [Math.cos(a), Math.sin(a)];
+    const t = edge === 'left' ? -p[0] / dir[0] : (H - p[1]) / dir[1];
+    return [p[0] + dir[0] * t, p[1] + dir[1] * t];
+  });
+}
 
 export const palettes = {
   dark: { a: '#74f1ff', b: '#1fa9c0', fold: '#c8f9ff' },
@@ -51,7 +78,7 @@ function corners(points) {
     const u2 = unit([next[0] - p[0], next[1] - p[1]]);
     const angle = Math.acos(u1[0] * u2[0] + u1[1] * u2[1]);
     const half = angle / 2;
-    const r = RADIUS * Math.min(1, angle / (Math.PI / 2));
+    const r = p[2] ?? RADIUS * Math.min(1, angle / (Math.PI / 2));
     const t = r / Math.tan(half);
     const bis = unit([u1[0] + u2[0], u1[1] + u2[1]]);
     return {
@@ -94,7 +121,7 @@ function fit(tris) {
     const [x0, y0, x1, y1] = bounds(tris);
     const sx = W / (x1 - x0);
     const sy = H / (y1 - y0);
-    tris = tris.map((tri) => tri.map(([x, y]) => [(x - x0) * sx, (y - y0) * sy]));
+    tris = tris.map((tri) => tri.map(([x, y, r]) => [(x - x0) * sx, (y - y0) * sy, r]));
   }
   return tris;
 }
@@ -122,7 +149,7 @@ export function markSvg(palette = palettes.dark, id = 'jga') {
   let body = '';
   LETTERS.forEach((tris, i) => {
     const dx = i * (W + GAP);
-    const [p1, p2] = fit(tris).map((tri) => rounded(tri.map(([x, y]) => [x + dx, y])));
+    const [p1, p2] = fit(tris).map((tri) => rounded(tri.map(([x, y, r]) => [x + dx, y, r])));
     defs += `<clipPath id="${id}-${i}"><path d="${p1}"/></clipPath>`;
     body +=
       `<path fill="${palette.a}" d="${p1}"/>` +
