@@ -105,11 +105,12 @@ function ring(out, cx, cy, cz, rx, rz, n = 40) {
 
 // ---------- shaders ----------
 const common = `
-  uniform float uTime, uScan, uHotR, uHotK, uSelR, uSelK, uPx;
-  uniform vec3 uHot[${MAXH}], uSel[${MAXH}];
-  float near(vec3 p, vec3 c[${MAXH}], float r) {
+  uniform float uTime, uScan, uHotK, uSelK, uPx;
+  // zone spheres: centre in xyz, glow radius in w
+  uniform vec4 uHot[${MAXH}], uSel[${MAXH}];
+  float near(vec3 p, vec4 c[${MAXH}]) {
     float m = 0.0;
-    for (int i = 0; i < ${MAXH}; i++) m = max(m, 1.0 - smoothstep(r * 0.55, r, distance(p, c[i])));
+    for (int i = 0; i < ${MAXH}; i++) m = max(m, 1.0 - smoothstep(c[i].w * 0.55, c[i].w, distance(p, c[i].xyz)));
     return m;
   }`;
 
@@ -133,8 +134,8 @@ const lineVS = `${common}${lighting}
   void main() {
     vKind = kind;
     vLight = (shade(normal, vFront) + feature * 1.1 * vFront) * base(position);
-    vHot = near(position, uHot, uHotR) * uHotK;
-    vSel = near(position, uSel, uSelR) * uSelK;
+    vHot = near(position, uHot) * uHotK;
+    vSel = near(position, uSel) * uSelK;
     vScan = exp(-abs(position.y - uScan) * 14.0);
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
     vDepth = smoothstep(-8.3, -5.5, mv.z);
@@ -158,8 +159,8 @@ const pointVS = `${common}${lighting}
   attribute float feature;
   varying float vA, vSel;
   void main() {
-    float hot = near(position, uHot, uHotR) * uHotK;
-    vSel = near(position, uSel, uSelR) * uSelK;
+    float hot = near(position, uHot) * uHotK;
+    vSel = near(position, uSel) * uSelK;
     float tw = 0.5 + 0.5 * sin(uTime * (1.5 + seed * 3.0) + seed * 40.0);
     float scan = exp(-abs(position.y - uScan) * 10.0);
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
@@ -223,11 +224,9 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
   const uniforms = {
     uTime: { value: 0 },
     uScan: { value: 0 },
-    uHot: { value: Array.from({ length: MAXH }, () => new THREE.Vector3(9, 9, 9)) },
-    uHotR: { value: 0.3 },
+    uHot: { value: Array.from({ length: MAXH }, () => new THREE.Vector4(9, 9, 9, 0.3)) },
     uHotK: { value: 0 },
-    uSel: { value: Array.from({ length: MAXH }, () => new THREE.Vector3(9, 9, 9)) },
-    uSelR: { value: 0.3 },
+    uSel: { value: Array.from({ length: MAXH }, () => new THREE.Vector4(9, 9, 9, 0.3)) },
     uSelK: { value: 0 },
     uPx: { value: renderer.getPixelRatio() },
   };
@@ -287,13 +286,14 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
   }
 
   let hovered = null, selected = null, pointerZone = null;
+  // Each sphere glows over its own radius, kept close to it, so a zone lights
+  // the skin over its organs and not the scalp above the ears or the whole neck.
   const setCenters = (arr, id) => {
     const z = id && byId[id];
     for (let i = 0; i < MAXH; i++) {
       const h = z && z.hit[i];
-      if (h) arr[i].set(h[0], h[1], h[2]); else arr[i].set(9, 9, 9);
+      if (h) arr[i].set(h[0], h[1], h[2], h[3] * 1.15); else arr[i].set(9, 9, 9, 0.3);
     }
-    return z ? Math.max(...z.hit.map((h) => h[3])) * 1.6 : 0.3;
   };
 
   // pointer
@@ -364,8 +364,8 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
     const hot = hovered && hovered !== selected ? hovered : null;
     uniforms.uTime.value = t;
     uniforms.uScan.value = reduceMotion ? 9 : 1.25 - ((t * 0.45) % 1) * 3.2;
-    uniforms.uHotR.value = setCenters(uniforms.uHot.value, hot);
-    uniforms.uSelR.value = setCenters(uniforms.uSel.value, selected);
+    setCenters(uniforms.uHot.value, hot);
+    setCenters(uniforms.uSel.value, selected);
     uniforms.uHotK.value += ((hot ? 1 : 0) - uniforms.uHotK.value) * 0.2;
     uniforms.uSelK.value += ((selected ? 1 : 0) - uniforms.uSelK.value) * 0.2;
 
