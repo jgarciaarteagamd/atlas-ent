@@ -4,8 +4,6 @@
 
 import * as THREE from 'three';
 
-const MAXH = 4; // hit spheres per zone
-
 // ---------- head data ----------
 export async function loadHead(url) {
   const res = await fetch(url);
@@ -104,14 +102,10 @@ function ring(out, cx, cy, cz, rx, rz, n = 40) {
 }
 
 // ---------- shaders ----------
+// The head only dims (x-ray) while a zone is hovered or selected; the zone itself
+// shows through its inner anatomy, so the skin over it is not lit.
 const common = `
-  uniform float uTime, uScan, uHotR, uHotK, uSelR, uSelK, uPx;
-  uniform vec3 uHot[${MAXH}], uSel[${MAXH}];
-  float near(vec3 p, vec3 c[${MAXH}], float r) {
-    float m = 0.0;
-    for (int i = 0; i < ${MAXH}; i++) m = max(m, 1.0 - smoothstep(r * 0.55, r, distance(p, c[i])));
-    return m;
-  }`;
+  uniform float uTime, uScan, uHotK, uSelK, uPx;`;
 
 const lighting = `
   // Key light from the upper left, a soft rim, and surfaces facing away
@@ -129,53 +123,46 @@ const lighting = `
 const lineVS = `${common}${lighting}
   attribute float kind;
   attribute float feature;
-  varying float vHot, vSel, vScan, vDepth, vKind, vLight, vFront;
+  varying float vScan, vDepth, vKind, vLight, vFront;
   void main() {
     vKind = kind;
     vLight = (shade(normal, vFront) + feature * 1.1 * vFront) * base(position);
-    vHot = near(position, uHot, uHotR) * uHotK;
-    vSel = near(position, uSel, uSelR) * uSelK;
     vScan = exp(-abs(position.y - uScan) * 14.0);
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
     vDepth = smoothstep(-8.3, -5.5, mv.z);
     gl_Position = projectionMatrix * mv;
   }`;
 const lineFS = `${common}
-  varying float vHot, vSel, vScan, vDepth, vKind, vLight, vFront;
+  varying float vScan, vDepth, vKind, vLight, vFront;
   void main() {
     vec3 holo = vec3(0.45, 0.94, 1.0);
-    vec3 flare = vec3(1.0, 0.77, 0.42);
     vec3 col = holo * (0.6 + vScan * 1.2);
-    col = mix(col, vec3(0.85, 1.0, 1.0), vHot * 0.8);
-    col = mix(col, flare, vSel);
     float strength = mix(0.55, 0.2, vKind);
     float xray = 1.0 - 0.6 * max(uHotK, uSelK);
-    float a = strength * vLight * xray + (vScan * 0.3 * (1.0 - vKind * 0.6) * xray + vHot * 0.3 + vSel * 0.35) * (0.3 + 0.7 * vFront);
+    float a = strength * vLight * xray + vScan * 0.3 * (1.0 - vKind * 0.6) * xray * (0.3 + 0.7 * vFront);
     gl_FragColor = vec4(col, a);
   }`;
 const pointVS = `${common}${lighting}
   attribute float seed;
   attribute float feature;
-  varying float vA, vSel;
+  varying float vA;
   void main() {
-    float hot = near(position, uHot, uHotR) * uHotK;
-    vSel = near(position, uSel, uSelR) * uSelK;
     float tw = 0.5 + 0.5 * sin(uTime * (1.5 + seed * 3.0) + seed * 40.0);
     float scan = exp(-abs(position.y - uScan) * 10.0);
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
     float front;
     float light = (shade(normal, front) + feature * 1.3 * front) * base(position);
     float xray = 1.0 - 0.6 * max(uHotK, uSelK);
-    vA = (light * (0.55 + 0.45 * tw) + scan * 0.5 * front) * xray + (hot * 0.35 + vSel * 0.35) * front;
-    gl_PointSize = (1.1 + feature * 0.6 * front + scan * 1.2 + (hot + vSel) * 0.9) * uPx;
+    vA = (light * (0.55 + 0.45 * tw) + scan * 0.5 * front) * xray;
+    gl_PointSize = (1.1 + feature * 0.6 * front + scan * 1.2) * uPx;
     gl_Position = projectionMatrix * mv;
   }`;
 const pointFS = `
-  varying float vA, vSel;
+  varying float vA;
   void main() {
     float d = length(gl_PointCoord - 0.5);
     if (d > 0.5) discard;
-    vec3 col = mix(vec3(0.6, 0.97, 1.0), vec3(1.0, 0.8, 0.5), vSel);
+    vec3 col = vec3(0.6, 0.97, 1.0);
     gl_FragColor = vec4(col, vA * (1.0 - d * 2.0));
   }`;
 
@@ -207,7 +194,6 @@ const anatomyFS = (points) => `
 export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover, onSelect }) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover: hover)').matches;
-  const byId = Object.fromEntries(zones.map((z) => [z.id, z]));
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -223,11 +209,7 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
   const uniforms = {
     uTime: { value: 0 },
     uScan: { value: 0 },
-    uHot: { value: Array.from({ length: MAXH }, () => new THREE.Vector3(9, 9, 9)) },
-    uHotR: { value: 0.3 },
     uHotK: { value: 0 },
-    uSel: { value: Array.from({ length: MAXH }, () => new THREE.Vector3(9, 9, 9)) },
-    uSelR: { value: 0.3 },
     uSelK: { value: 0 },
     uPx: { value: renderer.getPixelRatio() },
   };
@@ -287,14 +269,6 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
   }
 
   let hovered = null, selected = null, pointerZone = null;
-  const setCenters = (arr, id) => {
-    const z = id && byId[id];
-    for (let i = 0; i < MAXH; i++) {
-      const h = z && z.hit[i];
-      if (h) arr[i].set(h[0], h[1], h[2]); else arr[i].set(9, 9, 9);
-    }
-    return z ? Math.max(...z.hit.map((h) => h[3])) * 1.6 : 0.3;
-  };
 
   // pointer
   const pointer = { x: 0, y: 0, inside: false };
@@ -359,13 +333,11 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
     pointerZone = canHover ? pick() : null;
     if (pointerZone !== lastPicked) { lastPicked = pointerZone; onHover(pointerZone, pointer); }
     else if (pointerZone) onHover(pointerZone, pointer);
-    canvas.style.cursor = pointerZone ? 'pointer' : 'crosshair';
+    canvas.style.cursor = pointerZone ? 'var(--cursor-link)' : 'crosshair';
 
     const hot = hovered && hovered !== selected ? hovered : null;
     uniforms.uTime.value = t;
     uniforms.uScan.value = reduceMotion ? 9 : 1.25 - ((t * 0.45) % 1) * 3.2;
-    uniforms.uHotR.value = setCenters(uniforms.uHot.value, hot);
-    uniforms.uSelR.value = setCenters(uniforms.uSel.value, selected);
     uniforms.uHotK.value += ((hot ? 1 : 0) - uniforms.uHotK.value) * 0.2;
     uniforms.uSelK.value += ((selected ? 1 : 0) - uniforms.uSelK.value) * 0.2;
 

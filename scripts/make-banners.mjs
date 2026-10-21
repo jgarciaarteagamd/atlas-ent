@@ -1,11 +1,12 @@
 // Renders the social profile banners (LinkedIn, WhatsApp Business) into brand/social/.
 // Same look as the site: void background, cyan hologram, amber accent, Oxanium + Instrument Sans.
 // Usage: node scripts/make-banners.mjs   (needs Playwright with a Chromium build)
-import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
+import { writeFileSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
+import { markSvg, markWidth, markHeight, palettes } from '../src/data/mark.js';
 
 const require = createRequire(import.meta.url);
 let chromium;
@@ -22,8 +23,6 @@ mkdirSync(out, { recursive: true });
 const file = (p) => pathToFileURL(resolve(root, p)).href;
 const font = (pkg, name) => file(`node_modules/@fontsource/${pkg}/files/${name}.woff2`);
 const head = file('public/holo/fallback.webp');
-// The JGA monogram path, lifted from the brand SVG (its 512 viewBox, without the background rect).
-const monogram = readFileSync(resolve(root, 'brand/monogram-dark.svg'), 'utf8').match(/<path d="([^"]+)"/)[1];
 
 const text = {
   es: {
@@ -59,7 +58,7 @@ html, body { width: var(--w); height: var(--h); overflow: hidden; background: va
 .head { position: absolute; mix-blend-mode: screen;
   -webkit-mask-image: radial-gradient(ellipse 50% 52% at 50% 46%, #000 62%, transparent 100%); }
 .text { position: absolute; font-family: 'Instrument Sans', sans-serif; color: var(--ink); }
-.mono { display: block; fill: var(--holo); }
+.mono { display: block; }
 .name { font-family: Oxanium, sans-serif; font-weight: 600; color: var(--holo); letter-spacing: .01em; line-height: 1.05;
   text-shadow: 0 0 .5em rgba(116,241,255,.35); white-space: nowrap; }
 .role { font-weight: 500; text-transform: uppercase; color: var(--ink-soft); }
@@ -69,8 +68,9 @@ html, body { width: var(--w); height: var(--h); overflow: hidden; background: va
 .site { font-family: Oxanium, sans-serif; font-weight: 500; color: var(--holo); letter-spacing: .04em; }
 `;
 
-const svgMono = (size) =>
-  `<svg class="mono" width="${size}" height="${size * 0.35}" viewBox="54 170 404 172"><path d="${monogram}"/></svg>`;
+// The JGA isotipo from the site, `width` wide.
+const svgMono = (width) =>
+  `<svg class="mono" width="${width}" height="${(width * markHeight) / markWidth}" viewBox="0 0 ${markWidth} ${markHeight}">${markSvg(palettes.dark)}</svg>`;
 
 // Each banner places the head image and the text block for its own safe zones.
 const banners = [
