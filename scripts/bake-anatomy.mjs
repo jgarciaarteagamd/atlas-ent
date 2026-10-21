@@ -54,6 +54,20 @@ function box(p, c, u, v, w, h, round = 0) {
   const out = len(Math.max(lx, 0), Math.max(ly, 0), Math.max(lz, 0));
   return out + Math.min(Math.max(lx, ly, lz), 0) - round;
 }
+const smax = (a, b, k) => -smin(-a, -b, k);
+// half-space n·p <= o (n need not be unit), and a convex hull of them with softened edges
+const plane = (p, n, o) => (dot(p, n) - o) / len(...n);
+const hull = (ds, k) => ds.reduce((a, b) => smax(a, b, k));
+// tube whose radius follows the polyline, one radius per point
+function tubeR(p, pts, rs) {
+  let d = Infinity;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const pa = sub(p, pts[i]), ba = sub(pts[i + 1], pts[i]);
+    const h = Math.min(Math.max(dot(pa, ba) / dot(ba, ba), 0), 1);
+    d = Math.min(d, len(pa[0] - ba[0] * h, pa[1] - ba[1] * h, pa[2] - ba[2] * h) - (rs[i] + (rs[i + 1] - rs[i]) * h));
+  }
+  return d;
+}
 const lobes = (p, f, a) => a * Math.sin(p[0] * f) * Math.sin(p[1] * f * 1.13) * Math.sin(p[2] * f * 0.91);
 const arc = (n, fn) => Array.from({ length: n + 1 }, (_, i) => fn(i / n));
 
@@ -109,13 +123,48 @@ for (const s of [1, -1]) {
     (p) => cap(p, [s * 0.585, 0.0, -0.14], [s * 0.44, 0.01, -0.12], 0.011));
 
   // ----- sinuses and nose -----
-  add('sinus', [s * 0.27 - 0.15, -0.28, 0.44], [s * 0.27 + 0.15, 0.03, 0.76], 1300,
-    (p) => Math.max(ell(p, [s * 0.27, -0.12, 0.6], [0.12, 0.14, 0.15]) + lobes(p, 40, 0.008), p[1] - 0.0 - 0.06 * Math.abs(p[0])));
-  add('sinus', [s * 0.1 - 0.09, 0.27, 0.6], [s * 0.1 + 0.09, 0.49, 0.75], 600,
-    (p) => ell(p, [s * 0.1, 0.38, 0.68], [0.075, 0.09, 0.045]) + lobes(p, 55, 0.01));
-  const cells = arc(8, (t) => [s * (0.05 + 0.05 * Math.sin(t * 9)), 0.1 + 0.11 * t, 0.68 - 0.27 * t]);
-  add('sinus', [Math.min(s * 0.01, s * 0.14), 0.05, 0.37], [Math.max(s * 0.01, s * 0.14), 0.26, 0.74], 800,
-    (p) => Math.min(...cells.map((c, i) => ell(p, c, [0.03, 0.028, 0.032].map((v) => v * (0.8 + 0.3 * ((i * 7) % 3) / 2))))));
+  // Shapes on this side are written for the right (x > 0) and mirrored.
+  const side = (p) => [s * p[0], p[1], p[2]];
+  const xs = (a, b) => [Math.min(s * a, s * b), Math.max(s * a, s * b)];
+
+  // maxillary sinus: a pyramid with its base on the side wall of the nose and its
+  // apex in the cheekbone; the roof is the floor of the orbit, the floor sits over the teeth
+  {
+    const [x0, x1] = xs(0.1, 0.47);
+    add('sinus', [x0, -0.34, 0.38], [x1, 0.08, 0.8], 1400, (p) => {
+      const q = side(p);
+      return hull([
+        plane(q, [-1, 0, 0], -0.13),
+        plane(q, [0.33, 1, 0], 0.063),
+        plane(q, [0.5, -1, 0], 0.375),
+        plane(q, [0.4, 0, 1], 0.792),
+        plane(q, [0.3, 0, -1], -0.361),
+        plane(q, [1, 0, 0], 0.44),
+      ], 0.05) + lobes(p, 40, 0.005);
+    });
+  }
+  // frontal sinus: a scalloped fan in the brow, split from its twin by a thin septum
+  {
+    const [x0, x1] = xs(0, 0.26);
+    const fan = [[0.045, 0.405, 0.05, 0.075], [0.115, 0.47, 0.055, 0.08], [0.195, 0.43, 0.045, 0.055]];
+    add('sinus', [x0, 0.3, 0.64], [x1, 0.58, 0.8], 700, (p) => {
+      const q = side(p);
+      const d = fan.map(([cx, cy, rx, ry]) => ell(q, [cx, cy, 0.745 - 0.35 * cx * cx], [rx, ry, 0.032])).reduce((a, b) => smin(a, b, 0.035));
+      return hull([d, plane(q, [0, -1, 0], -0.335), plane(q, [-1, 0, 0], -0.008)], 0.012) + lobes(p, 60, 0.004);
+    });
+  }
+  // ethmoid labyrinth: a honeycomb of small air cells between the orbits
+  {
+    const [x0, x1] = xs(0.0, 0.14);
+    const cells = [];
+    for (const cx of [0.038, 0.09]) for (const cy of [0.02, 0.085, 0.15, 0.215]) for (const cz of [0.44, 0.51, 0.58, 0.65]) {
+      cells.push([cx + 0.008 * Math.sin(cy * 40), cy, cz + 0.01 * Math.cos(cx * 70)]);
+    }
+    add('sinus', [x0, -0.03, 0.39], [x1, 0.26, 0.7], 900, (p) => {
+      const q = side(p);
+      return Math.min(...cells.map((c, i) => ell(q, c, [0.027, 0.03, 0.032].map((v) => v * (0.85 + 0.15 * (i % 3))))));
+    });
+  }
   // turbinates
   add('sinus', [Math.min(s * 0.03, s * 0.16), -0.28, 0.36], [Math.max(s * 0.03, s * 0.16), -0.02, 0.9], 900, (p) => Math.min(
     cap(p, [s * 0.1, -0.22, 0.4], [s * 0.095, -0.21, 0.84], 0.032),
@@ -131,10 +180,20 @@ for (const s of [1, -1]) {
   const dir = [s * Math.sin(1.0), 0, -Math.cos(1.0)];
   const plate = [0, 1, 2].map((k) => [0, -1.13, 0.27][k] + dir[k] * 0.085);
   add('larynx', [Math.min(0, s * 0.17), -1.27, 0.12], [Math.max(0, s * 0.17), -0.99, 0.31], 1100, (p) => {
-    const lamina = box(p, plate, dir, [0, 1, 0], [-dir[2] * s, 0, dir[0] * s].map((v) => v * s), [0.088, 0.11, 0.005], 0.004);
-    const notch = ell(p, [0, -1.0, 0.29], [0.03, 0.035, 0.04]);
-    return Math.max(lamina, -notch);
+    const lamina = box(p, plate, dir, [0, 1, 0], [-dir[2] * s, 0, dir[0] * s].map((v) => v * s), [0.088, 0.125, 0.005], 0.004);
+    // the upper border rises from the V-shaped notch at the front to the horns at the back
+    const u = dot(sub(p, [0, -1.13, 0.27]), dir);
+    const notch = ell(p, [0, -1.02, 0.29], [0.028, 0.05, 0.05]);
+    return Math.max(lamina, p[1] - 0.45 * u + 1.06, -notch);
   });
+  // superior horn up towards the hyoid, inferior horn down to the cricoid
+  {
+    const back = [0, 1, 2].map((k) => [0, -1.13, 0.27][k] + dir[k] * 0.172);
+    add('larynx', [Math.min(s * 0.11, s * 0.17), -1.3, 0.13], [Math.max(s * 0.11, s * 0.17), -0.94, 0.2], 260, (p) => Math.min(
+      cap(p, [back[0], -1.03, back[2]], [s * 0.152, -0.965, 0.155], 0.008),
+      cap(p, [back[0], -1.23, back[2]], [s * 0.135, -1.285, 0.165], 0.008),
+    ));
+  }
   add('larynx', [Math.min(s * 0.01, s * 0.08), -1.25, -0.0], [Math.max(s * 0.01, s * 0.08), -1.14, 0.06], 250,
     (p) => ell(p, [s * 0.045, -1.2, 0.03], [0.02, 0.03, 0.018]));
   add('larynx', [Math.min(0, s * 0.07), -1.22, 0.0], [Math.max(0, s * 0.07), -1.12, 0.26], 500, (p) => Math.min(
@@ -143,8 +202,6 @@ for (const s of [1, -1]) {
   ));
 
   // ----- neck: thyroid lobes, lymph nodes, carotid and jugular -----
-  add('neck', [s * 0.11 - 0.07, -1.62, 0.09], [s * 0.11 + 0.07, -1.33, 0.23], 900,
-    (p) => ell(p, [s * 0.11, -1.47, 0.16], [0.05, 0.13, 0.05]) + lobes(p, 60, 0.006));
   const nodes = [
     ...arc(7, (t) => [s * (0.38 - 0.05 * t), -0.8 - 0.82 * t, -0.03 + 0.05 * t]),
     [s * 0.2, -0.95, 0.38], [s * 0.26, -0.98, 0.33], [s * 0.08, -1.0, 0.42],
@@ -152,16 +209,52 @@ for (const s of [1, -1]) {
   ];
   add('neck', [Math.min(s * 0.04, s * 0.52), -1.68, -0.36], [Math.max(s * 0.04, s * 0.52), -0.74, 0.46], 1300,
     (p) => Math.min(...nodes.map((c, i) => ell(p, c, [0.024, 0.034, 0.024].map((v) => v * (0.8 + 0.25 * (i % 3)))))));
-  const carotid = arc(10, (t) => [s * (0.24 + 0.07 * t), -1.75 + 0.7 * t, 0.06 - 0.1 * t]);
-  const icaEca = [arc(8, (t) => [s * (0.31 + 0.02 * t), -1.05 + 0.35 * t, -0.04 - 0.08 * t]), arc(8, (t) => [s * (0.31 - 0.02 * t), -1.05 + 0.25 * t, -0.04 + 0.12 * t])];
-  const jugular = arc(10, (t) => [s * (0.31 + 0.07 * t), -1.75 + 1.05 * t, -0.04 - 0.14 * t]);
-  add('neck', [Math.min(s * 0.18, s * 0.44), -1.75, -0.24], [Math.max(s * 0.18, s * 0.44), -0.66, 0.14], 900, (p) => Math.min(
-    tube(p, carotid, 0.022), tube(p, icaEca[0], 0.017, 0.013), tube(p, icaEca[1], 0.014, 0.01), tube(p, jugular, 0.028, 0.024),
-  ));
+  // carotid: the common carotid rises beside the trachea, widens into the bulb and
+  // splits at the top of the thyroid cartilage; the internal carotid climbs back
+  // to the skull base, the external one forward, giving off thyroid, lingual and
+  // facial branches. The internal jugular vein runs alongside, outside it.
+  {
+    const bif = [0.25, -1.06, 0.0];
+    const curve = (pts) => pts.map(([x, y, z]) => [s * x, y, z]);
+    const cca = curve([[0.19, -1.75, 0.04], [0.2, -1.55, 0.04], [0.22, -1.32, 0.025], [0.24, -1.15, 0.01], bif]);
+    const ica = curve([bif, [0.265, -0.95, -0.04], [0.275, -0.8, -0.1], [0.27, -0.62, -0.15], [0.28, -0.46, -0.17], [0.3, -0.36, -0.15]]);
+    const eca = curve([bif, [0.255, -0.98, 0.04], [0.29, -0.86, 0.03], [0.36, -0.7, -0.02], [0.45, -0.5, -0.06], [0.55, -0.25, -0.1], [0.62, -0.02, -0.14]]);
+    const supThyroid = curve([[0.253, -1.02, 0.035], [0.22, -1.1, 0.09], [0.16, -1.2, 0.13], [0.12, -1.32, 0.14]]);
+    const lingual = curve([[0.262, -0.96, 0.045], [0.22, -0.92, 0.12], [0.17, -0.86, 0.22], [0.12, -0.78, 0.35], [0.08, -0.72, 0.5]]);
+    const facial = curve([[0.29, -0.88, 0.04], [0.33, -0.92, 0.14], [0.37, -0.96, 0.27], [0.43, -0.9, 0.4], [0.45, -0.76, 0.52], [0.41, -0.6, 0.65], [0.33, -0.5, 0.76]]);
+    const ijv = curve([[0.27, -1.75, -0.02], [0.29, -1.5, -0.04], [0.32, -1.2, -0.08], [0.34, -0.95, -0.12], [0.37, -0.7, -0.18], [0.4, -0.5, -0.24], [0.42, -0.38, -0.26]]);
+    const [x0, x1] = xs(0.06, 0.66);
+    add('neck', [x0, -1.76, -0.32], [x1, 0.02, 0.8], 1500, (p) => Math.min(
+      tubeR(p, cca, [0.022, 0.022, 0.022, 0.025, 0.03]),
+      ell(p, [s * 0.252, -1.04, -0.005], [0.03, 0.045, 0.03]),
+      tubeR(p, ica, [0.02, 0.017, 0.016, 0.015, 0.015, 0.014]),
+      tubeR(p, eca, [0.016, 0.014, 0.013, 0.012, 0.011, 0.009, 0.008]),
+      tube(p, supThyroid, 0.008, 0.006), tube(p, lingual, 0.008, 0.006), tube(p, facial, 0.009, 0.006),
+      tubeR(p, ijv, [0.03, 0.032, 0.032, 0.03, 0.028, 0.026, 0.03]),
+    ));
+  }
 
   // ----- salivary glands and ducts -----
-  add('gland', [s * 0.66 - 0.12, -0.56, -0.24], [s * 0.66 + 0.12, -0.05, 0.16], 1500,
-    (p) => smin(ell(p, [s * 0.67, -0.3, -0.04], [0.075, 0.2, 0.15]), ell(p, [s * 0.6, -0.42, -0.1], [0.06, 0.1, 0.07]), 0.04) + lobes(p, 70, 0.012));
+  // parotid: a wedge over the ramus of the jaw, from the cheekbone down past the
+  // angle, its tip behind the jaw; the deep lobe tucks in behind the ramus
+  {
+    const [x0, x1] = xs(0.44, 0.77);
+    add('gland', [x0, -0.68, -0.31], [x1, 0.04, 0.12], 1500, (p) => {
+      const q = side(p);
+      const yz = [0, q[1], q[2]];
+      const superficial = hull([
+        plane(yz, [0, 1, 0], 0.0),
+        plane(yz, [0, -0.1, -0.62], 0.1488),
+        plane(yz, [0, -0.2, 0.6], 0.04),
+        // its outer face follows the cheek, which narrows below the ear lobe
+        plane(q, [1, 0, 0], 0.665),
+        plane(q, [1, -0.5, 0], 0.82),
+        smin(plane(q, [-1, 0, 0], -0.555), plane(q, [-1, 0.5, 0], -0.705), 0.04),
+      ], 0.05);
+      const deep = ell(q, [0.53, -0.3, -0.17], [0.05, 0.13, 0.06]);
+      return smin(superficial, deep, 0.05) + lobes(p, 60, 0.016);
+    });
+  }
   const stensen = arc(10, (t) => [s * (0.7 - 0.2 * t - 0.05 * t * t), -0.26 - 0.06 * t, 0.1 + 0.52 * t]);
   add('gland', [Math.min(s * 0.42, s * 0.73), -0.35, 0.07], [Math.max(s * 0.42, s * 0.73), -0.22, 0.65], 350, (p) => tube(p, stensen, 0.009));
   add('gland', [s * 0.38 - 0.12, -1.04, 0.15], [s * 0.38 + 0.12, -0.87, 0.41], 900,
@@ -173,20 +266,46 @@ for (const s of [1, -1]) {
 }
 
 // ----- midline structures -----
-add('sinus', [-0.1, 0.0, 0.2], [0.1, 0.17, 0.4], 500, (p) => ell(p, [0, 0.08, 0.3], [0.08, 0.065, 0.07]) + lobes(p, 40, 0.006));
-add('sinus', [-0.02, -0.33, 0.34], [0.02, 0.2, 0.98], 900, (p) => {
-  const plate = Math.abs(p[0]) - 0.006;
-  const outline = ell(p, [0, -0.07, 0.66], [0.2, 0.22, 0.3]);
-  return Math.max(plate, outline);
+// thyroid gland: two pear-shaped lobes hugging the trachea, their upper poles pointing
+// up beside the thyroid cartilage, joined in front of the trachea by the isthmus
+add('neck', [-0.2, -1.66, 0.04], [0.2, -1.32, 0.25], 1200, (p) => {
+  const x = Math.abs(p[0]);
+  const lobe = smin(ell([x, p[1], p[2]], [0.118, -1.52, 0.13], [0.042, 0.085, 0.045]), ell([x, p[1], p[2]], [0.1, -1.4, 0.13], [0.022, 0.07, 0.028]), 0.05);
+  const isthmus = ell(p, [0, -1.535, 0.21], [0.09, 0.028, 0.018]);
+  return smin(lobe, isthmus, 0.03) + lobes(p, 60, 0.005);
 });
+// sphenoid sinus: a box-like cavity behind the nose, halved by its own septum
+add('sinus', [-0.11, -0.01, 0.2], [0.11, 0.17, 0.4], 500, (p) => {
+  const cavity = box(p, [0, 0.08, 0.3], [1, 0, 0], [0, 1, 0], [0, 0, 1], [0.065, 0.055, 0.06], 0.02);
+  return Math.max(cavity, -(Math.abs(p[0] - 0.01) - 0.004)) + lobes(p, 40, 0.005);
+});
+// nasal septum: a thin plate outlined by the nasal bridge in front, the columella,
+// the floor of the nose and the vomer behind
+{
+  const outline = [[0.22, 0.78], [-0.2, 0.95], [-0.32, 0.89], [-0.37, 0.44], [0.1, 0.37], [0.24, 0.6]];
+  add('sinus', [-0.02, -0.39, 0.34], [0.02, 0.26, 0.98], 900, (p) => {
+    const edges = outline.map(([y0, z0], i) => {
+      const [y1, z1] = outline[(i + 1) % outline.length];
+      // outward normal of the edge in the y-z plane (outline runs clockwise seen from +x)
+      return plane([0, p[1], p[2]], [0, z1 - z0, -(y1 - y0)], (z1 - z0) * y0 - (y1 - y0) * z0);
+    });
+    return Math.max(Math.abs(p[0]) - 0.006, hull(edges, 0.03));
+  });
+}
 
 // mouth: tongue, palate, uvula and dental arches
-add('mouth', [-0.2, -0.8, 0.15], [0.2, -0.46, 0.84], 1800, (p) => {
-  const body = ell(p, [0, -0.555, 0.53], [0.165, 0.075, 0.27]);
-  const root = ell(p, [0, -0.68, 0.3], [0.13, 0.11, 0.12]);
-  const groove = ell(p, [0, -0.48, 0.55], [0.012, 0.02, 0.22]);
-  return Math.max(smin(body, root, 0.08), -groove);
-});
+// tongue: a muscular body arched under the palate, its tip behind the lower incisors,
+// curving down at the back into the root that faces the oropharynx; a median groove
+// runs along the dorsum. Built as a tube along its midline, flattened side to side.
+{
+  const spine = [[0, -0.57, 0.74], [0, -0.548, 0.66], [0, -0.53, 0.56], [0, -0.523, 0.46], [0, -0.545, 0.37], [0, -0.6, 0.31], [0, -0.69, 0.275], [0, -0.79, 0.265]];
+  const radii = [0.025, 0.045, 0.062, 0.072, 0.075, 0.072, 0.062, 0.045];
+  add('mouth', [-0.2, -0.86, 0.18], [0.2, -0.44, 0.78], 1900, (p) => {
+    const body = tubeR([p[0] / 2, p[1], p[2]], spine, radii);
+    const groove = ell(p, [0, -0.478, 0.56], [0.012, 0.018, 0.17]);
+    return Math.max(body, -groove);
+  });
+}
 add('mouth', [-0.24, -0.47, 0.3], [0.24, -0.38, 0.86], 900, (p) => {
   const arch = ell(p, [0, -0.43, 0.56], [0.2, 0.05, 0.28]);
   return Math.max(Math.abs(arch) - 0.006, -(p[1] + 0.43));
