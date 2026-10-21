@@ -201,7 +201,7 @@ for (const s of [1, -1]) {
     cap(p, [s * 0.012, -1.15, 0.23], [s * 0.055, -1.155, 0.05], 0.009),
   ));
 
-  // ----- neck: thyroid lobes, lymph nodes, carotid and jugular -----
+  // ----- neck: lymph node chains (the thyroid gland is with the midline structures) -----
   const nodes = [
     ...arc(7, (t) => [s * (0.38 - 0.05 * t), -0.8 - 0.82 * t, -0.03 + 0.05 * t]),
     [s * 0.2, -0.95, 0.38], [s * 0.26, -0.98, 0.33], [s * 0.08, -1.0, 0.42],
@@ -209,30 +209,6 @@ for (const s of [1, -1]) {
   ];
   add('neck', [Math.min(s * 0.04, s * 0.52), -1.68, -0.36], [Math.max(s * 0.04, s * 0.52), -0.74, 0.46], 1300,
     (p) => Math.min(...nodes.map((c, i) => ell(p, c, [0.024, 0.034, 0.024].map((v) => v * (0.8 + 0.25 * (i % 3)))))));
-  // carotid: the common carotid rises beside the trachea, widens into the bulb and
-  // splits at the top of the thyroid cartilage; the internal carotid climbs back
-  // to the skull base, the external one forward, giving off thyroid, lingual and
-  // facial branches. The internal jugular vein runs alongside, outside it.
-  {
-    const bif = [0.25, -1.06, 0.0];
-    const curve = (pts) => pts.map(([x, y, z]) => [s * x, y, z]);
-    const cca = curve([[0.19, -1.75, 0.04], [0.2, -1.55, 0.04], [0.22, -1.32, 0.025], [0.24, -1.15, 0.01], bif]);
-    const ica = curve([bif, [0.265, -0.95, -0.04], [0.275, -0.8, -0.1], [0.27, -0.62, -0.15], [0.28, -0.46, -0.17], [0.3, -0.36, -0.15]]);
-    const eca = curve([bif, [0.255, -0.98, 0.04], [0.29, -0.86, 0.03], [0.36, -0.7, -0.02], [0.45, -0.5, -0.06], [0.55, -0.25, -0.1], [0.62, -0.02, -0.14]]);
-    const supThyroid = curve([[0.253, -1.02, 0.035], [0.22, -1.1, 0.09], [0.16, -1.2, 0.13], [0.12, -1.32, 0.14]]);
-    const lingual = curve([[0.262, -0.96, 0.045], [0.22, -0.92, 0.12], [0.17, -0.86, 0.22], [0.12, -0.78, 0.35], [0.08, -0.72, 0.5]]);
-    const facial = curve([[0.29, -0.88, 0.04], [0.33, -0.92, 0.14], [0.37, -0.96, 0.27], [0.43, -0.9, 0.4], [0.45, -0.76, 0.52], [0.41, -0.6, 0.65], [0.33, -0.5, 0.76]]);
-    const ijv = curve([[0.27, -1.75, -0.02], [0.29, -1.5, -0.04], [0.32, -1.2, -0.08], [0.34, -0.95, -0.12], [0.37, -0.7, -0.18], [0.4, -0.5, -0.24], [0.42, -0.38, -0.26]]);
-    const [x0, x1] = xs(0.06, 0.66);
-    add('neck', [x0, -1.76, -0.32], [x1, 0.02, 0.8], 1500, (p) => Math.min(
-      tubeR(p, cca, [0.022, 0.022, 0.022, 0.025, 0.03]),
-      ell(p, [s * 0.252, -1.04, -0.005], [0.03, 0.045, 0.03]),
-      tubeR(p, ica, [0.02, 0.017, 0.016, 0.015, 0.015, 0.014]),
-      tubeR(p, eca, [0.016, 0.014, 0.013, 0.012, 0.011, 0.009, 0.008]),
-      tube(p, supThyroid, 0.008, 0.006), tube(p, lingual, 0.008, 0.006), tube(p, facial, 0.009, 0.006),
-      tubeR(p, ijv, [0.03, 0.032, 0.032, 0.03, 0.028, 0.026, 0.03]),
-    ));
-  }
 
   // ----- salivary glands and ducts -----
   // parotid: a wedge over the ramus of the jaw, from the cheekbone down past the
