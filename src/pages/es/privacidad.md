@@ -3,14 +3,14 @@ layout: ../../layouts/Legal.astro
 lang: es
 title: Política de privacidad · Juan García Arteaga, ORL
 heading: Política de privacidad
-description: Cómo trata este sitio web los datos personales. El sitio no tiene formularios, no requiere registro y no usa cookies.
+description: Cómo trata este sitio web los datos personales. El sitio no tiene formularios, no requiere registro y no usa cookies de análisis ni publicidad.
 alt: /en/privacy/
-updated: 2026-10-18
+updated: 2026-10-22
 ---
 
 ## En resumen
 
-- Este sitio **no tiene formularios, no pide registro y no usa cookies ni herramientas de analítica**.
+- Este sitio **no tiene formularios, no pide registro y no usa cookies de análisis ni herramientas de analítica**. Solo guarda, si lo eliges, una cookie técnica con tu preferencia de modo claro u oscuro (ver la [política de cookies](/es/cookies/)).
 - Las fuentes tipográficas y el código se sirven desde el propio sitio, sin conexiones a servicios de terceros.
 - Solo se tratan datos personales si escribes al correo de contacto, y los registros técnicos mínimos que genera el servidor al visitar cualquier web.
 

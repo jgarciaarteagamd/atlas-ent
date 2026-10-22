@@ -11,7 +11,8 @@ const t = ui[lang];
 <header class="site">
   <div class="wrap bar">
     <a class="brand" href={paths.home(lang)} aria-label={`${t.brand} · ${t.forPatients}`}>
-      <svg class="mark" viewBox={`0 0 ${markWidth} ${markHeight}`} aria-hidden="true" set:html={markSvg(palettes.dark, 'jga-header')} />
+      <svg class="mark on-dark" viewBox={`0 0 ${markWidth} ${markHeight}`} aria-hidden="true" set:html={markSvg(palettes.dark, 'jga-header')} />
+      <svg class="mark on-light" viewBox={`0 0 ${markWidth} ${markHeight}`} aria-hidden="true" set:html={markSvg(palettes.light, 'jga-header-light')} />
       <span class="name">{t.brand}</span>
       <span class="who">{t.forPatients}</span>
     </a>
@@ -21,6 +22,10 @@ const t = ui[lang];
       <a class="lang" href={alt} hreflang={lang === 'es' ? 'en' : 'es'} lang={lang === 'es' ? 'en' : 'es'}>
         <span aria-hidden="true">{t.langShort}</span><span class="sr">{t.langName}</span>
       </a>
+      <button type="button" class="theme" data-theme-toggle aria-pressed="false" aria-label={t.lightMode} title={t.lightMode}>
+        <svg class="on-dark" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" /><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.4 1.4M11.55 11.55l1.4 1.4M3.05 12.95l1.4-1.4M11.55 4.45l1.4-1.4" /></svg>
+        <svg class="on-light" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1Z" /></svg>
+      </button>
     </nav>
   </div>
 </header>
@@ -30,7 +35,7 @@ const t = ui[lang];
     position: sticky;
     top: env(safe-area-inset-top, 0px);
     z-index: 20;
-    background: rgba(3, 7, 12, 0.78);
+    background: color-mix(in srgb, var(--void) 78%, transparent);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--holo-line);
   }
@@ -63,7 +68,7 @@ const t = ui[lang];
     font-size: 1.2rem;
     letter-spacing: 0.02em;
     color: var(--holo);
-    text-shadow: 0 0 16px rgba(116, 241, 255, 0.4);
+    text-shadow: 0 0 16px var(--glow);
   }
   .who { color: var(--ink-soft); font-size: 0.9rem; }
   nav { display: flex; gap: 6px 20px; flex-wrap: wrap; align-items: center; }
@@ -81,6 +86,22 @@ const t = ui[lang];
     padding: 3px 8px;
     color: var(--holo) !important;
   }
+  /* the switch shows the sun in dark mode and the moon in light mode */
+  .theme {
+    display: inline-grid;
+    place-items: center;
+    width: 26px;
+    height: 24px;
+    padding: 0;
+    background: none;
+    border: 1px solid var(--holo-line);
+    color: var(--holo);
+    cursor: var(--cursor-link);
+  }
+  .theme:hover { color: var(--flare); border-color: var(--flare); }
+  .theme svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  :global([data-theme='light']) .on-dark,
+  :global(:root:not([data-theme='light'])) .on-light { display: none; }
   .sr {
     position: absolute;
     width: 1px;

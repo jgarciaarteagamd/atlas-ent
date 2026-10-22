@@ -1,6 +1,8 @@
 // Holographic head: laser slices, meridians and a twinkling point cloud baked
 // from the head mesh (src/assets/head.bin), plus stylised inner anatomy that
 // lights up for the zone under the pointer or the selected zone.
+// In light mode the same strokes are drawn as ink on paper: normal blending
+// with dark teal (amber-brown when selected) instead of light added to black.
 
 import * as THREE from 'three';
 
@@ -105,7 +107,11 @@ function ring(out, cx, cy, cz, rx, rz, n = 40) {
 // The head only dims (x-ray) while a zone is hovered or selected; the zone itself
 // shows through its inner anatomy, so the skin over it is not lit.
 const common = `
-  uniform float uTime, uScan, uHotK, uSelK, uPx;`;
+  uniform float uTime, uScan, uHotK, uSelK, uPx, uInk;`;
+// Ink colours for light mode: teal for the head, brown-amber for a selection.
+const ink = `
+  const vec3 INK = vec3(0.03, 0.36, 0.43);
+  const vec3 INK_SEL = vec3(0.6, 0.33, 0.0);`;
 
 const lighting = `
   // Key light from the upper left, a soft rim, and surfaces facing away
@@ -132,15 +138,15 @@ const lineVS = `${common}${lighting}
     vDepth = smoothstep(-8.3, -5.5, mv.z);
     gl_Position = projectionMatrix * mv;
   }`;
-const lineFS = `${common}
+const lineFS = `${common}${ink}
   varying float vScan, vDepth, vKind, vLight, vFront;
   void main() {
     vec3 holo = vec3(0.45, 0.94, 1.0);
-    vec3 col = holo * (0.6 + vScan * 1.2);
+    vec3 col = mix(holo * (0.6 + vScan * 1.2), INK * (1.0 - vScan * 0.5), uInk);
     float strength = mix(0.55, 0.2, vKind);
     float xray = 1.0 - 0.6 * max(uHotK, uSelK);
     float a = strength * vLight * xray + vScan * 0.3 * (1.0 - vKind * 0.6) * xray * (0.3 + 0.7 * vFront);
-    gl_FragColor = vec4(col, a);
+    gl_FragColor = vec4(col, min(a * (1.0 + 0.4 * uInk), 1.0));
   }`;
 const pointVS = `${common}${lighting}
   attribute float seed;
@@ -157,13 +163,13 @@ const pointVS = `${common}${lighting}
     gl_PointSize = (1.1 + feature * 0.6 * front + scan * 1.2) * uPx;
     gl_Position = projectionMatrix * mv;
   }`;
-const pointFS = `
+const pointFS = `${common}${ink}
   varying float vA;
   void main() {
     float d = length(gl_PointCoord - 0.5);
     if (d > 0.5) discard;
-    vec3 col = vec3(0.6, 0.97, 1.0);
-    gl_FragColor = vec4(col, vA * (1.0 - d * 2.0));
+    vec3 col = mix(vec3(0.6, 0.97, 1.0), INK, uInk);
+    gl_FragColor = vec4(col, min(vA * (1.0 - d * 2.0), 1.0));
   }`;
 
 const anatomyVS = (points) => `${lighting}
@@ -182,16 +188,17 @@ const anatomyVS = (points) => `${lighting}
     ${points ? 'gl_PointSize = (1.2 + on * 1.0) * uPx;' : ''}
     gl_Position = projectionMatrix * mv;
   }`;
-const anatomyFS = (points) => `
+const anatomyFS = (points) => `${ink}
+  uniform float uInk;
   varying float vA, vSel;
   void main() {
     ${points ? 'float d = length(gl_PointCoord - 0.5); if (d > 0.5) discard; float fall = 1.0 - d * 2.0;' : 'float fall = 1.0;'}
-    vec3 col = mix(vec3(0.62, 0.98, 1.0), vec3(1.0, 0.8, 0.5), vSel);
-    gl_FragColor = vec4(col, vA * fall);
+    vec3 col = mix(mix(vec3(0.62, 0.98, 1.0), vec3(1.0, 0.8, 0.5), vSel), mix(INK, INK_SEL, vSel), uInk);
+    gl_FragColor = vec4(col, min(vA * fall, 1.0));
   }`;
 
 // ---------- engine ----------
-export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover, onSelect }) {
+export async function createHologram({ host, zones, headUrl, anatomyUrl, ink: inkMode = false, onHover, onSelect }) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover: hover)').matches;
 
@@ -212,6 +219,7 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
     uHotK: { value: 0 },
     uSelK: { value: 0 },
     uPx: { value: renderer.getPixelRatio() },
+    uInk: { value: 0 },
   };
   const additive = { transparent: true, depthWrite: false, blending: THREE.AdditiveBlending };
 
@@ -233,6 +241,7 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
     uGO: { value: new Array(GROUPS.length).fill(0) },
     uGS: { value: new Array(GROUPS.length).fill(0) },
     uPx: uniforms.uPx,
+    uInk: uniforms.uInk,
   };
   const anatomyLines = new THREE.BufferGeometry();
   anatomyLines.setAttribute('position', new THREE.BufferAttribute(anatomy.seg, 3));
@@ -253,6 +262,18 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
   floorGeo.setAttribute('position', new THREE.Float32BufferAttribute(floor, 3));
   const floorObj = new THREE.LineSegments(floorGeo, new THREE.LineBasicMaterial({ color: 0x74f1ff, opacity: 0.28, ...additive }));
   holo.add(floorObj);
+
+  const materials = [];
+  holo.traverse((o) => { if (o.material) materials.push(o.material); });
+  function setInk(on) {
+    uniforms.uInk.value = on ? 1 : 0;
+    floorObj.material.color.set(on ? 0x0b7285 : 0x74f1ff);
+    for (const m of materials) {
+      m.blending = on ? THREE.NormalBlending : THREE.AdditiveBlending;
+      m.needsUpdate = true;
+    }
+    loop();
+  }
 
   const hitMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, colorWrite: false });
   const hitGeo = new THREE.SphereGeometry(1, 16, 12);
@@ -357,9 +378,10 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, onHover
     running = true;
     requestAnimationFrame(frame);
   }
-  loop();
+  setInk(inkMode);
 
   return {
+    setInk,
     setHover(id) { hovered = id; },
     setSelected(id) { selected = id; },
     get rotation() { return { x: rotX, y: rotY, t }; },

@@ -79,12 +79,12 @@ const t = ui[lang];
     height: 100%;
     padding: 20px 20px 22px;
     border: 1px solid var(--holo-line);
-    background: rgba(7, 16, 25, 0.6);
+    background: color-mix(in srgb, var(--void-2) 60%, transparent);
     color: var(--ink);
     text-decoration: none;
     transition: border-color 160ms, background 160ms;
   }
-  .zones a:hover { border-color: rgba(255, 196, 107, 0.5); background: rgba(255, 196, 107, 0.05); }
+  .zones a:hover { border-color: color-mix(in srgb, var(--flare) 50%, transparent); background: color-mix(in srgb, var(--flare) 5%, transparent); }
   .zones a:hover .zname { color: var(--flare); }
   .zname { font-family: var(--display); font-size: 1.4rem; font-weight: 500; color: var(--holo); }
   .zlede { color: var(--ink-soft); font-size: 0.95rem; line-height: 1.55; }
@@ -95,7 +95,7 @@ const t = ui[lang];
     justify-items: start;
     padding: 28px;
     border: 1px solid var(--holo-line);
-    background: linear-gradient(120deg, rgba(116, 241, 255, 0.06), rgba(7, 16, 25, 0.4));
+    background: linear-gradient(120deg, color-mix(in srgb, var(--holo) 6%, transparent), color-mix(in srgb, var(--void-2) 40%, transparent));
   }
   .card p:not(.label) { margin: 0; max-width: 64ch; }
   @media (max-width: 760px) {

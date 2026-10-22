@@ -3,16 +3,16 @@ layout: ../../layouts/Legal.astro
 lang: en
 title: Privacy policy · Juan Garcia Arteaga, ENT
 heading: Privacy policy
-description: How this website handles personal data. The site has no forms, needs no sign-up and uses no cookies.
+description: How this website handles personal data. The site has no forms, needs no sign-up and uses no analytics or advertising cookies.
 alt: /es/privacidad/
-updated: 2026-10-18
+updated: 2026-10-22
 ---
 
 This is an English translation provided for convenience. If there is any discrepancy, the [Spanish version](/es/privacidad/) prevails.
 
 ## In short
 
-- This site **has no forms, needs no sign-up and uses no cookies or analytics tools**.
+- This site **has no forms, needs no sign-up and uses no analytics cookies or analytics tools**. If you choose, it only keeps a technical cookie with your light or dark mode preference (see the [cookie policy](/en/cookies/)).
 - Fonts and code are served from the site itself, with no connections to third-party services.
 - Personal data is only processed if you write to the contact email, plus the minimal technical logs any web server creates when you visit.
 

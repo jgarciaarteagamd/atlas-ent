@@ -36,6 +36,14 @@ const ogLocale = lang === 'es' ? 'es_ES' : 'en_GB';
     <meta name="description" content={description} />
     <meta name="author" content="Dr. Juan García Arteaga" />
     <meta name="theme-color" content="#03070c" />
+    <script is:inline>
+      // Light or dark before the first paint: the saved choice (scripts/theme.js), else the device setting.
+      (() => {
+        const theme = document.cookie.match(/(?:^|; )theme=(light|dark)/)?.[1] || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.theme = theme;
+        if (theme === 'light') document.querySelector('meta[name="theme-color"]').content = '#ffffff';
+      })();
+    </script>
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang={lang} href={canonical} />
     <link rel="alternate" hreflang={otherLang(lang)} href={altUrl} />
@@ -63,6 +71,7 @@ const ogLocale = lang === 'es' ? 'es_ES' : 'en_GB';
     <Footer lang={lang} />
     <script>
       import '../scripts/cursor.js';
+      import '../scripts/theme.js';
     </script>
   </body>
 </html>
