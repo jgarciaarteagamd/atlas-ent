@@ -1,4 +1,4 @@
-# Juan García Arteaga, ORL — patient site at jgarciaarteaga.pro
+# Juan García Arteaga, ORL — patient site at info.jgarciaarteaga.pro
 [build]
   command = "npm run build"
   publish = "dist"

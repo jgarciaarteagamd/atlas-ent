@@ -1,5 +1,5 @@
 ---
-import { ui, paths, bioUrl } from '../i18n/ui';
+import { ui, paths, bioUrl, bookingUrl } from '../i18n/ui';
 import type { Lang } from '../data/zones';
 
 interface Props { lang: Lang }
@@ -16,6 +16,7 @@ const year = new Date().getFullYear();
       <a href={paths.privacy(lang)}>{t.privacy}</a>
       <a href={paths.cookies(lang)}>{t.cookies}</a>
       <a href={bioUrl(lang)}>{t.navAbout}</a>
+      <a href={bookingUrl(lang)}>{t.navBooking}</a>
     </nav>
     <p class="copy">© {year} {t.brand}</p>
   </div>

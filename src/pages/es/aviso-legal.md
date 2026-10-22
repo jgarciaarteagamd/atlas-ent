@@ -3,14 +3,14 @@ layout: ../../layouts/Legal.astro
 lang: es
 title: Aviso legal · Juan García Arteaga, ORL
 heading: Aviso legal y aviso médico
-description: Datos del titular, condiciones de uso y aviso médico de jgarciaarteaga.pro, el sitio de información para pacientes del Dr. Juan García Arteaga.
+description: Datos del titular, condiciones de uso y aviso médico de info.jgarciaarteaga.pro, el sitio de información para pacientes del Dr. Juan García Arteaga.
 alt: /en/legal-notice/
 updated: 2026-10-18
 ---
 
 ## 1. Titular del sitio web
 
-En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de los datos del titular de este sitio web (jgarciaarteaga.pro):
+En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de los datos del titular de este sitio web (info.jgarciaarteaga.pro):
 
 | Dato | Información |
 |---|---|

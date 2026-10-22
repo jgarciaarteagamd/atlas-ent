@@ -16,7 +16,7 @@ La única cookie es propia y técnica, y solo se instala si pulsas el botón de 
 
 | Nombre | Para qué sirve | Duración |
 | --- | --- | --- |
-| `theme` | Recordar si has elegido el modo claro (`light`) o el oscuro (`dark`), en este sitio y en la página profesional bio.jgarciaarteaga.pro. | 1 año |
+| `theme` | Recordar si has elegido el modo claro (`light`) o el oscuro (`dark`), en este sitio, en la página de la consulta (jgarciaarteaga.pro) y en la trayectoria profesional (bio.jgarciaarteaga.pro). | 1 año |
 
 No contiene datos personales ni sirve para identificarte. Al ser necesaria para prestar una función que tú solicitas, está exenta de consentimiento según el artículo 22.2 de la LSSI-CE. Puedes borrarla en cualquier momento desde la configuración de tu navegador; si lo haces, el sitio volverá a seguir el modo de tu dispositivo.
 
