@@ -35,10 +35,10 @@ npm run build    # genera dist/
 
 ## Banners para redes
 
-`brand/social/` contiene las portadas en español e inglés, con el mismo estilo que la web:
+`brand/social/` contiene las portadas en español e inglés, con el mismo estilo que la web, en modo oscuro y en modo claro (los archivos que terminan en `-light`):
 
 - `linkedin-banner-*.png` (1584 × 396): portada del perfil de LinkedIn. El texto empieza a la derecha de la foto de perfil.
 - `whatsapp-banner-*.png` (1920 × 1080, 16:9): portada del perfil de WhatsApp Business. El centro inferior queda libre para la foto de perfil.
 
-Para la foto de perfil del negocio sirve `brand/monogram-dark.png`.
+Para la foto de perfil del negocio sirve `brand/monogram-dark.png` (o `brand/monogram-light.png` con las portadas claras).
 Se regeneran con `node scripts/make-banners.mjs` (requiere Playwright con Chromium y `npm install` para las fuentes).

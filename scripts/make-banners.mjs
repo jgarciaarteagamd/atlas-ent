@@ -1,5 +1,6 @@
 // Renders the social profile banners (LinkedIn, WhatsApp Business) into brand/social/.
-// Same look as the site: void background, cyan hologram, amber accent, Oxanium + Instrument Sans.
+// Same look as the site, in both modes: dark (void background, cyan hologram, amber accent)
+// and light (white background, the hologram as teal ink), with Oxanium + Instrument Sans.
 // Usage: node scripts/make-banners.mjs   (needs Playwright with a Chromium build)
 import { writeFileSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -43,13 +44,17 @@ const css = `
 @font-face { font-family: Oxanium; font-weight: 500; src: url(${font('oxanium', 'oxanium-latin-500-normal')}); }
 @font-face { font-family: 'Instrument Sans'; font-weight: 400; src: url(${font('instrument-sans', 'instrument-sans-latin-400-normal')}); }
 @font-face { font-family: 'Instrument Sans'; font-weight: 500; src: url(${font('instrument-sans', 'instrument-sans-latin-500-normal')}); }
-:root { --void:#03070c; --holo:#74f1ff; --holo-line:rgba(116,241,255,.16); --flare:#ffc46b; --ink:#e2f5f8; --ink-soft:#94b6be; }
+:root { --void:#03070c; --void-2:#071019; --holo:#74f1ff; --holo-line:rgba(116,241,255,.16); --flare:#ffc46b; --ink:#e2f5f8; --ink-soft:#94b6be;
+  --glow:rgba(116,241,255,.13); --name-glow:rgba(116,241,255,.35); }
+/* light mode: the site's light tokens (src/styles/global.css) */
+.light { --void:#ffffff; --void-2:#e8f3f5; --holo:#0b7285; --holo-line:rgba(11,114,133,.2); --flare:#a85a00; --ink:#14272d; --ink-soft:#4a6670;
+  --glow:rgba(11,114,133,.08); --name-glow:transparent; }
 * { box-sizing: border-box; margin: 0; }
 html, body { width: var(--w); height: var(--h); overflow: hidden; background: var(--void); }
 .stage { position: relative; width: 100%; height: 100%; overflow: hidden;
   background:
-    radial-gradient(ellipse 38% 70% at var(--glow-x) 55%, rgba(116,241,255,.13), transparent 70%),
-    linear-gradient(180deg, #071019, var(--void) 70%); }
+    radial-gradient(ellipse 38% 70% at var(--glow-x) 55%, var(--glow), transparent 70%),
+    linear-gradient(180deg, var(--void-2), var(--void) 70%); }
 /* faint projection grid, fading out towards the text side */
 .grid { position: absolute; inset: 0;
   background-image: linear-gradient(var(--holo-line) 1px, transparent 1px), linear-gradient(90deg, var(--holo-line) 1px, transparent 1px);
@@ -57,10 +62,12 @@ html, body { width: var(--w); height: var(--h); overflow: hidden; background: va
   -webkit-mask-image: radial-gradient(ellipse 55% 80% at var(--glow-x) 50%, #000, transparent 75%); }
 .head { position: absolute; mix-blend-mode: screen;
   -webkit-mask-image: radial-gradient(ellipse 50% 52% at 50% 46%, #000 62%, transparent 100%); }
+/* the head picture is light on black: inverted, it reads as ink on paper */
+.light .head { mix-blend-mode: multiply; filter: invert(1) hue-rotate(180deg); }
 .text { position: absolute; font-family: 'Instrument Sans', sans-serif; color: var(--ink); }
 .mono { display: block; }
 .name { font-family: Oxanium, sans-serif; font-weight: 600; color: var(--holo); letter-spacing: .01em; line-height: 1.05;
-  text-shadow: 0 0 .5em rgba(116,241,255,.35); white-space: nowrap; }
+  text-shadow: 0 0 .5em var(--name-glow); white-space: nowrap; }
 .role { font-weight: 500; text-transform: uppercase; color: var(--ink-soft); }
 .rule { display: block; height: 3px; background: var(--flare); }
 .areas { color: var(--ink); }
@@ -68,9 +75,10 @@ html, body { width: var(--w); height: var(--h); overflow: hidden; background: va
 .site { font-family: Oxanium, sans-serif; font-weight: 500; color: var(--holo); letter-spacing: .04em; }
 `;
 
-// The JGA isotipo from the site, `width` wide.
+// The JGA isotipo from the site, `width` wide, in the palette of the current mode.
+let palette = palettes.dark;
 const svgMono = (width) =>
-  `<svg class="mono" width="${width}" height="${(width * markHeight) / markWidth}" viewBox="0 0 ${markWidth} ${markHeight}">${markSvg(palettes.dark)}</svg>`;
+  `<svg class="mono" width="${width}" height="${(width * markHeight) / markWidth}" viewBox="0 0 ${markWidth} ${markHeight}">${markSvg(palette)}</svg>`;
 
 // Each banner places the head image and the text block for its own safe zones.
 const banners = [
@@ -117,19 +125,23 @@ const page = await browser.newPage();
 // Loaded from a file so the page may read the local fonts and image.
 const tmp = mkdtempSync(resolve(tmpdir(), 'banners-'));
 const html = resolve(tmp, 'banner.html');
-for (const b of banners) {
-  for (const lang of ['es', 'en']) {
-    await page.setViewportSize({ width: b.w, height: b.h });
-    writeFileSync(
-      html,
-      `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><style>${css}</style></head>
-       <body style="--w:${b.w}px; --h:${b.h}px; ${b.vars}"><div class="stage"><div class="grid"></div>${b.body(text[lang])}</div></body></html>`,
-    );
-    await page.goto(pathToFileURL(html).href, { waitUntil: 'load' });
-    await page.evaluate(() => document.fonts.ready);
-    const path = resolve(out, `${b.name}-${lang}.png`);
-    await page.screenshot({ path });
-    console.log(path);
+// Dark banners keep their original names; light ones end in -light.
+for (const mode of ['dark', 'light']) {
+  palette = palettes[mode];
+  for (const b of banners) {
+    for (const lang of ['es', 'en']) {
+      await page.setViewportSize({ width: b.w, height: b.h });
+      writeFileSync(
+        html,
+        `<!doctype html><html lang="${lang}" class="${mode}"><head><meta charset="utf-8"><style>${css}</style></head>
+         <body style="--w:${b.w}px; --h:${b.h}px; ${b.vars}"><div class="stage"><div class="grid"></div>${b.body(text[lang])}</div></body></html>`,
+      );
+      await page.goto(pathToFileURL(html).href, { waitUntil: 'load' });
+      await page.evaluate(() => document.fonts.ready);
+      const path = resolve(out, `${b.name}-${lang}${mode === 'light' ? '-light' : ''}.png`);
+      await page.screenshot({ path });
+      console.log(path);
+    }
   }
 }
 await browser.close();
