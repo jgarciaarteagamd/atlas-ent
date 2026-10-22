@@ -142,6 +142,7 @@ const data = {
   }
 
   const canvasHost = root.querySelector<HTMLElement>('.canvas')!;
+  const isLight = () => document.documentElement.dataset.theme === 'light';
   const deg = (v: number) => (v >= 0 ? '+' : '−') + Math.abs(v * 57.2958).toFixed(1).padStart(4, '0') + '°';
 
   import('../scripts/holo.js')
@@ -150,6 +151,7 @@ const data = {
       zones: data.zones,
       headUrl,
       anatomyUrl,
+      ink: isLight(),
       onHover(id: string | null, p: { cx: number; cy: number }) {
         if (id !== headHover) { headHover = id; render(); }
         if (id) {
@@ -164,6 +166,7 @@ const data = {
     .then((h) => {
       holo = h;
       root.classList.add('is-live');
+      new MutationObserver(() => holo.setInk(isLight())).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
       render();
       setInterval(() => {
         const r = holo.rotation;
@@ -186,7 +189,7 @@ const data = {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: repeating-linear-gradient(to bottom, rgba(116, 241, 255, 0.025) 0 1px, transparent 1px 3px);
+    background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--holo) 2.5%, transparent) 0 1px, transparent 1px 3px);
   }
   .canvas { position: absolute; inset: 0; }
   .stage:global(.no-webgl) .canvas { display: none; }
@@ -200,6 +203,8 @@ const data = {
     width: auto;
     opacity: 0.9;
   }
+  /* the fallback picture is light on black: inverted, it reads as ink on paper */
+  :global([data-theme='light']) .fallback { filter: invert(1) hue-rotate(180deg); mix-blend-mode: multiply; }
 
   .hud {
     position: relative;
@@ -226,7 +231,7 @@ const data = {
     border-radius: 50%;
     background: var(--holo);
     margin-right: 6px;
-    box-shadow: 0 0 8px var(--holo);
+    box-shadow: 0 0 8px var(--glow);
     animation: blink 2.4s infinite;
   }
   @keyframes blink { 50% { opacity: 0.25; } }
@@ -249,9 +254,9 @@ const data = {
   .tick { width: 10px; height: 1px; background: var(--holo-dim); }
   .name { font-family: var(--display); font-weight: 500; font-size: 1.05rem; letter-spacing: 0.04em; }
   .sub { grid-column: 2; font-size: 0.8rem; color: var(--ink-soft); }
-  .index a:hover, .index a:global(.is-hot) { border-color: var(--holo-line); background: rgba(116, 241, 255, 0.05); }
+  .index a:hover, .index a:global(.is-hot) { border-color: var(--holo-line); background: color-mix(in srgb, var(--holo) 5%, transparent); }
   .index a:global(.is-hot) .tick { background: var(--holo); }
-  .index a[aria-current='true'] { border-color: rgba(255, 196, 107, 0.45); background: rgba(255, 196, 107, 0.06); }
+  .index a[aria-current='true'] { border-color: color-mix(in srgb, var(--flare) 45%, transparent); background: color-mix(in srgb, var(--flare) 6%, transparent); }
   .index a[aria-current='true'] .tick { background: var(--flare); box-shadow: 0 0 6px var(--flare); }
   .index a[aria-current='true'] .name { color: var(--flare); }
 
@@ -264,7 +269,7 @@ const data = {
     overflow-y: auto;
     padding: 20px;
     border: 1px solid var(--holo-line);
-    background: linear-gradient(180deg, rgba(7, 16, 25, 0.86), rgba(3, 7, 12, 0.76));
+    background: linear-gradient(180deg, color-mix(in srgb, var(--void-2) 86%, transparent), color-mix(in srgb, var(--void) 76%, transparent));
     backdrop-filter: blur(6px);
   }
   .panel h2 { font-size: 1.55rem; font-weight: 700; margin: 6px 0 8px; color: var(--holo); }

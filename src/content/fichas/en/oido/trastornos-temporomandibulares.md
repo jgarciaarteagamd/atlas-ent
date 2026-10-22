@@ -25,8 +25,6 @@ A **temporomandibular disorder (TMD)**, also called a **TMJ disorder**, affects 
 
 The **TMJ** is the joint that lets you open and close your mouth, chew and speak. It lies right **in front of the ear**. When the joint or the muscles that move it are overloaded or inflamed, we call it a **temporomandibular disorder**.
 
-"Costen's syndrome" is a **historical** name. In 1934 an ear, nose and throat surgeon, Dr Costen, linked ear symptoms with a poor bite. That explanation is no longer accepted as it stood. We now know the problem is usually **muscular and related to how the joint is used**, rather than the bite.
-
 It is common: it affects between **6 and 9 %** of adults, mainly women between 20 and 50.
 
 ## What are the symptoms?
