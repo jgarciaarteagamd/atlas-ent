@@ -24,7 +24,7 @@ Esta carpeta contiene todo lo que ese chat necesita para entregarlas en el forma
 
 ````text
 Vas a redactar una ficha informativa para pacientes de mi web de otorrinolaringología
-(jgarciaarteaga.pro). Soy el Dr. Juan García Arteaga, ORL.
+(info.jgarciaarteaga.pro). Soy el Dr. Juan García Arteaga, ORL.
 
 Sigue al pie de la letra la guía adjunta (guia-redaccion-seo.md) y la plantilla adjunta
 (plantilla-<tipo>.md).

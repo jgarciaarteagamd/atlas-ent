@@ -18,7 +18,7 @@ The only cookie is a first-party technical one, and it is only set if you press 
 
 | Name | Purpose | Duration |
 | --- | --- | --- |
-| `theme` | Remembers whether you chose light mode (`light`) or dark mode (`dark`), on this site and on the professional page bio.jgarciaarteaga.pro. | 1 year |
+| `theme` | Remembers whether you chose light mode (`light`) or dark mode (`dark`), on this site, on the clinic page (jgarciaarteaga.pro) and on the professional background page (bio.jgarciaarteaga.pro). | 1 year |
 
 It holds no personal data and cannot be used to identify you. As it is needed for a feature you request, it is exempt from consent under Article 22.2 of the Spanish LSSI-CE. You can delete it at any time in your browser settings; the site will then follow your device's mode again.
 

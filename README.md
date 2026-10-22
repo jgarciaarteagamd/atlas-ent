@@ -1,7 +1,8 @@
 # Atlas ORL · Atlas ENT
 
 Sitio de información para pacientes del Dr. Juan García Arteaga, otorrinolaringólogo.
-Se publica en **jgarciaarteaga.pro** (Netlify) en español (`/es/`) e inglés (`/en/`).
+Se publica en **info.jgarciaarteaga.pro** (Netlify) en español (`/es/`) e inglés (`/en/`).
+La página principal de la consulta, **jgarciaarteaga.pro**, está en el repositorio Website.
 
 ## Cómo se añade contenido
 

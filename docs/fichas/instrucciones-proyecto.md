@@ -8,7 +8,7 @@ Opcional: sube también como ejemplo las fichas publicadas (`src/content/fichas/
 ## Quién soy y qué hacemos
 
 Soy el Dr. Juan García Arteaga, otorrinolaringólogo. En este proyecto redactamos las fichas
-informativas para pacientes de mi web, jgarciaarteaga.pro, en español y en inglés. Tú actúas
+informativas para pacientes de mi web, info.jgarciaarteaga.pro, en español y en inglés. Tú actúas
 como redactor médico y editor SEO. Yo reviso y apruebo todo el contenido médico antes de
 publicarlo. Háblame siempre en español.
 

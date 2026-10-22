@@ -1,7 +1,7 @@
 # Plantilla · Patología
 
 Para enfermedades y problemas: otitis, sinusitis, ronquera, bultos en el cuello…
-Ejemplo publicado: [Vértigo posicional paroxístico benigno](https://jgarciaarteaga.pro/es/zonas/oido/vertigo-posicional-paroxistico-benigno/).
+Ejemplo publicado: [Vértigo posicional paroxístico benigno](https://info.jgarciaarteaga.pro/es/zonas/oido/vertigo-posicional-paroxistico-benigno/).
 
 Sigue la [guía de redacción y SEO](guia-redaccion-seo.md). Las líneas que empiezan por `> ✎` son instrucciones: **bórralas** en la ficha final.
 

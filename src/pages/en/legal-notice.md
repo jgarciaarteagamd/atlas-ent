@@ -3,7 +3,7 @@ layout: ../../layouts/Legal.astro
 lang: en
 title: Legal notice · Juan Garcia Arteaga, ENT
 heading: Legal notice and medical disclaimer
-description: Site owner details, terms of use and medical disclaimer for jgarciaarteaga.pro, the patient information site of Dr. Juan García Arteaga.
+description: Site owner details, terms of use and medical disclaimer for info.jgarciaarteaga.pro, the patient information site of Dr. Juan García Arteaga.
 alt: /es/aviso-legal/
 updated: 2026-10-18
 ---
@@ -12,7 +12,7 @@ This is an English translation provided for convenience. If there is any discrep
 
 ## 1. Site owner
 
-In accordance with Article 10 of Spanish Law 34/2002 on Information Society Services and Electronic Commerce (LSSI-CE), the owner of this website (jgarciaarteaga.pro) is:
+In accordance with Article 10 of Spanish Law 34/2002 on Information Society Services and Electronic Commerce (LSSI-CE), the owner of this website (info.jgarciaarteaga.pro) is:
 
 | Item | Details |
 |---|---|

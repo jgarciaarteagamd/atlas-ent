@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  site: 'https://jgarciaarteaga.pro',
+  site: 'https://info.jgarciaarteaga.pro',
   trailingSlash: 'always',
   integrations: [mdx(), sitemap()],
 });

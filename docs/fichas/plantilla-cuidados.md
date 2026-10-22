@@ -3,7 +3,7 @@
 Para ejercicios, consejos y pautas que el paciente hace por su cuenta: lavados nasales, ejercicios de Brandt-Daroff,
 higiene vocal, cuidados tras una cirugía, protección frente al ruido…
 El objetivo es que el paciente **lo pueda hacer bien en casa, sin dudas**, y sepa cuándo parar.
-Ejemplo publicado: [Ejercicios de Brandt-Daroff](https://jgarciaarteaga.pro/es/zonas/oido/ejercicios-brandt-daroff/).
+Ejemplo publicado: [Ejercicios de Brandt-Daroff](https://info.jgarciaarteaga.pro/es/zonas/oido/ejercicios-brandt-daroff/).
 
 Sigue la [guía de redacción y SEO](guia-redaccion-seo.md). Las líneas que empiezan por `> ✎` son instrucciones: **bórralas** en la ficha final.
 

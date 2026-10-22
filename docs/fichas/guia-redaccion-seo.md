@@ -1,6 +1,6 @@
 # Guía de redacción y SEO de las fichas
 
-Esta guía vale para todas las fichas de **jgarciaarteaga.pro**: patologías, pruebas, cirugías y cuidados. Cada tipo tiene además su propia plantilla con los apartados (`plantilla-*.md`).
+Esta guía vale para todas las fichas de **info.jgarciaarteaga.pro**: patologías, pruebas, cirugías y cuidados. Cada tipo tiene además su propia plantilla con los apartados (`plantilla-*.md`).
 
 ---
 

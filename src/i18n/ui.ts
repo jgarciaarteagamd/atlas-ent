@@ -1,6 +1,9 @@
 import type { Kind, Lang, Zone } from '../data/zones';
 
 export const BIO_URL = 'https://bio.jgarciaarteaga.pro/';
+/** The clinic page (hours, address, how to book), Spanish at / and English at /en/. */
+export const SITE_URL = 'https://jgarciaarteaga.pro/';
+export const bookingUrl = (lang: 'es' | 'en') => `${SITE_URL}${lang === 'en' ? 'en/' : ''}#cita`;
 /** The Bio opens in Spanish unless the visitor comes from the English site. */
 export const bioUrl = (lang: 'es' | 'en') => (lang === 'en' ? `${BIO_URL}?lang=en` : BIO_URL);
 export const CONTACT_EMAIL = 'jgarciaarteaga.pro@gmail.com';
@@ -14,6 +17,7 @@ export const ui = {
     tagline: 'Oído, nariz y garganta, explicados por tu otorrino.',
     navZones: 'Zonas',
     navAbout: 'Sobre el doctor',
+    navBooking: 'Pedir cita',
     langName: 'English',
     langShort: 'EN',
     lightMode: 'Modo claro',
@@ -70,6 +74,7 @@ export const ui = {
     tagline: 'Ear, nose and throat, explained by your ENT specialist.',
     navZones: 'Areas',
     navAbout: 'About the doctor',
+    navBooking: 'Appointments',
     langName: 'Español',
     langShort: 'ES',
     lightMode: 'Light mode',
