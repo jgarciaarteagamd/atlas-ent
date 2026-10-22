@@ -25,8 +25,6 @@ El **trastorno de la ATM** (articulación temporomandibular) afecta a la articul
 
 La **ATM** es la articulación que hace posible abrir y cerrar la boca, masticar y hablar. Está justo **delante del oído**. Cuando la articulación o los músculos que la mueven se sobrecargan o se inflaman, hablamos de **trastorno temporomandibular**.
 
-«Síndrome de Costen» es un nombre **histórico**. En 1934, un otorrinolaringólogo, el doctor Costen, relacionó los síntomas del oído con una mala mordida. Esa explicación ya no se acepta tal cual. Hoy sabemos que el problema suele ser **muscular y de uso de la articulación**, más que de la mordida.
-
 Es frecuente: afecta a entre el **6 y el 9 %** de los adultos, sobre todo a mujeres entre 20 y 50 años.
 
 ## ¿Qué síntomas produce?
