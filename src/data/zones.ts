@@ -52,7 +52,8 @@ export const zones: Zone[] = [
       { key: 'otoscopia', kind: 'prueba', es: 'Otoscopia', en: 'Otoscopy' },
       { key: 'audiometria', kind: 'prueba', es: 'Audiometría tonal', en: 'Pure-tone audiometry' },
       { key: 'timpanometria', kind: 'prueba', es: 'Timpanometría (impedanciometría)', en: 'Tympanometry' },
-      { key: 'videonistagmografia', kind: 'prueba', es: 'Videonistagmografía y vHIT', en: 'Videonystagmography and vHIT' },
+      { key: 'vhit', kind: 'prueba', es: 'Video Head Impulse Test (vHIT)', en: 'Video Head Impulse Test (vHIT)' },
+      { key: 'videonistagmografia', kind: 'prueba', es: 'Videonistagmografía', en: 'Videonystagmography' },
       { key: 'drenajes', kind: 'cirugia', es: 'Drenajes transtimpánicos', en: 'Ear tubes (grommets)' },
       { key: 'miringoplastia', kind: 'cirugia', es: 'Miringoplastia', en: 'Myringoplasty' },
       { key: 'timpanoplastia', kind: 'cirugia', es: 'Timpanoplastia', en: 'Tympanoplasty' },
@@ -70,7 +71,7 @@ export const zones: Zone[] = [
   {
     id: 'nariz',
     slug: { es: 'nariz', en: 'nose' },
-    name: { es: 'Nariz y senos', en: 'Nose and sinuses' },
+    name: { es: 'Nariz y senos paranasales', en: 'Nose and sinuses' },
     sub: { es: 'Respiración y olfato', en: 'Breathing and smell' },
     lede: {
       es: 'La nariz filtra, calienta y humedece el aire. Los senos paranasales son cavidades conectadas a ella que pueden inflamarse.',
@@ -89,7 +90,7 @@ export const zones: Zone[] = [
       { key: 'tc-senos', kind: 'prueba', es: 'TC de senos paranasales', en: 'Sinus CT scan' },
       { key: 'olfatometria', kind: 'prueba', es: 'Pruebas de olfato', en: 'Smell tests' },
       { key: 'septoplastia', kind: 'cirugia', es: 'Septoplastia', en: 'Septoplasty' },
-      { key: 'cens', kind: 'cirugia', es: 'Cirugía endoscópica de senos', en: 'Endoscopic sinus surgery' },
+      { key: 'cens', kind: 'cirugia', es: 'Cirugía endoscópica de senos paranasales', en: 'Endoscopic sinus surgery' },
       { key: 'turbinoplastia', kind: 'cirugia', es: 'Reducción de cornetes', en: 'Turbinate reduction' },
       { key: 'lavados-nasales', kind: 'cuidados', es: 'Lavados nasales', en: 'Nasal saline rinses' },
       { key: 'sprays-nasales', kind: 'cuidados', es: 'Uso correcto de los sprays nasales', en: 'Using nasal sprays correctly' },

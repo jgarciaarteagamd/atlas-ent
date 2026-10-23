@@ -1,6 +1,6 @@
 # Plantilla · Cirugía o procedimiento
 
-Para operaciones y procedimientos: amigdalectomía, septoplastia, drenajes, cirugía endoscópica de senos, tiroidectomía…
+Para operaciones y procedimientos: amigdalectomía, septoplastia, drenajes, cirugía endoscópica de senos paranasales, tiroidectomía…
 El objetivo es que el paciente **entienda la operación, sepa prepararse y sepa cómo será la recuperación**.
 No sustituye al consentimiento informado, y la ficha debe decirlo.
 
