@@ -67,7 +67,6 @@ zone: `oido` · URL: `/es/zonas/oido/<slug>/` y `/en/areas/ear/<slug>/`
 | `audiometria` | Prueba | Audiometría tonal | Pure-tone audiometry |
 | `timpanometria` | Prueba | Timpanometría (impedanciometría) | Tympanometry |
 | `vhit` | Prueba | Video Head Impulse Test (vHIT) | Video Head Impulse Test (vHIT) |
-| `videonistagmografia` | Prueba | Videonistagmografía | Videonystagmography |
 | `drenajes` | Cirugía | Drenajes transtimpánicos | Ear tubes (grommets) |
 | `miringoplastia` | Cirugía | Miringoplastia | Myringoplasty |
 | `timpanoplastia` | Cirugía | Timpanoplastia | Tympanoplasty |

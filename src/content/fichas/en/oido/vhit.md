@@ -37,8 +37,6 @@ We ask for it when you have **vertigo, dizziness or unsteadiness** and want to k
 - **After treatments that can damage the inner ear**, such as some antibiotics.
 - **Follow-up** of a known balance problem, to see how it is recovering.
 
-A **normal vHIT is also useful**. In [Benign paroxysmal positional vertigo (BPPV)](/en/areas/ear/benign-paroxysmal-positional-vertigo/) and [Vestibular migraine](/en/areas/ear/vestibular-migraine-dizziness/) it is usually normal, which helps point to the diagnosis.
-
 ## How should I prepare?
 
 Very little preparation is needed:
@@ -74,7 +72,7 @@ The machine gives the result **straight away**, with two main measurements for e
 
 <!-- ILUSTRACIÓN: two simple graphs, one with the eye curve on top of the head curve (normal) and one with a lower eye curve and saccade spikes, each with a short caption -->
 
-An abnormal result is not a diagnosis on its own. We interpret it together with your symptoms, the examination and other tests, such as a hearing test or videonystagmography.
+An abnormal result is not a diagnosis on its own. We interpret it together with your symptoms, the examination and other tests, such as a hearing test.
 
 ## After the test
 
@@ -95,11 +93,8 @@ No. You will only feel small, quick turns of your head. Some people feel dizzy f
 **Can I go on my own and drive afterwards?**
 Yes. If you feel dizzy at the end, wait a few minutes before driving.
 
-**Is it the same as videonystagmography or the water test?**
-No. They complement each other. The vHIT tests how the inner ear responds to quick head movements, like those of everyday life. **Caloric tests** (warm and cool water or air in the ear) test the response to slow stimuli. Sometimes one is normal and the other is not, as often happens in Ménière's disease.
-
 **My vHIT is normal but I am still dizzy. Why?**
-Because many causes of dizziness do not affect this reflex, such as BPPV, vestibular migraine, or some dizziness related to anxiety or blood pressure. A normal vHIT helps rule out some causes and points towards others.
+Because many causes of dizziness do not affect this reflex, such as [BPPV](/en/areas/ear/benign-paroxysmal-positional-vertigo/), [Vestibular migraine](/en/areas/ear/vestibular-migraine-dizziness/), or some dizziness related to anxiety or blood pressure. A normal vHIT helps rule out some causes and points towards others.
 
 **Can children have it?**
 Yes, if they can cooperate enough to look at the dot and keep their neck relaxed.

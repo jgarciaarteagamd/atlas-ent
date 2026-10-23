@@ -53,7 +53,6 @@ export const zones: Zone[] = [
       { key: 'audiometria', kind: 'prueba', es: 'Audiometría tonal', en: 'Pure-tone audiometry' },
       { key: 'timpanometria', kind: 'prueba', es: 'Timpanometría (impedanciometría)', en: 'Tympanometry' },
       { key: 'vhit', kind: 'prueba', es: 'Video Head Impulse Test (vHIT)', en: 'Video Head Impulse Test (vHIT)' },
-      { key: 'videonistagmografia', kind: 'prueba', es: 'Videonistagmografía', en: 'Videonystagmography' },
       { key: 'drenajes', kind: 'cirugia', es: 'Drenajes transtimpánicos', en: 'Ear tubes (grommets)' },
       { key: 'miringoplastia', kind: 'cirugia', es: 'Miringoplastia', en: 'Myringoplasty' },
       { key: 'timpanoplastia', kind: 'cirugia', es: 'Timpanoplastia', en: 'Tympanoplasty' },

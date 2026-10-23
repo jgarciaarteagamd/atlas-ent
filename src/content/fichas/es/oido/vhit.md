@@ -37,8 +37,6 @@ Lo pedimos cuando tienes **vértigo, mareo o inestabilidad** y queremos saber si
 - **Tras tratamientos que pueden dañar el oído interno**, como algunos antibióticos.
 - **Seguimiento** de un problema del equilibrio ya conocido, para ver cómo se recupera.
 
-Un vHIT **normal también aporta información**. En el [Vértigo posicional paroxístico benigno (VPPB)](/es/zonas/oido/vertigo-posicional-paroxistico-benigno/) y en la [Migraña vestibular](/es/zonas/oido/migrana-vestibular-mareo-vertigo/) suele salir normal, y eso orienta el diagnóstico.
-
 ## ¿Cómo debo prepararme?
 
 Apenas hace falta preparación:
@@ -74,7 +72,7 @@ El aparato da el resultado **en el momento**, con dos datos principales para cad
 
 <!-- ILUSTRACIÓN: dos gráficas sencillas, una con la curva del ojo superpuesta a la de la cabeza (normal) y otra con la curva del ojo más baja y unos picos de sacadas, con un texto corto debajo de cada una -->
 
-Un resultado alterado no es un diagnóstico por sí solo. Lo interpretamos con lo que nos cuentas, la exploración y otras pruebas, como la audiometría o la videonistagmografía.
+Un resultado alterado no es un diagnóstico por sí solo. Lo interpretamos con lo que nos cuentas, la exploración y otras pruebas, como la audiometría.
 
 ## Después de la prueba
 
@@ -95,11 +93,8 @@ De 10 a 20 minutos, según los canales que haya que estudiar.
 **¿Puedo ir solo y conducir después?**
 Sí. Si al terminar notas mareo, espera unos minutos antes de conducir.
 
-**¿Es lo mismo que la videonistagmografía o las pruebas con agua?**
-No. Se complementan. El vHIT estudia cómo responde el oído interno a los movimientos rápidos de la cabeza, los de la vida diaria. Las **pruebas calóricas** (con agua o aire en el oído) estudian la respuesta a estímulos lentos. A veces una sale normal y la otra no, como ocurre a menudo en la enfermedad de Ménière.
-
 **Mi vHIT es normal, pero sigo mareado. ¿Por qué?**
-Porque muchas causas de mareo no afectan a este reflejo, como el VPPB, la migraña vestibular o algunos mareos por ansiedad o por la tensión arterial. Un vHIT normal ayuda a descartar algunas de ellas y orienta hacia otras.
+Porque muchas causas de mareo no afectan a este reflejo, como el [VPPB](/es/zonas/oido/vertigo-posicional-paroxistico-benigno/), la [Migraña vestibular](/es/zonas/oido/migrana-vestibular-mareo-vertigo/) o algunos mareos por ansiedad o por la tensión arterial. Un vHIT normal ayuda a descartar algunas de ellas y orienta hacia otras.
 
 **¿Se puede hacer a niños?**
 Sí, si colaboran lo suficiente para mirar el punto y dejar el cuello relajado.
