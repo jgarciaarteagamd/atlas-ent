@@ -61,7 +61,7 @@ Diagnosis is **clinical**: it relies on your history. There is no test that conf
 - In **at least half the attacks**, a migraine feature: typical headache, sensitivity to light or noise, or aura.
 - That it is **not better explained** by another condition.
 
-To rule out other causes we examine you and, depending on the case, arrange a [hearing test](/en/areas/ear/pure-tone-audiometry-hearing-test/) and balance tests such as videonystagmography. Other possible causes include [BPPV](/en/areas/ear/benign-paroxysmal-positional-vertigo/), Ménière's disease or a problem in the brain. Scans are not usually needed unless there are unusual symptoms.
+To rule out other causes we examine you and, depending on the case, arrange a [hearing test](/en/areas/ear/pure-tone-audiometry-hearing-test/) and balance tests such as the [vHIT](/en/areas/ear/video-head-impulse-test-vhit/). Other possible causes include [BPPV](/en/areas/ear/benign-paroxysmal-positional-vertigo/), Ménière's disease or a problem in the brain. Scans are not usually needed unless there are unusual symptoms.
 
 ## How is it treated?
 

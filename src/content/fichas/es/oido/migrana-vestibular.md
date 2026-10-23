@@ -61,7 +61,7 @@ El diagnóstico es **clínico**: se basa en tu historia. No hay una prueba que l
 - En **al menos la mitad de las crisis**, algún síntoma migrañoso: dolor de cabeza típico, sensibilidad a la luz o al ruido, o aura.
 - Que **no se explique mejor** por otra enfermedad.
 
-Para descartar otras causas hacemos una exploración y, según el caso, una [audiometría](/es/zonas/oido/audiometria-tonal/) y pruebas del equilibrio, como la videonistagmografía. Otras causas posibles son el [VPPB](/es/zonas/oido/vertigo-posicional-paroxistico-benigno/), la enfermedad de Ménière o un problema en el cerebro. No suelen hacer falta pruebas de imagen, salvo que haya síntomas distintos de los habituales.
+Para descartar otras causas hacemos una exploración y, según el caso, una [audiometría](/es/zonas/oido/audiometria-tonal/) y pruebas del equilibrio, como el [vHIT](/es/zonas/oido/vhit-prueba-impulso-cefalico/). Otras causas posibles son el [VPPB](/es/zonas/oido/vertigo-posicional-paroxistico-benigno/), la enfermedad de Ménière o un problema en el cerebro. No suelen hacer falta pruebas de imagen, salvo que haya síntomas distintos de los habituales.
 
 ## ¿Cómo se trata?
 

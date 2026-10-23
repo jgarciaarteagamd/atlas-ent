@@ -31,7 +31,7 @@ npm run build    # genera dist/
 - `npm run bake`: convierte el modelo en `src/assets/head.bin` (cortes láser, meridianos y nube de puntos).
 - `src/scripts/holo.js`: motor Three.js que dibuja el holograma, las zonas y la anatomía interna.
 - Las zonas seleccionables y su posición sobre la cabeza están en `src/data/zones.ts` (`hit`).
-- `scripts/bake-anatomy.mjs`: modela la anatomía interna (oído interno y medio, senos, cornetes, boca y dientes, faringe, laringe, tiroides, ganglios, vasos y glándulas salivales) y la guarda en `src/assets/anatomy.bin`. `npm run bake` regenera ambos archivos.
+- `scripts/bake-anatomy.mjs`: modela la anatomía interna (oído interno y medio, senos paranasales, cornetes, boca y dientes, faringe, laringe, tiroides, ganglios, vasos y glándulas salivales) y la guarda en `src/assets/anatomy.bin`. `npm run bake` regenera ambos archivos.
 
 ## Banners para redes
 

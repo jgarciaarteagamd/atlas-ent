@@ -66,7 +66,7 @@ zone: `oido` · URL: `/es/zonas/oido/<slug>/` y `/en/areas/ear/<slug>/`
 | `otoscopia` | Prueba | Otoscopia | Otoscopy |
 | `audiometria` | Prueba | Audiometría tonal | Pure-tone audiometry |
 | `timpanometria` | Prueba | Timpanometría (impedanciometría) | Tympanometry |
-| `videonistagmografia` | Prueba | Videonistagmografía y vHIT | Videonystagmography and vHIT |
+| `vhit` | Prueba | Video Head Impulse Test (vHIT) | Video Head Impulse Test (vHIT) |
 | `drenajes` | Cirugía | Drenajes transtimpánicos | Ear tubes (grommets) |
 | `miringoplastia` | Cirugía | Miringoplastia | Myringoplasty |
 | `timpanoplastia` | Cirugía | Timpanoplastia | Tympanoplasty |
@@ -80,7 +80,7 @@ zone: `oido` · URL: `/es/zonas/oido/<slug>/` y `/en/areas/ear/<slug>/`
 | `higiene-oido` | Cuidados | Higiene del oído y bastoncillos | Ear hygiene and cotton buds |
 | `proteccion-ruido` | Cuidados | Protección frente al ruido | Protecting your hearing from noise |
 
-### Nariz y senos · Nose and sinuses
+### Nariz y senos paranasales · Nose and sinuses
 
 zone: `nariz` · URL: `/es/zonas/nariz/<slug>/` y `/en/areas/nose/<slug>/`
 
@@ -96,7 +96,7 @@ zone: `nariz` · URL: `/es/zonas/nariz/<slug>/` y `/en/areas/nose/<slug>/`
 | `tc-senos` | Prueba | TC de senos paranasales | Sinus CT scan |
 | `olfatometria` | Prueba | Pruebas de olfato | Smell tests |
 | `septoplastia` | Cirugía | Septoplastia | Septoplasty |
-| `cens` | Cirugía | Cirugía endoscópica de senos | Endoscopic sinus surgery |
+| `cens` | Cirugía | Cirugía endoscópica de senos paranasales | Endoscopic sinus surgery |
 | `turbinoplastia` | Cirugía | Reducción de cornetes | Turbinate reduction |
 | `lavados-nasales` | Cuidados | Lavados nasales | Nasal saline rinses |
 | `sprays-nasales` | Cuidados | Uso correcto de los sprays nasales | Using nasal sprays correctly |
