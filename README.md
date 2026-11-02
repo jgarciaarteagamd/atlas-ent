@@ -35,10 +35,16 @@ npm run build    # genera dist/
 
 ## Banners para redes
 
-`brand/social/` contiene las portadas en español e inglés, con el mismo estilo que la web:
+`brand/social/` contiene las portadas y fotos de perfil, con el mismo estilo que la web:
 
 - `linkedin-banner-*.png` (1584 × 396): portada del perfil de LinkedIn. El texto empieza a la derecha de la foto de perfil.
 - `whatsapp-banner-*.png` (1920 × 1080, 16:9): portada del perfil de WhatsApp Business. El centro inferior queda libre para la foto de perfil.
+
+- `youtube-banner-es.png` (2560 × 1440): banner del canal de YouTube. Lo importante cabe en la franja central de 1546 × 423, la única que se ve en el móvil.
+- `youtube-avatar.png` (800 × 800): foto de perfil de YouTube, pensada para el recorte circular.
+- `youtube-watermark.png` (150 × 150, fondo transparente): marca de agua de los vídeos.
+
+Los textos del canal de YouTube (descripción, palabras clave, secciones, plantilla de descripción y guion del tráiler) están en [`docs/youtube/canal.md`](docs/youtube/canal.md).
 
 Para la foto de perfil del negocio sirve `brand/monogram-dark.png`.
 Se regeneran con `node scripts/make-banners.mjs` (requiere Playwright con Chromium y `npm install` para las fuentes).

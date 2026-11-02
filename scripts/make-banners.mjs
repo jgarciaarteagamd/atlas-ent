@@ -1,4 +1,4 @@
-// Renders the social profile banners (LinkedIn, WhatsApp Business) into brand/social/.
+// Renders the social profile images (LinkedIn, WhatsApp Business, YouTube) into brand/social/.
 // Same look as the site: void background, cyan hologram, amber accent, Oxanium + Instrument Sans.
 // Usage: node scripts/make-banners.mjs   (needs Playwright with a Chromium build)
 import { writeFileSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
@@ -29,11 +29,15 @@ const text = {
     name: 'Dr. Juan García Arteaga',
     role: 'Otorrinolaringólogo',
     areas: 'Oído · Nariz · Garganta · Cabeza y cuello',
+    kinds: 'Enfermedades · Pruebas · Cirugías · Cuidados',
+    channel: 'Otorrinolaringología explicada para pacientes',
   },
   en: {
     name: 'Dr. Juan García Arteaga',
     role: 'Otolaryngologist',
     areas: 'Ear · Nose · Throat · Head and neck',
+    kinds: 'Conditions · Tests · Surgery · Self-care',
+    channel: 'Ear, nose and throat explained for patients',
   },
 };
 const site = 'jgarciaarteaga.pro';
@@ -46,6 +50,7 @@ const css = `
 :root { --void:#03070c; --holo:#74f1ff; --holo-line:rgba(116,241,255,.16); --flare:#ffc46b; --ink:#e2f5f8; --ink-soft:#94b6be; }
 * { box-sizing: border-box; margin: 0; }
 html, body { width: var(--w); height: var(--h); overflow: hidden; background: var(--void); }
+html:has(body.clear), body.clear { background: transparent; }
 .stage { position: relative; width: 100%; height: 100%; overflow: hidden;
   background:
     radial-gradient(ellipse 38% 70% at var(--glow-x) 55%, rgba(116,241,255,.13), transparent 70%),
@@ -65,6 +70,7 @@ html, body { width: var(--w); height: var(--h); overflow: hidden; background: va
 .rule { display: block; height: 3px; background: var(--flare); }
 .areas { color: var(--ink); }
 .areas i { font-style: normal; color: var(--holo); margin: 0 .45em; }
+.channel { font-weight: 400; color: var(--ink); }
 .site { font-family: Oxanium, sans-serif; font-weight: 500; color: var(--holo); letter-spacing: .04em; }
 `;
 
@@ -108,6 +114,46 @@ const banners = [
         <p class="site" style="font-size:32px; margin-top:22px;">${site}</p>
       </div>`,
   },
+  {
+    // YouTube channel banner, 2560×1440. TVs show all of it, desktops a 2560×423 band through
+    // the middle and phones only the centre 1546×423, so everything that matters sits in that
+    // centre box (x 507–2053, y 508–931): text on its left, head on its right.
+    name: 'youtube-banner', langs: ['es'],
+    w: 2560, h: 1440,
+    vars: '--glow-x:71%; --cell:48px;',
+    body: (t) => `
+      <img class="head" src="${head}" style="height:700px; left:1500px; top:378px;">
+      <div class="text" style="left:600px; top:556px;">
+        ${svgMono(112)}
+        <p class="name" style="font-size:62px; margin-top:20px;">${t.name}</p>
+        <p class="role" style="font-size:21px; letter-spacing:.32em; margin-top:16px;">${t.role}</p>
+        <span class="rule" style="width:80px; margin-top:20px;"></span>
+        <p class="channel" style="font-size:27px; margin-top:20px;">${t.channel}</p>
+        <p class="areas" style="font-size:22px; margin-top:12px; color:var(--ink-soft);">${t.kinds.replaceAll(' · ', '<i>·</i>')}</p>
+        <p class="site" style="font-size:21px; margin-top:12px;">${site}</p>
+      </div>`,
+  },
+  {
+    // YouTube profile picture, 800×800. YouTube crops it to a circle and shows it as small as
+    // 24 px, so it is the isotipo alone, with room around it for the circle.
+    name: 'youtube-avatar', langs: [null],
+    w: 800, h: 800,
+    vars: '--glow-x:50%; --cell:40px;',
+    body: () => `
+      <div style="position:absolute; inset:0; display:grid; place-items:center;
+        background:radial-gradient(circle at 50% 50%, rgba(116,241,255,.14), transparent 62%);">
+        ${svgMono(560)}
+      </div>`,
+  },
+  {
+    // YouTube video watermark (branding), 150×150 with transparent corners: the favicon's
+    // rounded dark tile, which stays legible over light and dark footage.
+    name: 'youtube-watermark', langs: [null], clear: true,
+    w: 150, h: 150,
+    body: () => `
+      <div style="position:absolute; inset:0; border-radius:28px; background:var(--void);
+        display:grid; place-items:center;">${svgMono(124)}</div>`,
+  },
 ];
 
 const browser = await chromium.launch(
@@ -118,17 +164,19 @@ const page = await browser.newPage();
 const tmp = mkdtempSync(resolve(tmpdir(), 'banners-'));
 const html = resolve(tmp, 'banner.html');
 for (const b of banners) {
-  for (const lang of ['es', 'en']) {
+  // `null` marks an image without text, written once with no language suffix.
+  for (const lang of b.langs ?? ['es', 'en']) {
     await page.setViewportSize({ width: b.w, height: b.h });
+    const stage = b.clear ? b.body() : `<div class="stage"><div class="grid"></div>${b.body(text[lang ?? 'es'])}</div>`;
     writeFileSync(
       html,
-      `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><style>${css}</style></head>
-       <body style="--w:${b.w}px; --h:${b.h}px; ${b.vars}"><div class="stage"><div class="grid"></div>${b.body(text[lang])}</div></body></html>`,
+      `<!doctype html><html lang="${lang ?? 'es'}"><head><meta charset="utf-8"><style>${css}</style></head>
+       <body class="${b.clear ? 'clear' : ''}" style="--w:${b.w}px; --h:${b.h}px; ${b.vars ?? ''}">${stage}</body></html>`,
     );
     await page.goto(pathToFileURL(html).href, { waitUntil: 'load' });
     await page.evaluate(() => document.fonts.ready);
-    const path = resolve(out, `${b.name}-${lang}.png`);
-    await page.screenshot({ path });
+    const path = resolve(out, lang ? `${b.name}-${lang}.png` : `${b.name}.png`);
+    await page.screenshot({ path, omitBackground: !!b.clear });
     console.log(path);
   }
 }
