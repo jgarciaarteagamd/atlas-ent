@@ -30,7 +30,7 @@ npm run build    # genera dist/
 `brand/email/` contiene la firma de Gmail en español e inglés, con el mismo estilo que la web:
 
 - `firma-es.html`, `firma-en.html`: la firma como texto HTML (tabla con estilos en línea), que cada programa de correo adapta al modo claro u oscuro. Nombre y enlaces en un azul petróleo (`#128c9f`) que se lee sobre blanco y sobre el gris oscuro de Gmail; raya ámbar `#a87414`.
-- `firma-movil.txt`: la versión de solo texto para la firma de la app de Gmail en el móvil.
+- `firma-movil.txt`: la versión de solo texto para el móvil (Mail del iPhone y app de Gmail), con la dirección completa para que siempre sea un enlace.
 - `jga-firma.svg`: el isotipo sobre un cuadro oscuro con esquinas cortadas y fondo transparente.
 
 La imagen se sirve desde este sitio, en `https://info.jgarciaarteaga.pro/firma/` (el dominio principal, `jgarciaarteaga.pro`, es el repositorio Website): `public/firma/jga-firma.png` (228 × 228, se muestra a 76 × 76, la altura del texto de la firma) y `public/firma/jga-firma-76.png` (76 × 76, para insertarla por URL).
