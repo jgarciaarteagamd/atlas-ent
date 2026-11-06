@@ -25,6 +25,17 @@ npm run dev      # http://localhost:4321
 npm run build    # genera dist/
 ```
 
+## Firma de correo
+
+`brand/email/` contiene la firma de Gmail en español e inglés, con el mismo estilo que la web:
+
+- `firma-es.html`, `firma-en.html`: la firma como texto HTML (tabla con estilos en línea), que cada programa de correo adapta al modo claro u oscuro. Nombre y enlaces en un azul petróleo (`#128c9f`) que se lee sobre blanco y sobre el gris oscuro de Gmail; raya ámbar `#a87414`.
+- `firma-movil.txt`: la versión de solo texto para la firma de la app de Gmail en el móvil.
+- `jga-firma.svg`: el isotipo sobre un cuadro oscuro con esquinas cortadas y fondo transparente.
+
+La imagen se sirve desde la web: `public/firma/jga-firma.png` (228 × 228, se muestra a 76 × 76, la altura del texto de la firma) y `public/firma/jga-firma-76.png` (76 × 76, para insertarla por URL).
+Se regeneran con `node scripts/make-signature.mjs` (requiere Playwright con Chromium).
+
 ## Holograma
 
 - `assets/head.glb`: modelo 3D de la cabeza (generado con Higgsfield / Hunyuan3D a partir de dos bustos).
