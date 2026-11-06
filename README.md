@@ -33,7 +33,7 @@ npm run build    # genera dist/
 - `firma-movil.txt`: la versión de solo texto para la firma de la app de Gmail en el móvil.
 - `jga-firma.svg`: el isotipo sobre un cuadro oscuro con esquinas cortadas y fondo transparente.
 
-La imagen se sirve desde la web: `public/firma/jga-firma.png` (228 × 228, se muestra a 76 × 76, la altura del texto de la firma) y `public/firma/jga-firma-76.png` (76 × 76, para insertarla por URL).
+La imagen se sirve desde este sitio, en `https://info.jgarciaarteaga.pro/firma/` (el dominio principal, `jgarciaarteaga.pro`, es el repositorio Website): `public/firma/jga-firma.png` (228 × 228, se muestra a 76 × 76, la altura del texto de la firma) y `public/firma/jga-firma-76.png` (76 × 76, para insertarla por URL).
 Se regeneran con `node scripts/make-signature.mjs` (requiere Playwright con Chromium).
 
 ## Holograma
