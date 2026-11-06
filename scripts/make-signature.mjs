@@ -1,7 +1,8 @@
 // Renders the email signature image: the JGA isotipo on a dark chamfered tile with transparent
 // corners, so it looks deliberate on a white inbox and blends into a dark one.
-//   public/firma/jga-firma.png     192 × 192, shown at 64 × 64 by the signature HTML (sharp on phones)
-//   public/firma/jga-firma-64.png   64 × 64, for inserting by URL in an editor that keeps the natural size
+//   public/firma/jga-firma.png     228 × 228, shown at 76 × 76 by the signature HTML (sharp on phones)
+//   public/firma/jga-firma-76.png   76 × 76, for inserting by URL in an editor that keeps the natural size
+// 76px is the height of the signature's text block, from the name to the foot of the web address.
 //   brand/email/jga-firma.svg       the source drawing
 // Usage: node scripts/make-signature.mjs   (needs Playwright with a Chromium build)
 import { writeFileSync, mkdirSync } from 'node:fs';
@@ -18,9 +19,9 @@ try {
 }
 
 const root = resolve(import.meta.dirname, '..');
-const S = 64; // size in the signature
-const cut = 10; // the button chamfer (cut-button)
-const mw = 46; // isotipo width inside the tile
+const S = 76; // size in the signature: the height of its text block
+const cut = 12; // the button chamfer (cut-button, 10 at 64px) scaled to the tile
+const mw = 55; // isotipo width inside the tile
 const mh = (mw * markHeight) / markWidth;
 
 // void → void-2 like the site background, a holo-line edge, the isotipo in its dark palette
@@ -38,7 +39,7 @@ writeFileSync(resolve(root, 'brand/email/jga-firma.svg'), tile);
 const browser = await chromium.launch(
   process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {},
 );
-for (const [scale, file] of [[3, 'jga-firma.png'], [1, 'jga-firma-64.png']]) {
+for (const [scale, file] of [[3, 'jga-firma.png'], [1, 'jga-firma-76.png']]) {
   const page = await browser.newPage({ deviceScaleFactor: scale, viewport: { width: S, height: S } });
   await page.setContent(`<html><body style="margin:0;background:transparent">${tile}</body></html>`);
   const path = resolve(root, 'public/firma', file);
