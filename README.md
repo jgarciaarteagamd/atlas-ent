@@ -44,6 +44,7 @@ Se regeneran con `node scripts/make-signature.mjs` (requiere Playwright con Chro
 - Las zonas seleccionables y su posición sobre la cabeza están en `src/data/zones.ts` (`hit`).
 - `assets/atlas.glb`: mallas anatómicas reales de cabeza y cuello (cráneo, columna cervical, senos, fosas nasales, lengua, dientes, faringe, laringe, tráquea, tiroides, ganglios y glándulas salivales) extraídas del atlas abierto Z-Anatomy / BodyParts3D con `scripts/extract-atlas.mjs`. Licencia y créditos en `assets/ATLAS-LICENSE.md`.
 - `scripts/bake-anatomy.mjs`: ajusta ese atlas a la cabeza del holograma con una deformación suave guiada por puntos craneofaciales (vértex, nasion, conducto auditivo, punta nasal, incisivos, mentón, hioides, cricoides…) y lo guarda en `src/assets/anatomy.bin`. Lo que el atlas no trae o solo licencia para uso no comercial (oído medio e interno, seno maxilar, cuerdas vocales, adenoides) se modela a mano en el mismo script. `npm run bake` regenera ambos archivos.
+- `public/holo/fallback.webp`: foto fija del holograma (tres cuartos, sin ninguna zona iluminada) para navegadores sin WebGL. Es la misma imagen que muestran la página profesional y la de trayectoria (`src/assets/holo-head.webp` en Website y Portfolio). Se regenera con `node scripts/make-holo-photo.mjs http://localhost:4321/es/ public/holo/fallback.webp` con `npm run dev` en marcha (requiere Playwright con Chromium y Python con Pillow).
 - El esqueleto (grupo `bone`) no pertenece a ninguna zona: se ve tenue siempre y gana presencia al elegir una zona.
 
 ## Banners para redes
