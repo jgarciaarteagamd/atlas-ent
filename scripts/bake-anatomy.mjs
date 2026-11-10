@@ -3,6 +3,7 @@
 // group it belongs to.
 //
 //   node scripts/bake-anatomy.mjs assets/atlas.glb src/assets/anatomy.bin
+//   node scripts/bake-anatomy.mjs assets/atlas.glb skeleton.bin bone     (only the groups named)
 //
 // Most structures are real anatomical meshes from the Z-Anatomy atlas
 // (assets/atlas.glb, see assets/ATLAS-LICENSE.md). The atlas is fitted to the
@@ -17,7 +18,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const [input, output] = process.argv.slice(2);
+const [input, output, only] = process.argv.slice(2);
 if (!input || !output) {
   console.error('usage: node scripts/bake-anatomy.mjs <atlas.glb> <out.bin>');
   process.exit(1);
@@ -529,6 +530,12 @@ addField('pharynx', [-0.011, 1.578, 0.008], [0.011, 1.592, 0.024], (p) =>
   ell(p, [0, 1.5865, 0.0155], [0.008, 0.0036, 0.006]) + 0.0005 * Math.sin(p[0] * 1500), { step: 0.016, count: 200 });
 
 // ---------- write ----------
+if (only) {
+  const keep = only.split(',').map((name) => GROUPS.indexOf(name));
+  if (keep.includes(-1)) throw new Error(`unknown group in "${only}"`);
+  points.splice(0, points.length, ...points.filter((x) => keep.includes(x.g)));
+  polylines.splice(0, polylines.length, ...polylines.filter((x) => keep.includes(x.g)));
+}
 // 'ATA1', line count, line point count, point count; uint32 counts[]; uint8 line groups[] (padded to 2);
 // int16 line xyz, int16 point xyz; int8 line normals, int8 point normals; uint8 point groups
 const nL = polylines.length;
