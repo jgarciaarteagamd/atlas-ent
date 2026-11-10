@@ -61,6 +61,8 @@ This site may link to third-party websites (for example, scientific societies or
 
 The texts, design, code and illustrations on this site belong to its owner unless stated otherwise. You may link to any page and share it for personal or educational purposes. For any other use, please write to the contact email.
 
+The inner anatomy of the hologram on the home page (skull, paranasal sinuses, mouth, pharynx, larynx, thyroid, lymph nodes and salivary glands) is derived from open anatomical models, fitted to the hologram head: “Z-Anatomy - The open source atlas of anatomy - CC-BY-SA 4.0” and “BodyParts3D - The Database Center for Life Science - CC-BY-SA 2.1 Japan”. That adapted data is shared under the same [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) licence.
+
 ## 8. Governing law
 
 This legal notice is governed by Spanish law.

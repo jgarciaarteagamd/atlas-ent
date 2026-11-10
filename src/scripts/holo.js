@@ -1,6 +1,7 @@
 // Holographic head: laser slices, meridians and a twinkling point cloud baked
-// from the head mesh (src/assets/head.bin), plus stylised inner anatomy that
-// lights up for the zone under the pointer or the selected zone.
+// from the head mesh (src/assets/head.bin), plus the inner anatomy (real atlas
+// meshes fitted to this head, src/assets/anatomy.bin) that lights up for the
+// zone under the pointer or the selected zone, over a faint skeleton.
 // In light mode the same strokes are drawn as ink on paper: normal blending
 // with dark teal (amber-brown when selected) instead of light added to black.
 
@@ -63,7 +64,7 @@ export async function loadHead(url) {
 
 // ---------- inner anatomy ----------
 // Baked by scripts/bake-anatomy.mjs; group order must match GROUPS there.
-const GROUPS = ['ear', 'sinus', 'mouth', 'pharynx', 'larynx', 'neck', 'gland'];
+const GROUPS = ['ear', 'sinus', 'mouth', 'pharynx', 'larynx', 'neck', 'gland', 'bone'];
 
 async function loadAnatomy(url) {
   const res = await fetch(url);
@@ -183,7 +184,7 @@ const anatomyVS = (points) => `${lighting}
     vSel = uGS[g];
     float front;
     float light = shade(normal, front);
-    vA = on * (0.38 + 1.05 * light) * ${points ? '1.0' : '0.75'};
+    vA = on * (0.3 + 0.9 * light) * ${points ? '0.9' : '0.7'};
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
     ${points ? 'gl_PointSize = (1.2 + on * 1.0) * uPx;' : ''}
     gl_Position = projectionMatrix * mv;
@@ -198,9 +199,14 @@ const anatomyFS = (points) => `${ink}
   }`;
 
 // ---------- engine ----------
-export async function createHologram({ host, zones, headUrl, anatomyUrl, ink: inkMode = false, onHover, onSelect }) {
+// `interactive: false` gives the small hologram of the other two sites: no zones, no pointer,
+// only the head and whatever anatomy the file carries, swaying as set by `sway`
+// (yaw and pitch in radians, speeds in radians per second of the sine). `zoom` brings the camera closer.
+const SWAY = { yaw: 0.5, yawSpeed: 0.22, pitch: 0.08, pitchSpeed: 0.3 };
+
+export async function createHologram({ host, zones = [], headUrl, anatomyUrl, ink: inkMode = false, interactive = true, sway = SWAY, zoom = 1, onHover = () => {}, onSelect = () => {} }) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const canHover = window.matchMedia('(hover: hover)').matches;
+  const canHover = interactive && window.matchMedia('(hover: hover)').matches;
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -303,13 +309,15 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, ink: in
     pointer.inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
     pointer.cx = e.clientX; pointer.cy = e.clientY;
   };
-  window.addEventListener('pointermove', onMove, { passive: true });
-  canvas.addEventListener('pointerleave', () => { pointer.inside = false; });
-  canvas.addEventListener('click', (e) => {
-    onMove(e);
-    const id = pick();
-    if (id) onSelect(id);
-  });
+  if (interactive) {
+    window.addEventListener('pointermove', onMove, { passive: true });
+    canvas.addEventListener('pointerleave', () => { pointer.inside = false; });
+    canvas.addEventListener('click', (e) => {
+      onMove(e);
+      const id = pick();
+      if (id) onSelect(id);
+    });
+  }
   function pick() {
     if (!pointer.inside) return null;
     ndc.set(pointer.x, pointer.y);
@@ -323,29 +331,32 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, ink: in
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    camera.position.set(0, -0.3, w / h < 0.9 ? (6.9 / Math.max(w / h, 0.55)) * 0.8 : 6.9);
+    camera.position.set(0, -0.3, (w / h < 0.9 ? (6.9 / Math.max(w / h, 0.55)) * 0.8 : 6.9) / zoom);
     camera.lookAt(0, -0.4, 0);
     camera.updateProjectionMatrix();
   }
-  new ResizeObserver(resize).observe(host);
+  const resizeObserver = new ResizeObserver(resize);
+  resizeObserver.observe(host);
   resize();
 
   // only animate while visible
-  let visible = true;
-  new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) loop(); }).observe(host);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) loop(); });
+  let visible = true, disposed = false;
+  const viewObserver = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) loop(); });
+  viewObserver.observe(host);
+  const onVisibility = () => { if (!document.hidden) loop(); };
+  document.addEventListener('visibilitychange', onVisibility);
 
   const clock = new THREE.Clock();
   let t = 0, rotX = 0, rotY = 0, running = false, lastPicked = null;
   function frame() {
     running = false;
-    if (!visible || document.hidden) return;
+    if (disposed || !visible || document.hidden) return;
     const dt = Math.min(clock.getDelta(), 0.05);
     if (!reduceMotion) t += dt;
 
     const follow = canHover;
-    const tx = follow ? pointer.y * -0.32 : Math.sin(t * 0.3) * 0.08;
-    const ty = follow ? pointer.x * 0.75 : Math.sin(t * 0.22) * 0.5;
+    const tx = follow ? pointer.y * -0.32 : Math.sin(t * sway.pitchSpeed) * sway.pitch;
+    const ty = follow ? pointer.x * 0.75 : Math.sin(t * sway.yawSpeed) * sway.yaw;
     const ease = reduceMotion ? 1 : 1 - Math.pow(0.002, dt);
     rotX += (tx - rotX) * ease;
     rotY += (ty - rotY) * ease;
@@ -354,7 +365,7 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, ink: in
     pointerZone = canHover ? pick() : null;
     if (pointerZone !== lastPicked) { lastPicked = pointerZone; onHover(pointerZone, pointer); }
     else if (pointerZone) onHover(pointerZone, pointer);
-    canvas.style.cursor = pointerZone ? 'var(--cursor-link)' : 'crosshair';
+    if (interactive) canvas.style.cursor = pointerZone ? 'var(--cursor-link)' : 'crosshair';
 
     const hot = hovered && hovered !== selected ? hovered : null;
     uniforms.uTime.value = t;
@@ -365,7 +376,9 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, ink: in
     GROUPS.forEach((key, i) => {
       const owner = zones.find((z) => z.inner === key);
       const on = owner && (owner.id === hovered || owner.id === selected);
-      groupUniforms.uGO.value[i] += ((on ? 1 : 0.09) - groupUniforms.uGO.value[i]) * 0.15;
+      // the skeleton belongs to no zone: a faint frame that comes forward in x-ray mode
+      const level = owner ? (on ? 1 : 0.08) : hovered || selected ? 0.32 : 0.16;
+      groupUniforms.uGO.value[i] += (level - groupUniforms.uGO.value[i]) * 0.15;
       groupUniforms.uGS.value[i] = owner && owner.id === selected ? 1 : 0;
     });
     floorObj.rotation.y = -rotY + t * 0.1;
@@ -374,7 +387,7 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, ink: in
     loop();
   }
   function loop() {
-    if (running) return;
+    if (running || disposed) return;
     running = true;
     requestAnimationFrame(frame);
   }
@@ -385,5 +398,15 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, ink: in
     setHover(id) { hovered = id; },
     setSelected(id) { selected = id; },
     get rotation() { return { x: rotX, y: rotY, t }; },
+    dispose() {
+      disposed = true;
+      resizeObserver.disconnect();
+      viewObserver.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('pointermove', onMove);
+      scene.traverse((o) => { o.geometry?.dispose(); o.material?.dispose(); });
+      renderer.dispose();
+      canvas.remove();
+    },
   };
 }

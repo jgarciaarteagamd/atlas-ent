@@ -59,6 +59,8 @@ Este sitio puede incluir enlaces a webs de terceros (por ejemplo, sociedades cie
 
 Los textos, diseño, código e ilustraciones de este sitio pertenecen a su titular, salvo que se indique otra cosa. Puedes enlazar cualquier página y compartirla con fines personales o educativos. Para cualquier otro uso, escribe al correo de contacto.
 
+La anatomía interna del holograma de la portada (cráneo, senos paranasales, boca, faringe, laringe, tiroides, ganglios y glándulas salivales) deriva de modelos anatómicos abiertos, adaptados a la cabeza del holograma: «Z-Anatomy - The open source atlas of anatomy - CC-BY-SA 4.0» y «BodyParts3D - The Database Center for Life Science - CC-BY-SA 2.1 Japan». Esos datos adaptados se comparten bajo la misma licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es).
+
 ## 8. Legislación aplicable
 
 Este aviso legal se rige por la legislación española.
