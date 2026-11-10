@@ -4,6 +4,7 @@
 
 export type Lang = 'es' | 'en';
 export type Kind = 'patologia' | 'prueba' | 'cirugia' | 'cuidados';
+// 'bone' (the skeleton) is drawn too, but belongs to no zone.
 export type Inner = 'ear' | 'sinus' | 'mouth' | 'pharynx' | 'larynx' | 'neck' | 'gland';
 
 export interface Topic {
@@ -127,7 +128,7 @@ export const zones: Zone[] = [
       es: 'La faringe es el tubo que une la nariz y la boca con el esófago y la laringe. Aquí están las amígdalas y las vegetaciones.',
       en: 'The pharynx is the passage that connects the nose and mouth to the gullet and voice box. The tonsils and adenoids sit here.',
     },
-    hit: [[0, -0.98, 0.44, 0.13]],
+    hit: [[0, -0.93, 0.5, 0.13]],
     inner: 'pharynx',
     topics: [
       { key: 'amigdalitis', kind: 'patologia', es: 'Amigdalitis de repetición', en: 'Recurrent tonsillitis' },
@@ -153,7 +154,7 @@ export const zones: Zone[] = [
       es: 'Contiene las cuerdas vocales. Produce la voz y protege la vía aérea al tragar. Una ronquera de más de cuatro semanas debe valorarse.',
       en: 'It holds the vocal cords. It makes your voice and protects your airway when you swallow. Hoarseness lasting more than four weeks should be assessed.',
     },
-    hit: [[0, -1.18, 0.4, 0.14]],
+    hit: [[0, -1.13, 0.37, 0.14]],
     inner: 'larynx',
     topics: [
       { key: 'disfonia', kind: 'patologia', es: 'Disfonía (ronquera)', en: 'Hoarseness (dysphonia)' },
@@ -200,7 +201,7 @@ export const zones: Zone[] = [
       es: 'Producen la saliva. La parótida está delante de la oreja y la submaxilar bajo la mandíbula. Pueden inflamarse o formar piedras.',
       en: 'They make saliva. The parotid sits in front of the ear and the submandibular gland under the jaw. They can swell or form stones.',
     },
-    hit: [[0.7, -0.28, 0.05, 0.16], [-0.7, -0.28, 0.05, 0.16], [0.42, -0.95, 0.36, 0.13], [-0.42, -0.95, 0.36, 0.13]],
+    hit: [[0.7, -0.28, 0.05, 0.16], [-0.7, -0.28, 0.05, 0.16], [0.36, -0.84, 0.4, 0.13], [-0.36, -0.84, 0.4, 0.13]],
     inner: 'gland',
     topics: [
       { key: 'sialolitiasis', kind: 'patologia', es: 'Piedras salivales (sialolitiasis)', en: 'Salivary stones (sialolithiasis)' },

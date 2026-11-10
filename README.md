@@ -42,7 +42,9 @@ Se regeneran con `node scripts/make-signature.mjs` (requiere Playwright con Chro
 - `npm run bake`: convierte el modelo en `src/assets/head.bin` (cortes láser, meridianos y nube de puntos).
 - `src/scripts/holo.js`: motor Three.js que dibuja el holograma, las zonas y la anatomía interna.
 - Las zonas seleccionables y su posición sobre la cabeza están en `src/data/zones.ts` (`hit`).
-- `scripts/bake-anatomy.mjs`: modela la anatomía interna (oído interno y medio, senos paranasales, cornetes, boca y dientes, faringe, laringe, tiroides, ganglios, vasos y glándulas salivales) y la guarda en `src/assets/anatomy.bin`. `npm run bake` regenera ambos archivos.
+- `assets/atlas.glb`: mallas anatómicas reales de cabeza y cuello (cráneo, columna cervical, senos, fosas nasales, lengua, dientes, faringe, laringe, tráquea, tiroides, ganglios y glándulas salivales) extraídas del atlas abierto Z-Anatomy / BodyParts3D con `scripts/extract-atlas.mjs`. Licencia y créditos en `assets/ATLAS-LICENSE.md`.
+- `scripts/bake-anatomy.mjs`: ajusta ese atlas a la cabeza del holograma con una deformación suave guiada por puntos craneofaciales (vértex, nasion, conducto auditivo, punta nasal, incisivos, mentón, hioides, cricoides…) y lo guarda en `src/assets/anatomy.bin`. Lo que el atlas no trae o solo licencia para uso no comercial (oído medio e interno, seno maxilar, cuerdas vocales, adenoides) se modela a mano en el mismo script. `npm run bake` regenera ambos archivos.
+- El esqueleto (grupo `bone`) no pertenece a ninguna zona: se ve tenue siempre y gana presencia al elegir una zona.
 
 ## Banners para redes
 

@@ -1,6 +1,7 @@
 // Holographic head: laser slices, meridians and a twinkling point cloud baked
-// from the head mesh (src/assets/head.bin), plus stylised inner anatomy that
-// lights up for the zone under the pointer or the selected zone.
+// from the head mesh (src/assets/head.bin), plus the inner anatomy (real atlas
+// meshes fitted to this head, src/assets/anatomy.bin) that lights up for the
+// zone under the pointer or the selected zone, over a faint skeleton.
 // In light mode the same strokes are drawn as ink on paper: normal blending
 // with dark teal (amber-brown when selected) instead of light added to black.
 
@@ -63,7 +64,7 @@ export async function loadHead(url) {
 
 // ---------- inner anatomy ----------
 // Baked by scripts/bake-anatomy.mjs; group order must match GROUPS there.
-const GROUPS = ['ear', 'sinus', 'mouth', 'pharynx', 'larynx', 'neck', 'gland'];
+const GROUPS = ['ear', 'sinus', 'mouth', 'pharynx', 'larynx', 'neck', 'gland', 'bone'];
 
 async function loadAnatomy(url) {
   const res = await fetch(url);
@@ -183,7 +184,7 @@ const anatomyVS = (points) => `${lighting}
     vSel = uGS[g];
     float front;
     float light = shade(normal, front);
-    vA = on * (0.38 + 1.05 * light) * ${points ? '1.0' : '0.75'};
+    vA = on * (0.3 + 0.9 * light) * ${points ? '0.9' : '0.7'};
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
     ${points ? 'gl_PointSize = (1.2 + on * 1.0) * uPx;' : ''}
     gl_Position = projectionMatrix * mv;
@@ -365,7 +366,9 @@ export async function createHologram({ host, zones, headUrl, anatomyUrl, ink: in
     GROUPS.forEach((key, i) => {
       const owner = zones.find((z) => z.inner === key);
       const on = owner && (owner.id === hovered || owner.id === selected);
-      groupUniforms.uGO.value[i] += ((on ? 1 : 0.09) - groupUniforms.uGO.value[i]) * 0.15;
+      // the skeleton belongs to no zone: a faint frame that comes forward in x-ray mode
+      const level = owner ? (on ? 1 : 0.08) : hovered || selected ? 0.32 : 0.16;
+      groupUniforms.uGO.value[i] += (level - groupUniforms.uGO.value[i]) * 0.15;
       groupUniforms.uGS.value[i] = owner && owner.id === selected ? 1 : 0;
     });
     floorObj.rotation.y = -rotY + t * 0.1;
